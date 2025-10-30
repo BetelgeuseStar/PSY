@@ -6,6 +6,8 @@ import React from "react";
 import type { FormProps } from "./types.ts";
 import { getRules } from "./utils.ts";
 
+//TODO: Типизировать по нормальному
+
 export function Form({ inputs, button, onSubmit }: FormProps) {
   type FieldNames = (typeof inputs)[number]["name"];
   type FieldValues = Record<FieldNames, string>;
@@ -20,9 +22,12 @@ export function Form({ inputs, button, onSubmit }: FormProps) {
   const onError = (errors) => {
     const currentError = Object.keys(errors)?.[0] as FieldPath<FieldValues>;
     setFocus(currentError);
+    console.log("error");
   };
 
   const currentError: FieldError | null = Object.values(errors)?.[0] ?? null;
+
+  console.log(currentError);
 
   return (
     <Styled.Form onSubmit={handleSubmit(onSubmit, onError)}>

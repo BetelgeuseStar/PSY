@@ -5,6 +5,8 @@ import { useNavigate } from "react-router";
 import { FieldRule } from "../../entities/Form/types.ts";
 import { Form } from "../../entities/Form";
 
+//TODO: Реализовать соглашение на обработку данных
+
 export function RegistrationPage() {
   const navigate = useNavigate();
   const navigateToAuthPage = () => navigate("/auth");
