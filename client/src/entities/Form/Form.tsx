@@ -2,7 +2,7 @@ import type { FieldError, FieldPath } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Input, Text } from "../../shared/ui";
 import * as Styled from "./styled.ts";
-import React from "react";
+import React, { useState } from "react";
 import type { FormProps } from "./types.ts";
 import { getRules } from "./utils.ts";
 
@@ -11,23 +11,30 @@ import { getRules } from "./utils.ts";
 export function Form({ inputs, button, onSubmit }: FormProps) {
   type FieldNames = (typeof inputs)[number]["name"];
   type FieldValues = Record<FieldNames, string>;
+  const [currentError, setCurrentError] = useState<FieldError | null>(null);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
     setFocus,
+    subscribe,
   } = useForm<FieldValues>();
 
-  const onError = (errors) => {
-    const currentError = Object.keys(errors)?.[0] as FieldPath<FieldValues>;
-    setFocus(currentError);
-    console.log("error");
+  const onError = (errKeys) => {
+    const currentErrorKey = Object.keys(errKeys)?.[0] as FieldPath<FieldValues>;
+    setFocus(currentErrorKey);
+
+    const unsubscribe = subscribe({
+      formState: { errors: true },
+      callback: ({ errors }) => {
+        setCurrentError(
+          Object.values(errors as Record<string, FieldError>)?.[0] ?? null,
+        );
+        unsubscribe();
+      },
+    });
   };
-
-  const currentError: FieldError | null = Object.values(errors)?.[0] ?? null;
-
-  console.log(currentError);
 
   return (
     <Styled.Form onSubmit={handleSubmit(onSubmit, onError)}>
@@ -43,6 +50,7 @@ export function Form({ inputs, button, onSubmit }: FormProps) {
               <Input
                 status={errors[name] === currentError ? "error" : ""}
                 placeholder={name}
+                onInput={() => setCurrentError(null)}
                 {...field}
               />
             )}
