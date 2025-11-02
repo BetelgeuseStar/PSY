@@ -7,6 +7,7 @@ import type { FormProps } from "./types.ts";
 import { getRules } from "./utils.ts";
 
 //TODO: Типизировать по нормальному
+//TODO: Максимальная длина пароля 32 символа
 
 export function Form({ inputs, button, onSubmit }: FormProps) {
   type FieldNames = (typeof inputs)[number]["name"];
