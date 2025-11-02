@@ -19,6 +19,10 @@ export function getRules(rules: FieldRule[], name: string) {
           value: 6,
           message: "Пароль должен содержать как минимум 6 символов",
         };
+        result.maxLength = {
+          value: 32,
+          message: "Пароль не должен содержать больше 32 символов",
+        };
         break;
     }
   });
