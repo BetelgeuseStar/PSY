@@ -2,7 +2,7 @@ import type { FieldError, FieldPath } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Input, Text } from "../../shared/ui";
 import * as Styled from "./styled.ts";
-import React, { useState } from "react";
+import { useState } from "react";
 import type { FormProps } from "./types.ts";
 import { getRules } from "./utils.ts";
 

@@ -1,4 +1,5 @@
-import { ForwardedRef, forwardRef, PropsWithChildren } from "react";
+import type { ForwardedRef, PropsWithChildren } from "react";
+import { forwardRef } from "react";
 import * as Styled from "./styled.ts";
 import type { LinkProps } from "antd/es/typography/Link";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import * as Styled from "./styled.ts";
 import { Label, Link, Text } from "../../shared/ui";
 import { useNavigate } from "react-router";
@@ -21,11 +20,11 @@ export function RegistrationPage() {
         </Text>
         <Form
           inputs={[
-            { name: "login", rules: [FieldRule.required] },
-            { name: "email", rules: [FieldRule.required, FieldRule.email] },
+            { name: "login", rules: [FieldRule.Required] },
+            { name: "email", rules: [FieldRule.Required, FieldRule.Email] },
             {
               name: "password",
-              rules: [FieldRule.required, FieldRule.passwordLength],
+              rules: [FieldRule.Required, FieldRule.PasswordLength],
             },
           ]}
           button={{ title: "Зарегистрироваться" }}

@@ -11,8 +11,10 @@ export type FormProps = {
   onSubmit: SubmitHandler<FieldValues>;
 };
 
-export enum FieldRule {
-  email,
-  required,
-  passwordLength,
-}
+export const FieldRule = {
+  Email: "email",
+  Required: "required",
+  PasswordLength: "passwordLength",
+} as const;
+
+export type FieldRule = (typeof FieldRule)[keyof typeof FieldRule];

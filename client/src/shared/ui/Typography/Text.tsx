@@ -1,13 +1,6 @@
-import { Typography } from "antd";
-import {
-  CSSProperties,
-  ForwardedRef,
-  forwardRef,
-  PropsWithChildren,
-} from "react";
+import type { CSSProperties, ForwardedRef, PropsWithChildren } from "react";
+import { forwardRef } from "react";
 import * as Styled from "./styled.ts";
-
-const { Text: AntText } = Typography;
 
 export type TextProps = {
   type?: "secondary" | "success" | "warning" | "danger";

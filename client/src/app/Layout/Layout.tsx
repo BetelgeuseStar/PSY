@@ -1,4 +1,3 @@
-import React from "react";
 import * as Styled from "./styled.ts";
 import { Outlet } from "react-router";
 

@@ -1,13 +1,11 @@
-import React, { ForwardedRef, forwardRef, PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
+import { forwardRef } from "react";
 import * as Styled from "./styled.ts";
 import type { InputProps } from "antd";
 
 export const Input = forwardRef(InputInner);
 
-export function InputInner(
-  props: PropsWithChildren<InputProps>,
-  ref: ForwardedRef<HTMLInputElement>,
-) {
+export function InputInner(props: PropsWithChildren<InputProps>, ref) {
   const { children, ...antProps } = props;
 
   return (
