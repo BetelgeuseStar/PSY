@@ -3,12 +3,19 @@ import { Label, Link, Text } from "../../shared/ui";
 import { useNavigate } from "react-router";
 import { FieldRule } from "../../entities/Form/types.ts";
 import { Form } from "../../entities/Form";
+import { useAuthContext } from "../../app/AuthProvider";
 
 //TODO: Реализовать соглашение на обработку данных
 
-export function RegistrationPage() {
+export const RegistrationPage = () => {
   const navigate = useNavigate();
   const navigateToAuthPage = () => navigate("/auth");
+
+  const { registration } = useAuthContext();
+
+  function registrationHandler(login: string, email: string, password: string) {
+    registration(login, email, password).then(() => navigate("/auth"));
+  }
 
   return (
     <Styled.Wrapper>
@@ -28,10 +35,12 @@ export function RegistrationPage() {
             },
           ]}
           button={{ title: "Зарегистрироваться" }}
-          onSubmit={(data) => console.log(data)}
+          onSubmit={({ login, email, password }) =>
+            registrationHandler(login, email, password)
+          }
         />
         <Link onClick={navigateToAuthPage}>Вернуться на страницу входа</Link>
       </Styled.Body>
     </Styled.Wrapper>
   );
-}
+};

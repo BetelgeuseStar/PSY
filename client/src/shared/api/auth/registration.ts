@@ -12,5 +12,5 @@ export async function registration(
     password,
   });
 
-  return response.data;
+  return response.data as AuthResponse;
 }

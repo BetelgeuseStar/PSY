@@ -3,10 +3,17 @@ import { Label, Link, Text } from "../../shared/ui";
 import { useNavigate } from "react-router";
 import { Form } from "../../entities/Form";
 import { FieldRule } from "../../entities/Form/types.ts";
+import { useAuthContext } from "../../app/AuthProvider";
 
-export function AuthPage() {
+export const AuthPage = () => {
   const navigate = useNavigate();
   const navigateToRegistrationPage = () => navigate("/registration");
+
+  const { login } = useAuthContext();
+
+  function loginHandler(email: string, password: string) {
+    login(email, password).then(() => navigate("/worksheetsList"));
+  }
 
   return (
     <Styled.Wrapper>
@@ -25,7 +32,7 @@ export function AuthPage() {
             },
           ]}
           button={{ title: "Войти" }}
-          onSubmit={(data) => console.log(data)}
+          onSubmit={({ email, password }) => loginHandler(email, password)}
         />
         <Link onClick={navigateToRegistrationPage}>
           Зарегистрировать новый аккаунт
@@ -33,4 +40,4 @@ export function AuthPage() {
       </Styled.Body>
     </Styled.Wrapper>
   );
-}
+};

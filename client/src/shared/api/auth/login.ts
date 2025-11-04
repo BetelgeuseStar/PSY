@@ -7,5 +7,5 @@ export async function login(email: string, password: string) {
     password,
   });
 
-  return response.data;
+  return response.data as AuthResponse;
 }

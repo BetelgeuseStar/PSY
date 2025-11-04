@@ -1,5 +1,6 @@
 import { ConfigProvider } from "antd";
-import { Router } from "./Router.tsx";
+import { Router } from "./Router";
+import { AuthContextProvider } from "./AuthProvider";
 
 function App() {
   return (
@@ -17,7 +18,9 @@ function App() {
         },
       }}
     >
-      <Router />
+      <AuthContextProvider>
+        <Router />
+      </AuthContextProvider>
     </ConfigProvider>
   );
 }

@@ -12,4 +12,8 @@ export const Label = styled.h2`
   text-align: center;
 
   color: #3ba4a9;
+
+  cursor: default;
+
+  user-select: none;
 `;
