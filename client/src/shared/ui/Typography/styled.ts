@@ -28,6 +28,6 @@ export const Link = styled(Typography.Link)`
   }
 
   &:active {
-    color: #c31720 !important;
+    color: #2a7276 !important;
   }
 `;

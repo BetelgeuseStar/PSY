@@ -19,8 +19,8 @@ export const Wrapper = styled(Board)`
   }
 
   &:active {
-    border: 2px solid #c31720;
-    box-shadow: 0px 4px 31.2px 10px rgba(195, 23, 32, 0.5);
+    border: 2px solid #2a7276;
+    box-shadow: 0px 4px 31.2px 10px rgba(41, 104, 108, 0.5);
   }
 `;
 
@@ -88,11 +88,11 @@ export const AddWrapper = styled(Wrapper)`
 
   &:active {
     & svg {
-      fill: #c31720;
+      fill: #2a7276;
     }
 
     & span {
-      color: #c31720;
+      color: #2a7276;
     }
   }
 `;

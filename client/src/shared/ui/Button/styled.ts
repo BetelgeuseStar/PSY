@@ -36,15 +36,14 @@ export const Button = styled(AntButton)`
   }
 
   &:active {
+    color: #2a7276 !important;
     background: linear-gradient(
       180deg,
       #754447 0%,
       #623437 50%,
       #4e2426 100%
     ) !important;
-    border: 2px solid #c31720 !important;
-    box-shadow: 0px 4px 31.2px 10px rgba(195, 23, 32, 0.5) !important;
-
-    color: #c31720 !important;
+    border: 2px solid #2a7276 !important;
+    box-shadow: 0px 4px 31.2px 10px rgba(41, 104, 108, 0.5) !important;
   }
 `;

@@ -15,6 +15,7 @@ export const Bar = styled.div`
 export const Button = styled(AntButton)`
   &[active="true"] {
     ${getButtonColor("#3ba4a9", "rgba(59, 164, 169, 0.5)")}
+    cursor: default
   }
 `;
 
@@ -26,7 +27,9 @@ export const WillButton = styled(Button)`
     ${getWillButtonColor()}
   }
 
-  ${getActiveCss}
+  &:active[active="false"] {
+    ${getButtonColor("#A98800", "rgba(169, 136, 0, 0.5)")}
+  }
 `;
 
 export const PhysicsButton = styled(Button)`
@@ -37,7 +40,9 @@ export const PhysicsButton = styled(Button)`
     ${getPhysicsButtonColor()}
   }
 
-  ${getActiveCss}
+  &:active[active="false"] {
+    ${getButtonColor("#893507", "rgba(137, 53, 7, 0.5)")}
+  }
 `;
 
 export const EmotionButton = styled(Button)`
@@ -48,7 +53,9 @@ export const EmotionButton = styled(Button)`
     ${getEmotionButtonColor()}
   }
 
-  ${getActiveCss}
+  &:active[active="false"] {
+    ${getButtonColor("#99314D", "rgba(153, 49, 77, 0.5)")}
+  }
 `;
 
 export const LogicsButton = styled(Button)`
@@ -59,7 +66,9 @@ export const LogicsButton = styled(Button)`
     ${getLogicsButtonColor()}
   }
 
-  ${getActiveCss}
+  &:active[active="false"] {
+    ${getButtonColor("#1C549E", "rgba(28, 84, 158, 0.5)")}
+  }
 `;
 
 function getWillButtonColor() {
@@ -91,13 +100,5 @@ function getButtonColor(color: string, shadow: string) {
     color: ${color} !important;
     border: 2px solid ${color} !important;
     box-shadow: 0px 4px 31.2px 10px ${shadow} !important;
-  `;
-}
-
-function getActiveCss() {
-  return css`
-    &:active {
-      ${getButtonColor("#c31720", "rgba(195, 23, 32, 0.5)")}
-    }
   `;
 }
