@@ -5,7 +5,7 @@ import type { ButtonProps } from "antd";
 
 export const Button = forwardRef(ButtonInner);
 
-export function ButtonInner(props: PropsWithChildren<ButtonProps>, ref) {
+function ButtonInner(props: PropsWithChildren<ButtonProps>, ref) {
   const { children, ...antProps } = props;
 
   return (

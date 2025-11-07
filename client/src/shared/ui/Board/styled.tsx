@@ -5,4 +5,6 @@ export const Board = styled.div`
   border: 2px solid #b38687;
   box-shadow: 0px 4px 31.2px 10px rgba(179, 134, 135, 0.5);
   border-radius: 15px;
+
+  transition: all 0.3s;
 `;

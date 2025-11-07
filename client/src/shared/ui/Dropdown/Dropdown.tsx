@@ -5,7 +5,7 @@ import type { DropdownProps } from "antd";
 
 export const Dropdown = forwardRef(DropdownInner);
 
-export function DropdownInner(props: PropsWithChildren<DropdownProps>, ref) {
+function DropdownInner(props: PropsWithChildren<DropdownProps>, ref) {
   const { children, ...antProps } = props;
 
   return (

@@ -4,7 +4,7 @@ import * as Styled from "./styled.tsx";
 
 export const Board = forwardRef(BoardInner);
 
-export function BoardInner(
+function BoardInner(
   props: PropsWithChildren<React.HTMLAttributes<HTMLDivElement>>,
   ref: ForwardedRef<HTMLDivElement>,
 ) {

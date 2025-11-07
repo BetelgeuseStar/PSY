@@ -28,4 +28,10 @@ export const HeaderLink = styled(Link)`
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
+
+  &[active="true"] {
+    color: #3ba4a9 !important;
+
+    cursor: default;
+  }
 `;

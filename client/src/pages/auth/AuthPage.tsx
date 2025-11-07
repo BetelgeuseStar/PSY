@@ -12,7 +12,7 @@ export const AuthPage = () => {
   const { login } = useAuthContext();
 
   function loginHandler(email: string, password: string) {
-    login(email, password).then(() => navigate("/worksheetsList"));
+    login(email, password).then(() => navigate("/persons"));
   }
 
   return (

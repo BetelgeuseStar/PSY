@@ -5,7 +5,7 @@ import type { InputProps } from "antd";
 
 export const Input = forwardRef(InputInner);
 
-export function InputInner(props: PropsWithChildren<InputProps>, ref) {
+function InputInner(props: PropsWithChildren<InputProps>, ref) {
   const { children, ...antProps } = props;
 
   return (

@@ -7,7 +7,7 @@ export function AuthLayout() {
   console.log("Check user in AuthLayout", user);
 
   if (user) {
-    return <Navigate to="/worksheetsList" />;
+    return <Navigate to="/persons" />;
   } else {
     return <Outlet />;
   }

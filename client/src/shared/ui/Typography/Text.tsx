@@ -15,7 +15,7 @@ export type TextProps = {
 
 export const Text = forwardRef(TextInner);
 
-export function TextInner(
+function TextInner(
   props: PropsWithChildren<TextProps>,
   ref: ForwardedRef<HTMLSpanElement>,
 ) {

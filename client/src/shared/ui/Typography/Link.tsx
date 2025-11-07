@@ -5,7 +5,7 @@ import type { LinkProps } from "antd/es/typography/Link";
 
 export const Link = forwardRef(LinkInner);
 
-export function LinkInner(
+function LinkInner(
   props: PropsWithChildren<LinkProps>,
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
