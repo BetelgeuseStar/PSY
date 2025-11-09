@@ -1,4 +1,4 @@
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import { Outlet } from "react-router";
 import { useAuthContext } from "../../AuthProvider";
 import { useEffect } from "react";
@@ -14,8 +14,8 @@ export const Layout = observer(() => {
   }, []);
 
   return (
-    <Styled.Layout>
+    <St.Layout>
       <Outlet />
-    </Styled.Layout>
+    </St.Layout>
   );
 });

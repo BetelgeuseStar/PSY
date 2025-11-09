@@ -1,5 +1,5 @@
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 
 export function Label() {
-  return <Styled.Label>PSY</Styled.Label>;
+  return <St.Label>PSY</St.Label>;
 }

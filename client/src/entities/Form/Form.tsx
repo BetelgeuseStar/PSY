@@ -1,7 +1,7 @@
 import type { FieldError, FieldPath } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Input, Text } from "../../shared/ui";
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import { useState } from "react";
 import type { FormProps } from "./types.ts";
 import { getRules } from "./utils.ts";
@@ -37,7 +37,7 @@ export function Form({ inputs, button, onSubmit }: FormProps) {
   };
 
   return (
-    <Styled.Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <St.Form onSubmit={handleSubmit(onSubmit, onError)}>
       {inputs.map((input) => {
         const { name, rules } = input;
         return (
@@ -57,10 +57,10 @@ export function Form({ inputs, button, onSubmit }: FormProps) {
           />
         );
       })}
-      <Styled.ErrorMessageWrapper>
+      <St.ErrorMessageWrapper>
         <Text type="danger">{currentError?.message ?? ""}</Text>
-      </Styled.ErrorMessageWrapper>
+      </St.ErrorMessageWrapper>
       <Button htmlType="submit">{button.title}</Button>
-    </Styled.Form>
+    </St.Form>
   );
 }

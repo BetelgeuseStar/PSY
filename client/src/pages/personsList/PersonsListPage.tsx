@@ -1,8 +1,8 @@
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import { PersonAdder, PersonPicker } from "../../entities/PersonPicker";
 import type { PersonPickerInfo } from "../../shared/types";
 
-export function PersonsPage() {
+export function PersonsListPage() {
   const persons: PersonPickerInfo[] = [
     {
       id: 1,
@@ -13,11 +13,11 @@ export function PersonsPage() {
   ];
 
   return (
-    <Styled.Wrapper>
+    <St.Wrapper>
       {persons.map((person) => {
         return <PersonPicker {...person} key={person.id} />;
       })}
       <PersonAdder />
-    </Styled.Wrapper>
+    </St.Wrapper>
   );
 }

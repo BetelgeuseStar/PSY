@@ -1,4 +1,4 @@
-export type TypesNavPanelState = {
+export type FunctionPickerState = {
   type: PsyType;
   number: 1 | 2 | 3 | 4;
 };

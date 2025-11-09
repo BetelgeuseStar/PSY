@@ -1,4 +1,4 @@
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import type { PropsWithChildren } from "react";
 import { forwardRef } from "react";
 import type { DropdownProps } from "antd";
@@ -9,12 +9,8 @@ function DropdownInner(props: PropsWithChildren<DropdownProps>, ref) {
   const { children, ...antProps } = props;
 
   return (
-    <Styled.Dropdown
-      {...antProps}
-      ref={ref}
-      overlayStyle={{ borderRadius: "0px" }}
-    >
+    <St.Dropdown {...antProps} ref={ref} overlayStyle={{ borderRadius: "0px" }}>
       {children}
-    </Styled.Dropdown>
+    </St.Dropdown>
   );
 }

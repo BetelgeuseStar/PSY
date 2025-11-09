@@ -1,6 +1,6 @@
 import type { ForwardedRef, PropsWithChildren } from "react";
 import React, { forwardRef } from "react";
-import * as Styled from "./styled.tsx";
+import * as St from "./styled.tsx";
 
 export const Board = forwardRef(BoardInner);
 
@@ -11,8 +11,8 @@ function BoardInner(
   const { children, ...restProps } = props;
 
   return (
-    <Styled.Board ref={ref} {...restProps}>
+    <St.Board ref={ref} {...restProps}>
       {children}
-    </Styled.Board>
+    </St.Board>
   );
 }

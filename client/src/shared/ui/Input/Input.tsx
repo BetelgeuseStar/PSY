@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 import { forwardRef } from "react";
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import type { InputProps } from "antd";
 
 export const Input = forwardRef(InputInner);
@@ -9,8 +9,8 @@ function InputInner(props: PropsWithChildren<InputProps>, ref) {
   const { children, ...antProps } = props;
 
   return (
-    <Styled.Input {...antProps} ref={ref}>
+    <St.Input {...antProps} ref={ref}>
       {children}
-    </Styled.Input>
+    </St.Input>
   );
 }

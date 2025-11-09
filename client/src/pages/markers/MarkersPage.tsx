@@ -1,10 +1,10 @@
-import { TypesNavPanel } from "../../widgets/TypesNavPanel";
+import { FunctionPicker } from "../../widgets/FunctionPicker";
 import { useState } from "react";
-import type { TypesNavPanelState } from "../../shared/types/TypeNavPanel.ts";
+import type { FunctionPickerState } from "../../shared/types/TypeNavPanel.ts";
 import { PsyFunction } from "../../shared/types/TypeNavPanel.ts";
 
 export function MarkersPage() {
-  const [panelState, setPanelState] = useState<TypesNavPanelState>({
+  const [pickerState, setPickerState] = useState<FunctionPickerState>({
     type: PsyFunction.Will,
     number: 1,
   });
@@ -12,7 +12,7 @@ export function MarkersPage() {
   return (
     <>
       <h1 style={{ color: "white" }}>Страница с маркерами</h1>
-      <TypesNavPanel state={panelState} onChange={setPanelState} />
+      <FunctionPicker state={pickerState} onChange={setPickerState} />
     </>
   );
 }

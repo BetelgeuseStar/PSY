@@ -1,4 +1,4 @@
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import { Label, Link, Text } from "../../shared/ui";
 import { useNavigate } from "react-router";
 import { FieldRule } from "../../entities/Form/types.ts";
@@ -18,8 +18,8 @@ export const RegistrationPage = () => {
   }
 
   return (
-    <Styled.Wrapper>
-      <Styled.Body>
+    <St.Wrapper>
+      <St.Body>
         <Label />
         <Text style={{ fontSize: 24 }}>Регистрация</Text>
         <Text style={{ fontSize: 16 }}>
@@ -40,7 +40,7 @@ export const RegistrationPage = () => {
           }
         />
         <Link onClick={navigateToAuthPage}>Вернуться на страницу входа</Link>
-      </Styled.Body>
-    </Styled.Wrapper>
+      </St.Body>
+    </St.Wrapper>
   );
 };

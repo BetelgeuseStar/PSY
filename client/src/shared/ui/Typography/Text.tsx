@@ -1,6 +1,6 @@
 import type { CSSProperties, ForwardedRef, PropsWithChildren } from "react";
 import { forwardRef } from "react";
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 
 export type TextProps = {
   type?: "secondary" | "success" | "warning" | "danger";
@@ -22,8 +22,8 @@ function TextInner(
   const { children, ...antProps } = props;
 
   return (
-    <Styled.Text {...antProps} ref={ref}>
+    <St.Text {...antProps} ref={ref}>
       {children}
-    </Styled.Text>
+    </St.Text>
   );
 }

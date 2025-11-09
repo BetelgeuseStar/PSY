@@ -1,4 +1,4 @@
-import * as Styled from "./styled.ts";
+import * as St from "./styled.ts";
 import { Dropdown, Label, Link } from "../../shared/ui";
 import type { MenuProps } from "antd";
 import { useAuthContext } from "../../app/AuthProvider";
@@ -22,25 +22,25 @@ export function Header() {
   ];
 
   return (
-    <Styled.Wrapper>
+    <St.Wrapper>
       <Label />
-      <Styled.MenuWrapper>
-        <Styled.HeaderLink
-          active={path == "/persons" ? "true" : "false"}
+      <St.MenuWrapper>
+        <St.HeaderLink
+          active={path == "/personsList" ? "true" : "false"}
           onClick={() => navigate("/persons")}
         >
           Персоны
-        </Styled.HeaderLink>
-        <Styled.HeaderLink
+        </St.HeaderLink>
+        <St.HeaderLink
           active={path == "/markers" ? "true" : "false"}
           onClick={() => navigate("/markers")}
         >
           Маркеры
-        </Styled.HeaderLink>
+        </St.HeaderLink>
         <Dropdown menu={{ items: dropdownItems }}>
-          <Styled.HeaderLink>UserName</Styled.HeaderLink>
+          <St.HeaderLink>UserName</St.HeaderLink>
         </Dropdown>
-      </Styled.MenuWrapper>
-    </Styled.Wrapper>
+      </St.MenuWrapper>
+    </St.Wrapper>
   );
 }
