@@ -1,6 +1,6 @@
 import * as St from "./styled.ts";
-import type { FunctionPickerState } from "../../shared/types/TypeNavPanel.ts";
-import { PsyFunction } from "../../shared/types/TypeNavPanel.ts";
+import type { FunctionPickerState } from "../../shared/types";
+import { PsyFunction } from "../../shared/types";
 
 export type FunctionPickerProps = {
   state: FunctionPickerState;

@@ -32,6 +32,7 @@ export const RegistrationPage = () => {
             {
               name: "password",
               rules: [FieldRule.Required, FieldRule.PasswordLength],
+              type: "password",
             },
           ]}
           button={{ title: "Зарегистрироваться" }}

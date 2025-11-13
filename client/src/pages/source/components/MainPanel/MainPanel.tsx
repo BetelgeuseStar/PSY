@@ -1,5 +1,5 @@
 import * as St from "./styled.ts";
-import noPhoto from "../../../../../public/img/noPhoto.jpg";
+import booksImg from "../../../../../public/img/books.jpg";
 import {
   BackIcon,
   SettingsIcon,
@@ -21,24 +21,26 @@ export function MainPanel() {
   const navigate = useNavigate();
 
   const photoUrl = undefined;
-  const name = "Илюша мэддисон";
+  const title = "Синтаксис Любви";
+  const author = "Афанасьев";
 
   return (
     <St.Wrapper>
       <St.ExtraPanelWrapper>
         <St.ExtraButtonsWrapper>
           <IconButton
-            onClick={() => navigate("/persons")}
+            onClick={() => navigate("/sources")}
             icon={<BackIcon />}
           ></IconButton>
           <IconButton icon={<SettingsIcon />}></IconButton>
         </St.ExtraButtonsWrapper>
         <IconButton icon={<VisibleIcon />}></IconButton>
       </St.ExtraPanelWrapper>
-      <St.Photo src={photoUrl ?? noPhoto} />
+      <St.Photo src={photoUrl ?? booksImg} />
       <St.MainPanelWrapper>
         <St.InfoPanel>
-          <Text style={{ fontSize: 20, lineHeight: "20px" }}>{name}</Text>
+          <Text style={{ fontSize: 20, lineHeight: "20px" }}>{title}</Text>
+          <Text style={{ fontSize: 20, lineHeight: "20px" }}>{author}</Text>
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={setPickerState} />
       </St.MainPanelWrapper>

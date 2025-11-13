@@ -1,9 +1,10 @@
 import * as St from "./styled.ts";
-import { PersonAdder, PersonPicker } from "../../entities/PersonPicker";
-import type { PersonPickerInfo } from "../../shared/types";
+import { EntityAdder, EntityPicker } from "../../entities/Picker";
+import type { PersonInfo } from "../../shared/types";
+import noPhoto from "../../../public/img/noPhoto.jpg";
 
 export function PersonsListPage() {
-  const persons: PersonPickerInfo[] = [
+  const persons: PersonInfo[] = [
     {
       id: 1,
       name: "Илюша Мэддисон",
@@ -14,10 +15,19 @@ export function PersonsListPage() {
 
   return (
     <St.Wrapper>
-      {persons.map((person) => {
-        return <PersonPicker {...person} key={person.id} />;
+      <EntityAdder text="Добавить персону" />
+      {persons.map(({ id, name, type, photoUrl }) => {
+        return (
+          <EntityPicker
+            id={id}
+            title={name}
+            extraInfo={type}
+            photoUrl={photoUrl ?? noPhoto}
+            key={id}
+            url="persons"
+          />
+        );
       })}
-      <PersonAdder />
     </St.Wrapper>
   );
 }

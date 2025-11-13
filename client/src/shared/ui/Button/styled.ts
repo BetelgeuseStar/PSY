@@ -47,3 +47,36 @@ export const Button = styled(AntButton)`
     box-shadow: 0px 4px 31.2px 10px rgba(41, 104, 108, 0.5) !important;
   }
 `;
+
+export const IconButton = styled(Button)`
+  min-width: 50px;
+  min-height: 50px;
+
+  & > span {
+    padding-top: 2px;
+    width: 25px;
+
+    fill: #b38687;
+
+    transition: all 0.3s;
+  }
+
+  & svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  &:hover {
+    & span {
+      fill: #3ba4a9;
+      transition: all 0.3s;
+    }
+  }
+
+  &:active {
+    & span {
+      fill: #2a7276;
+      transition: all 0.3s;
+    }
+  }
+`;

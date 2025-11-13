@@ -5,6 +5,4 @@ export type PersonInfo = {
   photoUrl?: string;
 };
 
-export type PersonPickerInfo = PersonInfo;
-
 export type Type = string;

@@ -45,4 +45,6 @@ export const InfoPanel = styled(Board)`
 
   width: 590px;
   height: 195px;
+
+  gap: 10px;
 `;

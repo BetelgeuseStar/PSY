@@ -29,6 +29,7 @@ export const AuthPage = () => {
             {
               name: "password",
               rules: [FieldRule.Required, FieldRule.PasswordLength],
+              type: "password",
             },
           ]}
           button={{ title: "Войти" }}

@@ -26,16 +26,16 @@ export function Header() {
       <Label />
       <St.MenuWrapper>
         <St.HeaderLink
-          active={path == "/personsList" ? "true" : "false"}
+          active={path == "/persons" ? "true" : "false"}
           onClick={() => navigate("/persons")}
         >
           Персоны
         </St.HeaderLink>
         <St.HeaderLink
-          active={path == "/markers" ? "true" : "false"}
-          onClick={() => navigate("/markers")}
+          active={path == "/sources" ? "true" : "false"}
+          onClick={() => navigate("/sources")}
         >
-          Маркеры
+          Источники
         </St.HeaderLink>
         <Dropdown menu={{ items: dropdownItems }}>
           <St.HeaderLink>UserName</St.HeaderLink>

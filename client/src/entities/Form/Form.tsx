@@ -39,7 +39,7 @@ export function Form({ inputs, button, onSubmit }: FormProps) {
   return (
     <St.Form onSubmit={handleSubmit(onSubmit, onError)}>
       {inputs.map((input) => {
-        const { name, rules } = input;
+        const { name, rules, type } = input;
         return (
           <Controller
             name={name}
@@ -50,6 +50,8 @@ export function Form({ inputs, button, onSubmit }: FormProps) {
               <Input
                 status={errors[name] === currentError ? "error" : ""}
                 placeholder={name}
+                type={type}
+                autoComplete="on"
                 onInput={() => setCurrentError(null)}
                 {...field}
               />
