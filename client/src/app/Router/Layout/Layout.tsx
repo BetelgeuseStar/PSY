@@ -1,21 +1,16 @@
 import * as St from "./styled.ts";
 import { Outlet } from "react-router";
 import { useAuthContext } from "../../AuthProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 export const Layout = observer(() => {
   const { checkAuth } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      checkAuth();
-    }
+    checkAuth().finally(() => setIsLoading(false));
   }, []);
 
-  return (
-    <St.Layout>
-      <Outlet />
-    </St.Layout>
-  );
+  return <St.Layout>{!isLoading && <Outlet />}</St.Layout>;
 });

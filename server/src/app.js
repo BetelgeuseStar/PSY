@@ -23,7 +23,7 @@ app.use("/api", routes);
 app.use(errorMiddleware);
 
 sequelize
-  .sync({ force: true })
+  .sync()
   .then(() => console.log("All models were synchronized successfully."))
   .catch((e) => console.log(e));
 

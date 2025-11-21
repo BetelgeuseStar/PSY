@@ -1,5 +1,5 @@
 import * as St from "./styled.ts";
-import { EntityAdder, EntityPicker } from "../../entities/Picker";
+import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
 import type { SourceInfo } from "../../shared/types";
 import booksImg from "../../../public/img/books.jpg";
 

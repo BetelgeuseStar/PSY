@@ -1,5 +1,5 @@
 import * as St from "./styled.ts";
-import { EntityAdder, EntityPicker } from "../../entities/Picker";
+import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
 import type { PersonInfo } from "../../shared/types";
 import noPhoto from "../../../public/img/noPhoto.jpg";
 

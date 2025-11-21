@@ -1,18 +1,24 @@
 import * as St from "./styled.ts";
-import { Label, Link, Text } from "../../shared/ui";
+import { Label, Link, Loader, Text } from "../../shared/ui";
 import { useNavigate } from "react-router";
 import { Form } from "../../entities/Form";
 import { FieldRule } from "../../entities/Form/types.ts";
 import { useAuthContext } from "../../app/AuthProvider";
+import { useState } from "react";
 
 export const AuthPage = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigateToRegistrationPage = () => navigate("/registration");
 
   const { login } = useAuthContext();
 
   function loginHandler(email: string, password: string) {
-    login(email, password).then(() => navigate("/persons"));
+    setIsLoading(true);
+    login(email, password)
+      .then(() => navigate("/persons"))
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -39,6 +45,7 @@ export const AuthPage = () => {
           Зарегистрировать новый аккаунт
         </Link>
       </St.Body>
+      <Loader isLoading={isLoading} />
     </St.Wrapper>
   );
 };

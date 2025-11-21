@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Board } from "../../../../shared/ui";
+import { PhotoPicker } from "../../../../widgets/PhotoPicker";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -19,14 +20,9 @@ export const ExtraButtonsWrapper = styled.div`
   gap: 10px;
 `;
 
-export const Photo = styled.img`
+export const Photo = styled(PhotoPicker)`
   width: 300px;
   height: 300px;
-
-  border: 2px solid #b38687;
-  box-shadow: 0px 4px 31.2px 10px rgba(179, 134, 135, 0.5);
-  border-radius: 15px;
-  background: linear-gradient(180deg, #754447 0%, #623437 50%, #4e2426 100%);
 
   margin-right: 20px;
 `;
@@ -45,6 +41,4 @@ export const InfoPanel = styled(Board)`
 
   width: 590px;
   height: 195px;
-
-  gap: 10px;
 `;

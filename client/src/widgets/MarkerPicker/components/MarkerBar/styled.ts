@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Board } from "../../../../shared/ui";
-import { CheckIcon as OuterCheckIcon } from "../../../../shared/ui/icons";
+import { CheckIcon as OuterCheckIcon } from "../../../../shared/icons";
 
 export const Wrapper = styled.div`
   display: flex;

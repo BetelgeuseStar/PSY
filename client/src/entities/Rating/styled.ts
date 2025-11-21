@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StarIcon } from "../../shared/ui/icons";
+import { StarIcon } from "../../shared/icons";
 
 export const Wrapper = styled.div`
   display: flex;

@@ -1,11 +1,7 @@
 import * as St from "./styled";
 import { IconButton, Text } from "../../../../shared/ui";
 import type { MarkerBarProps } from "../../../../shared/types";
-import {
-  DeleteIcon,
-  EditIcon,
-  WorksheetIcon,
-} from "../../../../shared/ui/icons";
+import { DeleteIcon, WorksheetIcon } from "../../../../shared/icons";
 import { Rating } from "../../../../entities/Rating";
 
 export function MarkerBar({
@@ -36,7 +32,6 @@ export function MarkerBar({
         </St.TextWrapper>
       </St.ActiveZone>
       <IconButton style={{ paddingBottom: 2 }} icon={<WorksheetIcon />} />
-      {allowEdit && <IconButton icon={<EditIcon />} />}
       {allowEdit && <IconButton icon={<DeleteIcon />} />}
       <St.RatingWrapper>
         <Rating rating={rating} onChange={onChangeRating} />

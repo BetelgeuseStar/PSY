@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "../../shared/ui";
+import { UserIcon as OuterUserIcon } from "../../shared/icons";
 
 export const Wrapper = styled.header`
   width: 100vw;
@@ -33,5 +34,43 @@ export const HeaderLink = styled(Link)`
     color: #3ba4a9 !important;
 
     cursor: default;
+
+    svg {
+      fill: #3ba4a9;
+    }
+  }
+`;
+
+export const UserLinkWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+
+  &:hover {
+    svg {
+      fill: #3ba4a9;
+    }
+  }
+`;
+
+export const UserLink = styled(Link)`
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 15px;
+  padding-top: 2px !important;
+`;
+
+export const UserIcon = styled(OuterUserIcon)`
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+
+  svg {
+    width: 15px;
+    height: 15px;
+    transition: 0.3s all;
+    fill: #b38687;
   }
 `;

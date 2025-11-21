@@ -3,17 +3,22 @@ import { Dropdown, Label, Link } from "../../shared/ui";
 import type { MenuProps } from "antd";
 import { useAuthContext } from "../../app/AuthProvider";
 import { useNavigate } from "react-router";
+import { getUsers } from "../../shared/api";
 
 export function Header() {
-  const { logout } = useAuthContext();
+  const { logout, user } = useAuthContext();
 
   const navigate = useNavigate();
   const path = window.location.pathname;
 
+  function getUsersReq() {
+    getUsers().then((users) => console.log("Список пользователей: ", users));
+  }
+
   const dropdownItems: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link>Настройки</Link>,
+      label: <Link onClick={getUsersReq}>Получить список пользователей</Link>,
     },
     {
       key: "2",
@@ -38,7 +43,10 @@ export function Header() {
           Источники
         </St.HeaderLink>
         <Dropdown menu={{ items: dropdownItems }}>
-          <St.HeaderLink>UserName</St.HeaderLink>
+          <St.UserLinkWrapper>
+            <St.UserIcon />
+            <St.UserLink>{user?.login ?? "noname"}</St.UserLink>
+          </St.UserLinkWrapper>
         </Dropdown>
       </St.MenuWrapper>
     </St.Wrapper>

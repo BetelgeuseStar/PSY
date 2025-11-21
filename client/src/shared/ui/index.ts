@@ -5,3 +5,5 @@ export * from "./Button";
 export * from "./Board";
 export * from "./Dropdown";
 export * from "./PageWrapper";
+export * from "./Loader";
+export * from "./EditableText";

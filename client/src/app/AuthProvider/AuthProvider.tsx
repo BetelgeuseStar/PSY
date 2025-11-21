@@ -43,6 +43,7 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
 
   async function checkAuth() {
     try {
+      if (!localStorage.getItem("token")) return;
       const authData = await refresh();
       localStorage.setItem("token", authData.accessToken);
       setUser(authData.user);

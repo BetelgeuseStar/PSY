@@ -1,20 +1,26 @@
 import * as St from "./styled.ts";
-import { Label, Link, Text } from "../../shared/ui";
+import { Label, Link, Loader, Text } from "../../shared/ui";
 import { useNavigate } from "react-router";
 import { FieldRule } from "../../entities/Form/types.ts";
 import { Form } from "../../entities/Form";
 import { useAuthContext } from "../../app/AuthProvider";
+import { useState } from "react";
 
 //TODO: Реализовать соглашение на обработку данных
 
 export const RegistrationPage = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigateToAuthPage = () => navigate("/auth");
 
   const { registration } = useAuthContext();
 
   function registrationHandler(login: string, email: string, password: string) {
-    registration(login, email, password).then(() => navigate("/auth"));
+    setIsLoading(true);
+    registration(login, email, password)
+      .then(() => navigate("/auth"))
+      .finally(() => setIsLoading(false));
   }
 
   return (
@@ -42,6 +48,7 @@ export const RegistrationPage = () => {
         />
         <Link onClick={navigateToAuthPage}>Вернуться на страницу входа</Link>
       </St.Body>
+      <Loader isLoading={isLoading} />
     </St.Wrapper>
   );
 };

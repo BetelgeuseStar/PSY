@@ -1,16 +1,3 @@
-// const { Pool } = require("pg");
-// require("dotenv").config();
-//
-// const pool = new Pool({
-//   user: ,
-//   host: ,
-//   database: ,
-//   password: ,
-//   port: process.env.DB_PORT,
-// });
-//
-// module.exports = pool;
-
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 

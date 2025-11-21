@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Board, Text } from "../../shared/ui";
-import { PlusIcon } from "../../shared/ui/icons";
+import { PlusIcon } from "../../shared/icons";
 
 export const Wrapper = styled(Board)`
   width: 300px;
