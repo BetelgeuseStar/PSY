@@ -42,10 +42,14 @@ export function Header() {
         >
           Источники
         </St.HeaderLink>
-        <Dropdown menu={{ items: dropdownItems }}>
+        <Dropdown
+          menu={{ items: dropdownItems }}
+          overlayClassName="customDropdown"
+        >
           <St.UserLinkWrapper>
             <St.UserIcon />
             <St.UserLink>{user?.login ?? "noname"}</St.UserLink>
+            <St.CaretIcon />
           </St.UserLinkWrapper>
         </Dropdown>
       </St.MenuWrapper>

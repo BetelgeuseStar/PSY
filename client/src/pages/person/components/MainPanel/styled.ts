@@ -25,6 +25,7 @@ export const Photo = styled(PhotoPicker)`
   height: 300px;
 
   margin-right: 20px;
+  object-fit: cover;
 `;
 
 export const MainPanelWrapper = styled.div`

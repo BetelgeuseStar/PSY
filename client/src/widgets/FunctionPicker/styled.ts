@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Button as AntButton } from "../../shared/ui";
+import { getButtonColorStyle } from "../../shared/utils";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -14,7 +15,7 @@ export const Bar = styled.div`
 
 export const Button = styled(AntButton)`
   &[active="true"] {
-    ${getButtonColor("#3ba4a9", "rgba(59, 164, 169, 0.5)")}
+    ${getButtonColorStyle("#3ba4a9", "rgba(59, 164, 169, 0.5)")}
     cursor: default
   }
 `;
@@ -28,7 +29,7 @@ export const WillButton = styled(Button)`
   }
 
   &:active[active="false"] {
-    ${getButtonColor("#A98800", "rgba(169, 136, 0, 0.5)")}
+    ${getButtonColorStyle("#A98800", "rgba(169, 136, 0, 0.5)")}
   }
 `;
 
@@ -41,7 +42,7 @@ export const PhysicsButton = styled(Button)`
   }
 
   &:active[active="false"] {
-    ${getButtonColor("#893507", "rgba(137, 53, 7, 0.5)")}
+    ${getButtonColorStyle("#893507", "rgba(137, 53, 7, 0.5)")}
   }
 `;
 
@@ -54,7 +55,7 @@ export const EmotionButton = styled(Button)`
   }
 
   &:active[active="false"] {
-    ${getButtonColor("#99314D", "rgba(153, 49, 77, 0.5)")}
+    ${getButtonColorStyle("#99314D", "rgba(153, 49, 77, 0.5)")}
   }
 `;
 
@@ -67,38 +68,30 @@ export const LogicsButton = styled(Button)`
   }
 
   &:active[active="false"] {
-    ${getButtonColor("#1C549E", "rgba(28, 84, 158, 0.5)")}
+    ${getButtonColorStyle("#1C549E", "rgba(28, 84, 158, 0.5)")}
   }
 `;
 
 function getWillButtonColor() {
   return css`
-    ${getButtonColor("#dfb300", "rgba(223, 179, 0, 0.5)")}
+    ${getButtonColorStyle("#dfb300", "rgba(223, 179, 0, 0.5)")}
   `;
 }
 
 function getPhysicsButtonColor() {
   return css`
-    ${getButtonColor("#aa420a", "rgba(170, 66, 10, 0.5)")}
+    ${getButtonColorStyle("#aa420a", "rgba(170, 66, 10, 0.5)")}
   `;
 }
 
 function getEmotionButtonColor() {
   return css`
-    ${getButtonColor("#d84b70", "rgba(216, 75, 112, 0.5)")}
+    ${getButtonColorStyle("#d84b70", "rgba(216, 75, 112, 0.5)")}
   `;
 }
 
 function getLogicsButtonColor() {
   return css`
-    ${getButtonColor("#2874d8", "rgba(40, 116, 216, 0.5)")}
-  `;
-}
-
-function getButtonColor(color: string, shadow: string) {
-  return css`
-    color: ${color} !important;
-    border: 2px solid ${color} !important;
-    box-shadow: 0px 4px 31.2px 10px ${shadow} !important;
+    ${getButtonColorStyle("#2874d8", "rgba(40, 116, 216, 0.5)")}
   `;
 }

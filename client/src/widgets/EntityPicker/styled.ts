@@ -36,6 +36,8 @@ export const Photo = styled.img`
 
   border: 2px solid #b38687;
   border-radius: 5px;
+
+  object-fit: cover;
 `;
 
 export const Name = styled(Text)`

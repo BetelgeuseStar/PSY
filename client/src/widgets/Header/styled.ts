@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "../../shared/ui";
-import { UserIcon as OuterUserIcon } from "../../shared/icons";
+import { CaretDownIcon, UserIcon as OuterUserIcon } from "../../shared/icons";
 
 export const Wrapper = styled.header`
   width: 100vw;
@@ -47,9 +47,17 @@ export const UserLinkWrapper = styled.div`
   justify-content: center;
   height: 20px;
 
+  cursor: pointer;
+
+  gap: 3px;
+
   &:hover {
     svg {
       fill: #3ba4a9;
+    }
+
+    a {
+      color: #3ba4a9 !important;
     }
   }
 `;
@@ -65,11 +73,24 @@ export const UserLink = styled(Link)`
 export const UserIcon = styled(OuterUserIcon)`
   width: 15px;
   height: 15px;
-  margin-right: 3px;
 
   svg {
     width: 15px;
     height: 15px;
+    transition: 0.3s all;
+    fill: #b38687;
+  }
+`;
+
+export const CaretIcon = styled(CaretDownIcon)`
+  width: 11px;
+  height: 11px;
+  margin-left: 1px;
+
+  svg {
+    padding-top: 3px;
+    width: 11px;
+    height: 11px;
     transition: 0.3s all;
     fill: #b38687;
   }

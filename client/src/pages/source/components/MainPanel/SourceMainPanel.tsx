@@ -7,28 +7,34 @@ import {
   VisibleIcon,
 } from "../../../../shared/icons";
 import { FunctionPicker } from "../../../../widgets/FunctionPicker";
-import { useState } from "react";
-import type { FunctionPickerState } from "../../../../shared/types";
-import { PsyFunction } from "../../../../shared/types";
+import type { PsyType } from "../../../../shared/types";
 import { EditableText, IconButton } from "../../../../shared/ui";
 import { useNavigate } from "react-router";
+import type { Source } from "../../../../shared/api";
 
-export function MainPanel() {
-  const [pickerState, setPickerState] = useState<FunctionPickerState>({
-    type: PsyFunction.Will,
-    number: 1,
-  });
+type Props = {
+  source: Source;
+  onChangeTitle: (value: string) => void;
+  onChangeInfo: (value: string) => void;
+  onToggleIsPublic: () => void;
+  onChangePhotoUrl: (value: string) => void;
+  onDeleteSource: () => void;
+  pickerState: PsyType;
+  onChangePickerState: (value: PsyType) => void;
+};
 
+export function SourceMainPanel({
+  source,
+  onChangePhotoUrl,
+  onChangeInfo,
+  onChangeTitle,
+  onDeleteSource,
+  onToggleIsPublic,
+  pickerState,
+  onChangePickerState,
+}: Props) {
   const navigate = useNavigate();
-
-  const photoUrl = undefined;
-
-  const [title, setTitle] = useState("Синтаксис Любви");
-  const [author, setAuthor] = useState("Афанасьев");
-  const [info, setInfo] = useState(
-    "Отличный базовый источник по психософии ЭТО БАЗА!!",
-  );
-  const [isPublic, setIsPublic] = useState(true);
+  const { isPublic, photoUrl, title, info } = source;
 
   return (
     <St.Wrapper>
@@ -40,10 +46,10 @@ export function MainPanel() {
           />
         </St.ExtraButtonsWrapper>
         <St.ExtraButtonsWrapper>
-          <IconButton icon={<DeleteIcon />} />
+          <IconButton icon={<DeleteIcon />} onClick={onDeleteSource} />
           <IconButton
             icon={isPublic ? <VisibleIcon /> : <InvisibleIcon />}
-            onClick={() => setIsPublic((prev) => !prev)}
+            onClick={onToggleIsPublic}
           />
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
@@ -51,26 +57,20 @@ export function MainPanel() {
       <St.MainPanelWrapper>
         <St.InfoPanel>
           <EditableText
-            onValueChange={setTitle}
+            onValueChange={onChangeTitle}
             editorValue={title}
             placeholder="Введите название"
-            style={{ marginBottom: 5 }}
-          />
-          <EditableText
-            onValueChange={setAuthor}
-            editorValue={author}
-            placeholder="Введите имя автора"
             style={{ marginBottom: 8 }}
           />
           <EditableText
-            onValueChange={setInfo}
+            onValueChange={onChangeInfo}
             editorValue={info}
             placeholder="Введите описание"
             isTextArea
             style={{ height: "100%" }}
           />
         </St.InfoPanel>
-        <FunctionPicker state={pickerState} onChange={setPickerState} />
+        <FunctionPicker state={pickerState} onChange={onChangePickerState} />
       </St.MainPanelWrapper>
     </St.Wrapper>
   );

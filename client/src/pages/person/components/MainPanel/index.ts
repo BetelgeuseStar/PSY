@@ -1,1 +1,1 @@
-export * from "./MainPanel.tsx";
+export * from "./PersonMainPanel.tsx";

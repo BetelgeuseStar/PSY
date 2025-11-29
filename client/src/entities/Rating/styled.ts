@@ -24,19 +24,19 @@ export const InactiveStarIcon = styled(StarIcon)`
   fill: #626262;
 `;
 
-export const StarWrapper = styled.div`
+export const StarWrapper = styled.div<{ $readonly: boolean }>`
   width: 24px;
-  cursor: pointer;
+  cursor: ${({ $readonly }) => ($readonly ? "default" : "pointer")};
 
   svg {
     transition: 0.05s all;
   }
 
   &:hover {
-    transform: scale(1.1);
+    transform: ${({ $readonly }) => ($readonly ? "none" : "scale(1.1)")};
   }
 
   &:active {
-    transform: scale(1.2);
+    transform: ${({ $readonly }) => ($readonly ? "none" : "scale(1.2)")};
   }
 `;
