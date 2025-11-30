@@ -43,8 +43,16 @@ export function Header() {
           Источники
         </St.HeaderLink>
         <Dropdown
-          menu={{ items: dropdownItems }}
-          overlayClassName="customDropdown"
+          menu={{
+            items: dropdownItems,
+            style: {
+              borderRadius: "4px",
+              background:
+                "linear-gradient(180deg, #754447 0%, #623437 50%, #4e2426 100%)",
+              border: "2px solid #b38687",
+            },
+          }}
+          overlayStyle={{}}
         >
           <St.UserLinkWrapper>
             <St.UserIcon />

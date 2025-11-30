@@ -45,7 +45,7 @@ export function SourcePage() {
       message: isPublic
         ? "Этот источник будет скрыт от других пользователей"
         : "Этот источник будет виден другим пользователям",
-      onOk: () => setSourceParam("isPublic", !isPublic),
+      onOk: () => setSourceParamClosure("isPublic")(!isPublic),
     });
   }
 
@@ -63,32 +63,22 @@ export function SourcePage() {
     addSourceModal.open({
       title: "Добавить маркеры из источника",
       // TODO: функция добавления маркеров
-      onOk: () => void 0,
+      onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
       okButtonText: "Добавить",
+      message:
+        "Выберите источник маркеры которого вы хотите скопировать и добавить к маркерам текущего источника",
     });
   }
 
-  function setSourceParam<P extends keyof Source>(param: P, value: Source[P]) {
-    setSource((prev) => ({
-      ...prev,
-      [param]: value,
-    }));
-  }
-
-  function changeTitleHandler(value: string) {
-    setSourceParam("title", value);
-  }
-
-  function changeInfoHandler(value: string) {
-    setSourceParam("info", value);
-  }
-
-  function changePhotoUrlHandler(value: string) {
-    setSourceParam("photoUrl", value);
-  }
-
-  function changePickerStateHandler(value: PsyType) {
-    setPickerState(value);
+  function setSourceParamClosure<P extends keyof Source>(
+    param: P,
+  ): (value: Source[P]) => void {
+    return (value) => {
+      setSource((prev) => ({
+        ...prev,
+        [param]: value,
+      }));
+    };
   }
 
   return (
@@ -96,12 +86,12 @@ export function SourcePage() {
       <SourceMainPanel
         onToggleIsPublic={togglePublicHandler}
         onDeleteSource={deleteHandler}
-        onChangeTitle={changeTitleHandler}
-        onChangeInfo={changeInfoHandler}
-        onChangePhotoUrl={changePhotoUrlHandler}
+        onChangeTitle={setSourceParamClosure("title")}
+        onChangeInfo={setSourceParamClosure("info")}
+        onChangePhotoUrl={setSourceParamClosure("photoUrl")}
         source={source}
         pickerState={pickerState}
-        onChangePickerState={changePickerStateHandler}
+        onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
         usedSourcesNames={usedSourcesNames}
       />

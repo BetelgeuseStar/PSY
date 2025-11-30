@@ -7,3 +7,4 @@ export * from "./Dropdown";
 export * from "./PageWrapper";
 export * from "./Loader";
 export * from "./EditableText";
+export * from "./Select";

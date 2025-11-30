@@ -77,6 +77,7 @@ export const Content = styled.div`
   font-size: 18px;
   font-weight: 400;
   padding: 10px 0;
+  text-align: center;
 `;
 
 export const Wrapper = styled(Board)`

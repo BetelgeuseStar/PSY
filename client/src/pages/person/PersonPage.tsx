@@ -49,7 +49,7 @@ export function PersonPage() {
       message: isPublic
         ? "Эта персона будет скрыта от других пользователей"
         : "Эта персона будет видна другим пользователям",
-      onOk: () => setPersonParam("isPublic", !isPublic),
+      onOk: () => setPersonParamClosure("isPublic")(!isPublic),
     });
   }
 
@@ -66,31 +66,20 @@ export function PersonPage() {
   function changeSourceHandler() {
     addSourceModal.open({
       // TODO: функция изменения источника
-      onOk: () => void 0,
+      onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
+      message: "Выберите источник из которого будут взяты маркеры для персоны",
     });
   }
 
-  function setPersonParam<P extends keyof Person>(param: P, value: Person[P]) {
-    setPerson((prev) => ({
-      ...prev,
-      [param]: value,
-    }));
-  }
-
-  function changeNameHandler(value: string) {
-    setPersonParam("name", value);
-  }
-
-  function changeInfoHandler(value: string) {
-    setPersonParam("info", value);
-  }
-
-  function changePhotoUrlHandler(value: string) {
-    setPersonParam("photoUrl", value);
-  }
-
-  function changePickerStateHandler(value: PsyType) {
-    setPickerState(value);
+  function setPersonParamClosure<P extends keyof Person>(
+    param: P,
+  ): (value: Person[P]) => void {
+    return (value) => {
+      setPerson((prev) => ({
+        ...prev,
+        [param]: value,
+      }));
+    };
   }
 
   return (
@@ -98,12 +87,12 @@ export function PersonPage() {
       <PersonMainPanel
         onToggleIsPublic={togglePublicHandler}
         onDeletePerson={deleteHandler}
-        onChangeName={changeNameHandler}
-        onChangeInfo={changeInfoHandler}
-        onChangePhotoUrl={changePhotoUrlHandler}
+        onChangeName={setPersonParamClosure("name")}
+        onChangeInfo={setPersonParamClosure("info")}
+        onChangePhotoUrl={setPersonParamClosure("photoUrl")}
         person={person}
         pickerState={pickerState}
-        onChangePickerState={changePickerStateHandler}
+        onChangePickerState={setPickerState}
         onChangeSource={changeSourceHandler}
         sourceName={sourceName}
       />

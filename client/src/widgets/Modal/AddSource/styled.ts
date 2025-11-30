@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Board, Button } from "../../../shared/ui";
+import { Board, Button, Select as UiSelect } from "../../../shared/ui";
 import { getButtonColorStyle } from "../../../shared/utils";
 
 export const AcceptButton = styled(Button)`
@@ -77,10 +77,17 @@ export const Content = styled.div`
   font-size: 18px;
   font-weight: 400;
   padding: 10px 0;
+  text-align: center;
 `;
 
 export const Wrapper = styled(Board)`
   width: 500px;
   display: flex;
   flex-direction: column;
+`;
+
+export const Select = styled(UiSelect)`
+  width: 100%;
+  margin-bottom: 10px;
+  align-self: center;
 `;
