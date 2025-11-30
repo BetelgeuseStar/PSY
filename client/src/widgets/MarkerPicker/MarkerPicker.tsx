@@ -3,24 +3,27 @@ import type { MarkerInfo, PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { MarkerBar } from "./components";
 import { useState } from "react";
-import type { OpenModalFunc } from "../Modal";
+import type { OpenModalFunc } from "../Modal/useCustomModal.tsx";
+import type { ConfirmModalProps, MarkerModalProps } from "../Modal";
 
 //TODO: В запросе сортировать по рейтингу и по выбранным, но не на клиенте, что бы маркеры не выпрыгивали из под мышки
 
 type Props = {
   allowEdit?: boolean;
-  openModal: OpenModalFunc;
+  openDescriptionModal: OpenModalFunc<MarkerModalProps>;
+  openConfirmModal: OpenModalFunc<ConfirmModalProps>;
   sourceId?: number;
+  sourceName?: string;
   pickerState: PsyType;
 };
 export function MarkerPicker({
   allowEdit = false,
-  openModal,
+  openDescriptionModal,
+  openConfirmModal,
   pickerState,
   sourceId,
+  sourceName,
 }: Props) {
-  const sourceName = "???";
-
   const [markersList, setMarkersList] = useState<MarkerInfo[]>([
     {
       id: 1,
@@ -54,25 +57,15 @@ export function MarkerPicker({
     },
   ]);
 
-  function handleChangeRating(id: number): (rating: number) => void {
-    return (rating) => {
-      setMarkersList((prev) => {
-        return prev.map((marker) => {
-          if (marker.id == id) {
-            return { ...marker, rating };
-          }
-          return marker;
-        });
-      });
-    };
-  }
-
-  function handleChangeValue(id: number): (value: string) => void {
+  function setMarkerParam<P extends keyof MarkerInfo>(
+    id: number,
+    param: P,
+  ): (value: MarkerInfo[P]) => void {
     return (value) => {
       setMarkersList((prev) => {
         return prev.map((marker) => {
           if (marker.id == id) {
-            return { ...marker, value };
+            return { ...marker, [param]: value };
           }
           return marker;
         });
@@ -80,34 +73,43 @@ export function MarkerPicker({
     };
   }
 
-  function handleCheck(id: number): (checked: boolean) => void {
-    return (checked) => {
-      setMarkersList((prev) => {
-        return prev.map((marker) => {
-          if (marker.id == id) {
-            return { ...marker, picked: checked };
-          }
-          return marker;
-        });
-      });
-    };
+  function deleteHandler(id: number, value: string) {
+    openConfirmModal({
+      title: "Удалить маркер?",
+      message: `Вы уверены что хотите удалить маркер: "${value}" из источника: "${sourceName}"?`,
+      okButtonText: "Удалить",
+      //TODO: функция удаления маркера
+      onOk: () => void 0,
+    });
   }
 
   return (
     <St.Wrapper>
       {markersList.map((marker) => {
-        const { id } = marker;
+        const { id, value, rating, picked, ...restMarker } = marker;
+
+        function openDescriptionHandler() {
+          openDescriptionModal({
+            ...restMarker,
+            value,
+            rating,
+            sourceName,
+          });
+        }
 
         return (
           <MarkerBar
-            {...marker}
             key={id}
-            onChangeRating={handleChangeRating(id)}
-            onPick={handleCheck(id)}
-            onChangeValue={handleChangeValue(id)}
+            onChangeRating={setMarkerParam(id, "rating")}
+            onPick={setMarkerParam(id, "picked")}
+            onChangeValue={setMarkerParam(id, "value")}
+            onOpenDescription={openDescriptionHandler}
+            onDelete={() => deleteHandler(id, value)}
             allowEdit={allowEdit ?? false}
-            openModal={openModal}
             sourceName={sourceName}
+            value={value}
+            rating={rating}
+            picked={picked}
           />
         );
       })}

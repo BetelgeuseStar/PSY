@@ -10,7 +10,7 @@ import {
 
 export function MarkerDescriptionModal({
   isOpen,
-  closeHandler,
+  onClose,
   value,
   extraInfo,
   rating,
@@ -23,7 +23,7 @@ export function MarkerDescriptionModal({
       <St.Wrapper>
         <ModalHeader>
           <ModalTitle>Описание маркера</ModalTitle>
-          <CloseIcon onClick={closeHandler} />
+          <CloseIcon onClick={onClose} />
         </ModalHeader>
         <St.Body>
           <St.Content>
@@ -41,7 +41,7 @@ export function MarkerDescriptionModal({
             <St.ExtraInfo>{extraInfo}</St.ExtraInfo>
           </St.Content>
           <St.Footer>
-            <St.SourceName>{`Источник: ${sourceName ?? ""}`}</St.SourceName>
+            <St.SourceName>{sourceName ?? ""}</St.SourceName>
             <St.RatingWrapper>
               <Rating rating={rating} readonly />
             </St.RatingWrapper>

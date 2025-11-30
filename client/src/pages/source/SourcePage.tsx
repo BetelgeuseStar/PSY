@@ -3,6 +3,7 @@ import { MarkerPicker } from "../../widgets/MarkerPicker";
 import { SourceMainPanel } from "./components";
 import { useParams } from "react-router";
 import {
+  useAddSourceModal,
   useConfirmModal,
   useMarkerDescriptionModal,
 } from "../../widgets/Modal";
@@ -27,15 +28,19 @@ export function SourcePage() {
     psyLevel: 1,
   });
 
+  const usedSourcesNames = ["Первый источник", "Второй источник"];
+
   const { isPublic } = source;
 
   const { ModalComponent: ConfirmModalComponent, modal: confirmModal } =
     useConfirmModal();
   const { ModalComponent: MarkerModalComponent, modal: markerModal } =
     useMarkerDescriptionModal();
+  const { ModalComponent: AddSourceModalComponent, modal: addSourceModal } =
+    useAddSourceModal();
 
   function togglePublicHandler() {
-    confirmModal.confirm({
+    confirmModal.open({
       title: isPublic ? "Сделать приватным?" : "Сделать публичным?",
       message: isPublic
         ? "Этот источник будет скрыт от других пользователей"
@@ -45,12 +50,21 @@ export function SourcePage() {
   }
 
   function deleteHandler() {
-    confirmModal.confirm({
+    confirmModal.open({
       title: "Удалить источник?",
       message: "Вы уверены что хотите удалить источник?",
       okButtonText: "Удалить",
       // TODO: функция удаления
       onOk: () => void 0,
+    });
+  }
+
+  function addSourceHandler() {
+    addSourceModal.open({
+      title: "Добавить маркеры из источника",
+      // TODO: функция добавления маркеров
+      onOk: () => void 0,
+      okButtonText: "Добавить",
     });
   }
 
@@ -88,15 +102,20 @@ export function SourcePage() {
         source={source}
         pickerState={pickerState}
         onChangePickerState={changePickerStateHandler}
+        onAddSource={addSourceHandler}
+        usedSourcesNames={usedSourcesNames}
       />
       <MarkerPicker
         allowEdit={true}
         sourceId={source.id}
-        openModal={markerModal.open}
+        openDescriptionModal={markerModal.open}
         pickerState={pickerState}
+        sourceName={source.title}
+        openConfirmModal={confirmModal.open}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}
+      {AddSourceModalComponent}
     </St.Wrapper>
   );
 }

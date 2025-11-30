@@ -1,6 +1,7 @@
 import * as St from "./styled.ts";
 import {
   BackIcon,
+  BookIcon,
   DeleteIcon,
   InvisibleIcon,
   VisibleIcon,
@@ -21,6 +22,8 @@ type Props = {
   onDeletePerson: () => void;
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
+  onChangeSource: () => void;
+  sourceName: string;
 };
 
 export function PersonMainPanel({
@@ -32,6 +35,8 @@ export function PersonMainPanel({
   onDeletePerson,
   pickerState,
   onChangePickerState,
+  onChangeSource,
+  sourceName,
 }: Props) {
   const navigate = useNavigate();
 
@@ -47,11 +52,12 @@ export function PersonMainPanel({
           />
         </St.ExtraButtonsWrapper>
         <St.ExtraButtonsWrapper>
-          <IconButton icon={<DeleteIcon />} onClick={onDeletePerson} />
+          <IconButton icon={<BookIcon />} onClick={onChangeSource} />
           <IconButton
             icon={isPublic ? <VisibleIcon /> : <InvisibleIcon />}
             onClick={onToggleIsPublic}
           />
+          <IconButton icon={<DeleteIcon />} onClick={onDeletePerson} />
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
       <St.Photo src={photoUrl ?? (noPhoto as string)} />
@@ -70,6 +76,11 @@ export function PersonMainPanel({
             isTextArea
             style={{ height: "100%" }}
           />
+          {sourceName?.length ? (
+            <St.SourceText>{sourceName}</St.SourceText>
+          ) : (
+            <></>
+          )}
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={onChangePickerState} />
       </St.MainPanelWrapper>

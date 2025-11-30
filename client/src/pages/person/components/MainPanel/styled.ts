@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Board } from "../../../../shared/ui";
+import { Board, Text } from "../../../../shared/ui";
 import { PhotoPicker } from "../../../../widgets/PhotoPicker";
 
 export const Wrapper = styled.div`
@@ -42,4 +42,12 @@ export const InfoPanel = styled(Board)`
 
   width: 590px;
   height: 195px;
+`;
+
+export const SourceText = styled(Text)`
+  font-size: 18px;
+  font-style: italic;
+  color: #3ba4a9;
+  cursor: default;
+  margin-top: 12px;
 `;

@@ -1,20 +1,16 @@
-import type { PropsWithChildren, ReactElement } from "react";
+import type { ReactElement } from "react";
 import { useState } from "react";
 
 export type CommonModalProps = {
-  onOk: () => void;
-  onClose: () => void;
+  onOk?: () => void;
+  onClose?: () => void;
 };
 
 export type ModalComponent<P> = ReactElement<CommonModalProps & P>;
 
-export type OpenModalFunc<P extends PropsWithChildren> = (
-  props: CommonModalProps & P,
-) => void;
+export type OpenModalFunc<P> = (props: CommonModalProps & P) => void;
 
-export function useCustomModal<P extends PropsWithChildren>(
-  Component: ModalComponent<P>,
-): {
+export function useCustomModal<P>(Component: ModalComponent<P>): {
   ModalComponent: ModalComponent<P>;
   modal: {
     open: OpenModalFunc<P>;
@@ -26,11 +22,11 @@ export function useCustomModal<P extends PropsWithChildren>(
   const [customProps, setCustomProps] = useState<P>();
 
   function okHandler() {
-    onOkFunc();
+    onOkFunc?.();
     setIsOpen(false);
   }
   function closeHandler() {
-    onCloseFunc();
+    onCloseFunc?.();
     setIsOpen(false);
   }
 

@@ -3,6 +3,7 @@ import { PersonMainPanel } from "./components";
 import * as St from "./styled.ts";
 import { MarkerPicker } from "../../widgets/MarkerPicker";
 import {
+  useAddSourceModal,
   useConfirmModal,
   useMarkerDescriptionModal,
 } from "../../widgets/Modal";
@@ -29,6 +30,8 @@ export function PersonPage() {
     psyLevel: 1,
   });
 
+  const sourceName = "Какой-то источник";
+
   const { isPublic } = person;
 
   const { ModalComponent: MarkerModalComponent, modal: markerModal } =
@@ -37,8 +40,11 @@ export function PersonPage() {
   const { ModalComponent: ConfirmModalComponent, modal: confirmModal } =
     useConfirmModal();
 
-  async function togglePublicHandler() {
-    confirmModal.confirm({
+  const { ModalComponent: AddSourceModalComponent, modal: addSourceModal } =
+    useAddSourceModal();
+
+  function togglePublicHandler() {
+    confirmModal.open({
       title: isPublic ? "Сделать приватной?" : "Сделать публичной?",
       message: isPublic
         ? "Эта персона будет скрыта от других пользователей"
@@ -47,12 +53,19 @@ export function PersonPage() {
     });
   }
 
-  async function deleteHandler() {
-    confirmModal.confirm({
+  function deleteHandler() {
+    confirmModal.open({
       title: "Удалить персону?",
-      message: "Вы уверены что хотите удалить пресону?",
+      message: "Вы уверены что хотите удалить персону?",
       okButtonText: "Удалить",
       // TODO: функция удаления
+      onOk: () => void 0,
+    });
+  }
+
+  function changeSourceHandler() {
+    addSourceModal.open({
+      // TODO: функция изменения источника
       onOk: () => void 0,
     });
   }
@@ -91,14 +104,19 @@ export function PersonPage() {
         person={person}
         pickerState={pickerState}
         onChangePickerState={changePickerStateHandler}
+        onChangeSource={changeSourceHandler}
+        sourceName={sourceName}
       />
       <MarkerPicker
-        openModal={markerModal.open}
+        openDescriptionModal={markerModal.open}
+        openConfirmModal={confirmModal.open}
         sourceId={person.sourceId}
         pickerState={pickerState}
+        sourceName={sourceName}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}
+      {AddSourceModalComponent}
     </St.Wrapper>
   );
 }

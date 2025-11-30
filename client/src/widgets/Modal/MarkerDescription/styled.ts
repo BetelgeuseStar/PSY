@@ -55,6 +55,13 @@ export const Footer = styled.div`
   justify-content: space-between;
 `;
 
-export const SourceName = styled(Text)``;
+export const SourceName = styled(Text)`
+  font-size: 18px;
+  font-style: italic;
+  color: #3ba4a9;
+  cursor: default;
+`;
 
-export const RatingWrapper = styled.div``;
+export const RatingWrapper = styled.div`
+  display: flex;
+`;

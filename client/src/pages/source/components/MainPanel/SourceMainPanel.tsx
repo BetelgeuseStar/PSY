@@ -2,6 +2,7 @@ import * as St from "./styled.ts";
 import booksImg from "../../../../../public/img/books.jpg";
 import {
   BackIcon,
+  BookIcon,
   DeleteIcon,
   InvisibleIcon,
   VisibleIcon,
@@ -21,6 +22,8 @@ type Props = {
   onDeleteSource: () => void;
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
+  onAddSource: () => void;
+  usedSourcesNames: string[];
 };
 
 export function SourceMainPanel({
@@ -32,6 +35,8 @@ export function SourceMainPanel({
   onToggleIsPublic,
   pickerState,
   onChangePickerState,
+  onAddSource,
+  usedSourcesNames,
 }: Props) {
   const navigate = useNavigate();
   const { isPublic, photoUrl, title, info } = source;
@@ -46,11 +51,12 @@ export function SourceMainPanel({
           />
         </St.ExtraButtonsWrapper>
         <St.ExtraButtonsWrapper>
-          <IconButton icon={<DeleteIcon />} onClick={onDeleteSource} />
+          <IconButton icon={<BookIcon />} onClick={onAddSource} />
           <IconButton
             icon={isPublic ? <VisibleIcon /> : <InvisibleIcon />}
             onClick={onToggleIsPublic}
           />
+          <IconButton icon={<DeleteIcon />} onClick={onDeleteSource} />
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
       <St.Photo src={photoUrl ?? (booksImg as string)} />
@@ -69,6 +75,11 @@ export function SourceMainPanel({
             isTextArea
             style={{ height: "100%" }}
           />
+          {usedSourcesNames?.length ? (
+            <St.SourceText>{usedSourcesNames.join(" + ")}</St.SourceText>
+          ) : (
+            <></>
+          )}
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={onChangePickerState} />
       </St.MainPanelWrapper>

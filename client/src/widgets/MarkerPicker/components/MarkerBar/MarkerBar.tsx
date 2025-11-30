@@ -12,23 +12,9 @@ export function MarkerBar({
   rating,
   onChangeRating,
   onChangeValue,
-  psyFunction,
-  psyLevel,
-  openModal,
-  extraInfo,
-  sourceName,
+  onOpenDescription,
+  onDelete,
 }: MarkerBarProps) {
-  function openDescriptionHandler() {
-    openModal({
-      psyFunction,
-      psyLevel,
-      value,
-      extraInfo,
-      rating,
-      sourceName,
-    });
-  }
-
   return (
     <St.Wrapper>
       <St.ActiveZone $disabled={allowEdit} onClick={() => onPick(!picked)}>
@@ -62,9 +48,9 @@ export function MarkerBar({
       <IconButton
         style={{ paddingBottom: 2 }}
         icon={<WorksheetIcon />}
-        onClick={openDescriptionHandler}
+        onClick={onOpenDescription}
       />
-      {allowEdit && <IconButton icon={<DeleteIcon />} />}
+      {allowEdit && <IconButton icon={<DeleteIcon />} onClick={onDelete} />}
       <St.RatingWrapper>
         <Rating rating={rating} onChange={onChangeRating} />
       </St.RatingWrapper>

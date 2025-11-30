@@ -130,3 +130,13 @@ export function CaretDownIcon(props: HTMLProps<HTMLElement>) {
     </IconWrapper>
   );
 }
+
+export function BookIcon(props: HTMLProps<HTMLElement>) {
+  return (
+    <IconWrapper {...props}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+        <path d="M54 8V0H12C6.49 0 2 4.49 2 10v44c0 5.51 4.49 10 10 10h50V8h-8zM6 10c0-3.31 2.69-6 6-6h38v40H12c-2.25 0-4.33.75-6 2V10zm6 50c-3.31 0-6-2.69-6-6s2.69-6 6-6h42V12h4v40H20v4h38v4H12z" />
+      </svg>
+    </IconWrapper>
+  );
+}

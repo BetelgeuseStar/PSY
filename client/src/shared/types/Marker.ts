@@ -1,5 +1,4 @@
 import type { PsyType } from "./PsyType.ts";
-import type { OpenModalFunc } from "../../widgets/Modal";
 
 export type MarkerInfo = PsyType & {
   id: number;
@@ -9,13 +8,15 @@ export type MarkerInfo = PsyType & {
   picked: boolean;
 };
 
-export type MarkerBarProps = MarkerInfo & {
+export type MarkerBarInfo = Pick<MarkerInfo, "value" | "rating" | "picked">;
+
+export type MarkerBarProps = MarkerBarInfo & {
   onPick: (picked: boolean) => void;
   onChangeRating: (rating: number) => void;
   onChangeValue: (value: string) => void;
+  onOpenDescription: () => void;
+  onDelete: () => void;
   allowEdit: boolean;
-  openModal: OpenModalFunc;
-  sourceName: string;
 };
 
 export type RatingProps = {
