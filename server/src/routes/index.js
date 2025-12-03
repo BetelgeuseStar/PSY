@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/userController");
 const personController = require("../controllers/personController");
+const sourceController = require("../controllers/sourceController");
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/authMiddleware");
 
@@ -23,5 +24,11 @@ router.get("/person/:id", personController.getPerson);
 router.post("/createPerson", personController.createPerson);
 router.post("/updatePerson", personController.updatePerson);
 router.post("/deletePerson/:id", personController.deletePerson);
+
+router.get("/sources", sourceController.getSourcesList);
+router.get("/source/:id", sourceController.getSource);
+router.post("/createSource", sourceController.createSource);
+router.post("/updateSource", sourceController.updateSource);
+router.post("/deleteSource/:id", sourceController.deleteSource);
 
 module.exports = router;

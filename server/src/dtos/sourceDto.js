@@ -4,6 +4,7 @@ class SourceDto {
   isPublic;
   info;
   photoUrl;
+  userId;
 
   constructor(model) {
     this.title = model.title;
@@ -11,8 +12,7 @@ class SourceDto {
     this.id = model.id;
     this.info = model.info;
     this.photoUrl = model.photoUrl;
-    this.userId = model.userId;
-    this.personId = model.personId;
+    this.userId = model.UserId;
   }
 }
 

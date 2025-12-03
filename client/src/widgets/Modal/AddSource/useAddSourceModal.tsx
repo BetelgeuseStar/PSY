@@ -3,9 +3,11 @@ import { AddSourceModal } from "./AddSourceModal.tsx";
 
 export type AddSourceModalProps = {
   message: string;
+  onPickSource: (sourceId: number) => void;
   title?: string;
   okButtonText?: string;
-  onPickSource: (sourceId: number) => void;
+  currentSourceId?: number;
+  excludeSourceId?: number;
 };
 
 export function useAddSourceModal() {

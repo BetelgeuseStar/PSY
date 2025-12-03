@@ -18,15 +18,6 @@ export function PersonsListPage() {
     fetchPersons();
   }, []);
 
-  // const persons: PersonInfo[] = [
-  //   {
-  //     id: 1,
-  //     name: "Илюша Мэддисон",
-  //     type: "ВФЛЭ",
-  //     photoUrl: undefined,
-  //   },
-  // ];
-
   async function addPersonHandler() {
     const newPerson = await createPerson();
     navigate(`/persons/${newPerson.id}`);
@@ -35,12 +26,11 @@ export function PersonsListPage() {
   return (
     <St.Wrapper>
       <EntityAdder text="Добавить персону" onClick={addPersonHandler} />
-      {persons.map(({ id, name, type, photoUrl }) => {
+      {persons.map(({ id, name, photoUrl }) => {
         return (
           <EntityPicker
             id={id}
             title={name ?? `Без имени ${id}`}
-            extraInfo={type}
             photoUrl={photoUrl ?? noPhoto}
             key={id}
             url="persons"

@@ -23,7 +23,6 @@ type Props = {
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
   onAddSource: () => void;
-  usedSourcesNames: string[];
 };
 
 export function SourceMainPanel({
@@ -36,7 +35,6 @@ export function SourceMainPanel({
   pickerState,
   onChangePickerState,
   onAddSource,
-  usedSourcesNames,
 }: Props) {
   const navigate = useNavigate();
   const { isPublic, photoUrl, title, info } = source;
@@ -64,22 +62,17 @@ export function SourceMainPanel({
         <St.InfoPanel>
           <EditableText
             onValueChange={onChangeTitle}
-            editorValue={title}
+            editorValue={title ?? ""}
             placeholder="Введите название"
             style={{ marginBottom: 8 }}
           />
           <EditableText
             onValueChange={onChangeInfo}
-            editorValue={info}
+            editorValue={info ?? ""}
             placeholder="Введите описание"
             isTextArea
             style={{ height: "100%" }}
           />
-          {usedSourcesNames?.length ? (
-            <St.SourceText>{usedSourcesNames.join(" + ")}</St.SourceText>
-          ) : (
-            <></>
-          )}
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={onChangePickerState} />
       </St.MainPanelWrapper>

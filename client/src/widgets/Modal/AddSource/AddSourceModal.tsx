@@ -3,9 +3,8 @@ import { CloseIcon, ModalHeader, ModalMask, ModalTitle } from "../styled.ts";
 import * as St from "./styled.ts";
 import type { AddSourceModalProps } from "./useAddSourceModal.tsx";
 import type { Source } from "../../../shared/api";
-import { getSourceListByUserId } from "../../../shared/api";
-import { useAuthContext } from "../../../app/AuthProvider";
-import { useState } from "react";
+import { getSourcesList } from "../../../shared/api";
+import { useEffect, useState } from "react";
 
 export function AddSourceModal({
   isOpen,
@@ -15,9 +14,9 @@ export function AddSourceModal({
   onClose,
   message,
   onPickSource,
+  currentSourceId,
+  excludeSourceId,
 }: AddSourceModalProps & CommonModalProps) {
-  const { user } = useAuthContext();
-
   const [pickedSourceId, setPickedSourceId] = useState<number>();
 
   function okHandler() {
@@ -25,27 +24,15 @@ export function AddSourceModal({
     onOk?.();
   }
 
-  const sourceList = getSourceListByUserId(user.id);
-  const tempSourceList: Source[] = [
-    {
-      id: 1,
-      title: "Первый источник",
-      isPublic: false,
-      info: "Инфа",
-    },
-    {
-      id: 2,
-      title: "Второй источник",
-      isPublic: false,
-      info: "Инфа",
-    },
-    {
-      id: 3,
-      title: "Третий источник",
-      isPublic: false,
-      info: "Инфа",
-    },
-  ];
+  const [sources, setSources] = useState<Source[]>([]);
+
+  async function fetchSources() {
+    setSources(await getSourcesList());
+  }
+
+  useEffect(() => {
+    fetchSources();
+  }, []);
 
   return (
     <ModalMask style={{ display: isOpen ? "flex" : "none" }}>
@@ -57,11 +44,14 @@ export function AddSourceModal({
         <St.Body>
           <St.Content>{message}</St.Content>
           <St.Select
+            defaultValue={currentSourceId}
             onChange={setPickedSourceId}
-            options={tempSourceList.map((source) => ({
-              value: source.id,
-              label: source.title,
-            }))}
+            options={sources
+              .filter((source) => source.id !== excludeSourceId)
+              .map((source) => ({
+                value: source.id,
+                label: source.title ?? `Без названия ${source.id}`,
+              }))}
           />
           <St.ButtonsWrapper>
             <St.AcceptButton onClick={okHandler}>

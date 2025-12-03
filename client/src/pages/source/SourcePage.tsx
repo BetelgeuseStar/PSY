@@ -1,34 +1,48 @@
 import * as St from "./styled";
 import { MarkerPicker } from "../../widgets/MarkerPicker";
 import { SourceMainPanel } from "./components";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   useAddSourceModal,
   useConfirmModal,
   useMarkerDescriptionModal,
 } from "../../widgets/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Source } from "../../shared/api";
+import {
+  debouncedFetchUpdateSource,
+  deleteSource,
+  getSource,
+} from "../../shared/api";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 
-const initSource: Source = {
-  id: 0,
-  title: "Синтаксис Любви",
-  info: "Отличный базовый источник по психософии ЭТО БАЗА!!",
-  isPublic: false,
-};
-
 export function SourcePage() {
   const { sourceId } = useParams();
+  const navigate = useNavigate();
 
-  const [source, setSource] = useState<Source>(initSource);
+  const [source, setSource] = useState<Source>({} as Source);
+  const [isFetched, setIsFetched] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isFetched) return;
+    debouncedFetchUpdateSource(source);
+  }, [source]);
+
+  async function fetchSource() {
+    const fetchedSource = await getSource(Number(sourceId));
+    setSource(fetchedSource);
+    setIsFetched(true);
+  }
+
+  useEffect(() => {
+    fetchSource();
+  }, []);
+
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
     psyLevel: 1,
   });
-
-  const usedSourcesNames = ["Первый источник", "Второй источник"];
 
   const { isPublic } = source;
 
@@ -54,19 +68,22 @@ export function SourcePage() {
       title: "Удалить источник?",
       message: "Вы уверены что хотите удалить источник?",
       okButtonText: "Удалить",
-      // TODO: функция удаления
-      onOk: () => void 0,
+      onOk: async () => {
+        await deleteSource(source.id);
+        navigate("/sources");
+      },
     });
   }
 
   function addSourceHandler() {
     addSourceModal.open({
-      title: "Добавить маркеры из источника",
-      // TODO: функция добавления маркеров
+      title: "Импорт маркеров",
+      // TODO: функция импорта маркеров
       onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
-      okButtonText: "Добавить",
+      excludeSourceId: source.id,
+      okButtonText: "Импортировать",
       message:
-        "Выберите источник маркеры которого вы хотите скопировать и добавить к маркерам текущего источника",
+        "Выберите источник, маркеры которого вы хотите импортировать и добавить к маркерам текущего источника",
     });
   }
 
@@ -93,14 +110,13 @@ export function SourcePage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
-        usedSourcesNames={usedSourcesNames}
       />
       <MarkerPicker
         allowEdit={true}
         sourceId={source.id}
         openDescriptionModal={markerModal.open}
         pickerState={pickerState}
-        sourceName={source.title}
+        sourceName={source.title ?? ""}
         openConfirmModal={confirmModal.open}
       />
       {MarkerModalComponent}

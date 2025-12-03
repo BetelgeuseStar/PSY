@@ -8,7 +8,11 @@ import {
   useMarkerDescriptionModal,
 } from "../../widgets/Modal";
 import type { Person, Source } from "../../shared/api";
-import { debouncedFetchUpdatePerson, getPerson } from "../../shared/api";
+import {
+  debouncedFetchUpdatePerson,
+  getPerson,
+  getSource,
+} from "../../shared/api";
 import { useEffect, useState } from "react";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
@@ -28,10 +32,20 @@ export function PersonPage() {
     debouncedFetchUpdatePerson(person);
   }, [person]);
 
+  useEffect(() => {
+    fetchSource();
+  }, [person.sourceId]);
+
   async function fetchPerson() {
     const fetchedPerson = await getPerson(Number(personId));
     setPerson(fetchedPerson);
     setIsFetched(true);
+  }
+
+  async function fetchSource() {
+    if (!person.sourceId) return;
+    const fetchedSource = await getSource(person.sourceId);
+    setSource(fetchedSource);
   }
 
   useEffect(() => {
@@ -79,6 +93,7 @@ export function PersonPage() {
   function changeSourceHandler() {
     addSourceModal.open({
       onPickSource: setPersonParamClosure("sourceId"),
+      currentSourceId: person.sourceId ?? undefined,
       message: "Выберите источник из которого будут взяты маркеры для персоны",
     });
   }
