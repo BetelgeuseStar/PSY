@@ -65,13 +65,13 @@ export function PersonMainPanel({
         <St.InfoPanel>
           <EditableText
             onValueChange={onChangeName}
-            editorValue={name}
+            editorValue={name ?? ""}
             placeholder="Введите имя"
             style={{ marginBottom: 8 }}
           />
           <EditableText
             onValueChange={onChangeInfo}
-            editorValue={info}
+            editorValue={info ?? ""}
             placeholder="Введите описание"
             isTextArea
             style={{ height: "100%" }}

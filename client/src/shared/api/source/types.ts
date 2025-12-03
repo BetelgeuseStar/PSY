@@ -1,7 +1,7 @@
 export type Source = {
   id: number;
-  title: string;
   isPublic: boolean;
-  info: string;
-  photoUrl?: string;
+  title: string | null;
+  info: string | null;
+  photoUrl: string | null;
 };

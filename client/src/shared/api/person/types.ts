@@ -1,8 +1,8 @@
 export type Person = {
   id: number;
-  name: string;
   isPublic: boolean;
-  info: string;
-  photoUrl?: string;
-  sourceId?: number;
+  name: string | null;
+  info: string | null;
+  photoUrl: string | null;
+  sourceId: number | null;
 };

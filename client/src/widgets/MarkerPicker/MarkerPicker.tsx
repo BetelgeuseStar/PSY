@@ -12,7 +12,7 @@ type Props = {
   allowEdit?: boolean;
   openDescriptionModal: OpenModalFunc<MarkerModalProps>;
   openConfirmModal: OpenModalFunc<ConfirmModalProps>;
-  sourceId?: number;
+  sourceId: number | null;
   sourceName?: string;
   pickerState: PsyType;
 };

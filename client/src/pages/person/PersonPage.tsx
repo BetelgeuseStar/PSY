@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { PersonMainPanel } from "./components";
 import * as St from "./styled.ts";
 import { MarkerPicker } from "../../widgets/MarkerPicker";
@@ -7,30 +7,41 @@ import {
   useConfirmModal,
   useMarkerDescriptionModal,
 } from "../../widgets/Modal";
-import type { Person } from "../../shared/api";
-import { useState } from "react";
+import type { Person, Source } from "../../shared/api";
+import { debouncedFetchUpdatePerson, getPerson } from "../../shared/api";
+import { useEffect, useState } from "react";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
-
-const initPerson: Person = {
-  id: 0,
-  name: "Илюша Мэддисон",
-  info: "Самый красивый человек на планете земля мы все его так любим сейчас поцелую в животик такого величественного человека",
-  isPublic: false,
-  photoUrl: undefined,
-  sourceId: undefined,
-};
+import { Loader } from "../../shared/ui";
+import { deletePerson } from "../../shared/api/person/deletePerson.ts";
 
 export function PersonPage() {
   const { personId } = useParams();
+  const navigate = useNavigate();
 
-  const [person, setPerson] = useState<Person>(initPerson);
+  const [person, setPerson] = useState<Person>({} as Person);
+  const [source, setSource] = useState<Source>({} as Source);
+  const [isFetched, setIsFetched] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!isFetched) return;
+    debouncedFetchUpdatePerson(person);
+  }, [person]);
+
+  async function fetchPerson() {
+    const fetchedPerson = await getPerson(Number(personId));
+    setPerson(fetchedPerson);
+    setIsFetched(true);
+  }
+
+  useEffect(() => {
+    fetchPerson();
+  }, []);
+
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
     psyLevel: 1,
   });
-
-  const sourceName = "Какой-то источник";
 
   const { isPublic } = person;
 
@@ -58,15 +69,16 @@ export function PersonPage() {
       title: "Удалить персону?",
       message: "Вы уверены что хотите удалить персону?",
       okButtonText: "Удалить",
-      // TODO: функция удаления
-      onOk: () => void 0,
+      onOk: async () => {
+        await deletePerson(person.id);
+        navigate("/persons");
+      },
     });
   }
 
   function changeSourceHandler() {
     addSourceModal.open({
-      // TODO: функция изменения источника
-      onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
+      onPickSource: setPersonParamClosure("sourceId"),
       message: "Выберите источник из которого будут взяты маркеры для персоны",
     });
   }
@@ -82,6 +94,8 @@ export function PersonPage() {
     };
   }
 
+  if (!person) return <Loader isLoading />;
+
   return (
     <St.Wrapper>
       <PersonMainPanel
@@ -94,14 +108,14 @@ export function PersonPage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onChangeSource={changeSourceHandler}
-        sourceName={sourceName}
+        sourceName={source.title ?? "Нет источника"}
       />
       <MarkerPicker
         openDescriptionModal={markerModal.open}
         openConfirmModal={confirmModal.open}
         sourceId={person.sourceId}
         pickerState={pickerState}
-        sourceName={sourceName}
+        sourceName={source.title ?? "Нет источника"}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}
