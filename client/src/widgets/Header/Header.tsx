@@ -3,7 +3,7 @@ import { Dropdown, Label, Link } from "../../shared/ui";
 import type { MenuProps } from "antd";
 import { useAuthContext } from "../../app/AuthProvider";
 import { useNavigate } from "react-router";
-import { getUsers } from "../../shared/api";
+import { getUsersList } from "../../shared/api";
 
 export function Header() {
   const { logout, user } = useAuthContext();
@@ -12,7 +12,9 @@ export function Header() {
   const path = window.location.pathname;
 
   function getUsersReq() {
-    getUsers().then((users) => console.log("Список пользователей: ", users));
+    getUsersList().then((users) =>
+      console.log("Список пользователей: ", users),
+    );
   }
 
   const dropdownItems: MenuProps["items"] = [

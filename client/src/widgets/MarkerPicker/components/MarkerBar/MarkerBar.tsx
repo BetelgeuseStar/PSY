@@ -1,8 +1,9 @@
 import * as St from "./styled";
-import { EditableText, IconButton, Text } from "../../../../shared/ui";
+import { EditableText, IconButton } from "../../../../shared/ui";
 import type { MarkerBarProps } from "../../../../shared/types";
 import { DeleteIcon, WorksheetIcon } from "../../../../shared/icons";
 import { Rating } from "../../../../entities/Rating";
+import { projectColors } from "../../../../shared/utils";
 
 export function MarkerBar({
   value,
@@ -34,14 +35,16 @@ export function MarkerBar({
               }}
             />
           ) : (
-            <Text
+            <St.ReadonlyText
               style={{
-                fontSize: 20,
-                color: !allowEdit && picked ? "#51B13A" : "white",
+                color:
+                  !allowEdit && picked
+                    ? projectColors.green
+                    : projectColors.white,
               }}
             >
               {value}
-            </Text>
+            </St.ReadonlyText>
           )}
         </St.TextWrapper>
       </St.ActiveZone>
@@ -52,7 +55,11 @@ export function MarkerBar({
       />
       {allowEdit && <IconButton icon={<DeleteIcon />} onClick={onDelete} />}
       <St.RatingWrapper>
-        <Rating rating={rating} onChange={onChangeRating} />
+        <Rating
+          rating={rating}
+          onChange={onChangeRating}
+          readonly={!allowEdit}
+        />
       </St.RatingWrapper>
     </St.Wrapper>
   );

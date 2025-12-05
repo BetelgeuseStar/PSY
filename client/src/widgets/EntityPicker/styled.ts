@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Board, Text } from "../../shared/ui";
 import { PlusIcon } from "../../shared/icons";
+import { projectColors } from "../../shared/utils";
 
 export const Wrapper = styled(Board)`
   width: 300px;
@@ -42,6 +43,7 @@ export const Photo = styled.img`
 
 export const Name = styled(Text)`
   font-size: 20px;
+  color: ${projectColors.white};
 `;
 
 export const Type = styled(Text)`

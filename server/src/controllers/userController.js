@@ -1,6 +1,7 @@
 const userService = require("../services/userService");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exeptions/apiError");
+const UserDto = require("../dtos/userDto");
 
 class UserController {
   async registration(req, res, next) {
@@ -75,10 +76,24 @@ class UserController {
     }
   }
 
-  async getUsers(req, res, next) {
+  async getUsersList(req, res, next) {
     try {
       const users = await userService.getAllUsers();
       return res.json(users);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getUser(req, res, next) {
+    try {
+      const id = req.params.id;
+      const userData = await userService.getUser(id);
+
+      if (!userData) return res.json(404);
+
+      const userDto = new UserDto(userData);
+      res.json({ id: userDto.id, login: userDto.login });
     } catch (e) {
       next(e);
     }

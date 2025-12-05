@@ -1,4 +1,5 @@
 import * as St from "./styled";
+import { projectColors } from "../../shared/utils";
 
 type StarProps = {
   isActive: boolean;
@@ -20,7 +21,17 @@ export function Star({
       onMouseLeave={() => onChangeHover(false)}
       onClick={onClick}
     >
-      {isActive ? <St.ActiveStarIcon /> : <St.InactiveStarIcon />}
+      {isActive ? (
+        <St.ActiveStarIcon
+          style={{
+            fill: readonly
+              ? projectColors.starReadonly
+              : projectColors.starEditable,
+          }}
+        />
+      ) : (
+        <St.InactiveStarIcon />
+      )}
     </St.StarWrapper>
   );
 }

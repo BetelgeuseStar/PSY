@@ -23,6 +23,7 @@ type Props = {
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
   onAddSource: () => void;
+  authorName: string;
 };
 
 export function SourceMainPanel({
@@ -35,9 +36,12 @@ export function SourceMainPanel({
   pickerState,
   onChangePickerState,
   onAddSource,
+  authorName,
 }: Props) {
   const navigate = useNavigate();
   const { isPublic, photoUrl, title, info } = source;
+
+  const isReadOnly = false;
 
   return (
     <St.Wrapper>
@@ -64,7 +68,7 @@ export function SourceMainPanel({
             onValueChange={onChangeTitle}
             editorValue={title ?? ""}
             placeholder="Введите название"
-            style={{ marginBottom: 8 }}
+            isReadOnly={isReadOnly}
           />
           <EditableText
             onValueChange={onChangeInfo}
@@ -72,7 +76,13 @@ export function SourceMainPanel({
             placeholder="Введите описание"
             isTextArea
             style={{ height: "100%" }}
+            isReadOnly={isReadOnly}
           />
+          <St.ExtraInfoWrapper>
+            <St.ExtraInfoLine>
+              Автор: <St.ExtraInfoText>{authorName}</St.ExtraInfoText>
+            </St.ExtraInfoLine>
+          </St.ExtraInfoWrapper>
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={onChangePickerState} />
       </St.MainPanelWrapper>

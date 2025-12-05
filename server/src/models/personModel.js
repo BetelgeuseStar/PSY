@@ -10,7 +10,7 @@ const Person = sequelize.define("Person", {
     defaultValue: false,
   },
   info: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT("long"),
   },
   photoUrl: {
     type: DataTypes.STRING,

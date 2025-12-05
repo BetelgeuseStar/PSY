@@ -13,8 +13,6 @@ export const Wrapper = styled.div`
 export const ActiveStarIcon = styled(StarIcon)`
   width: 25px;
   height: 25px;
-
-  fill: #dfb300;
 `;
 
 export const InactiveStarIcon = styled(StarIcon)`

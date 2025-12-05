@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { projectColors } from "../../utils";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -28,10 +29,24 @@ export const Wrapper = styled.div`
 export const Input = styled.input`
   overflow: hidden;
   text-overflow: ellipsis;
+  color: ${projectColors.editable};
+
+  &:read-only {
+    color: ${projectColors.white};
+    cursor: default;
+  }
 `;
 
 export const TextArea = styled.textarea`
   font-size: 18px;
   resize: none;
-  scrollbar-width: none;
+  color: ${projectColors.editable};
+
+  scrollbar-color: ${projectColors.default} transparent;
+  scrollbar-width: thin;
+
+  &:read-only {
+    color: ${projectColors.white};
+    cursor: default;
+  }
 `;

@@ -1,4 +1,4 @@
 export * from "./auth";
-export * from "./getUsers.ts";
+export * from "./user";
 export * from "./person";
 export * from "./source";

@@ -79,6 +79,10 @@ class UserService {
     return await User.findAll();
   }
 
+  async getUser(id) {
+    return await User.findOne({ where: { id } });
+  }
+
   async getUserByRefreshToken(refreshToken) {
     if (!refreshToken) {
       throw new ApiError.UnauthorizedError();

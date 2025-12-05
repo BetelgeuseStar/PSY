@@ -18,6 +18,8 @@ import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
 import { deletePerson } from "../../shared/api/person/deletePerson.ts";
+import type { SafeUser } from "../../shared/api/user/types.ts";
+import { getUser } from "../../shared/api/user/getUser.ts";
 
 export function PersonPage() {
   const { personId } = useParams();
@@ -25,6 +27,7 @@ export function PersonPage() {
 
   const [person, setPerson] = useState<Person>({} as Person);
   const [source, setSource] = useState<Source>({} as Source);
+  const [author, setAuthor] = useState<SafeUser>({} as SafeUser);
   const [isFetched, setIsFetched] = useState<boolean>(false);
 
   useEffect(() => {
@@ -35,6 +38,16 @@ export function PersonPage() {
   useEffect(() => {
     fetchSource();
   }, [person.sourceId]);
+
+  useEffect(() => {
+    if (!isFetched) return;
+    fetchAuthor();
+  }, [person.userId]);
+
+  async function fetchAuthor() {
+    const fetchedAuthor = await getUser(Number(person.userId));
+    setAuthor(fetchedAuthor);
+  }
 
   async function fetchPerson() {
     const fetchedPerson = await getPerson(Number(personId));
@@ -123,7 +136,8 @@ export function PersonPage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onChangeSource={changeSourceHandler}
-        sourceName={source.title ?? "Нет источника"}
+        sourceName={source.title}
+        authorName={author.login}
       />
       <MarkerPicker
         openDescriptionModal={markerModal.open}

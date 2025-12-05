@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Board, Text } from "../../../../shared/ui";
 import { PhotoPicker } from "../../../../widgets/PhotoPicker";
+import { projectColors } from "../../../../shared/utils";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -39,15 +40,42 @@ export const InfoPanel = styled(Board)`
   flex-direction: column;
   align-items: start;
   padding: 15px;
+  gap: 5px;
 
   width: 590px;
   height: 195px;
 `;
 
-export const SourceText = styled(Text)`
+export const ExtraInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
   font-size: 18px;
   font-style: italic;
-  color: #3ba4a9;
+  color: #9e3954;
   cursor: default;
-  margin-top: 12px;
+
+  width: 100%;
+`;
+
+export const ExtraInfoLine = styled.div`
+  display: flex;
+  align-items: center;
+
+  overflow: hidden;
+  width: 100%;
+`;
+
+export const ExtraInfoText = styled(Text)`
+  font-size: 18px;
+  font-style: italic;
+  color: ${projectColors.darkText};
+  cursor: default;
+
+  margin-left: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  line-height: 21px;
 `;

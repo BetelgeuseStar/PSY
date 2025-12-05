@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import { Board } from "../../../../shared/ui";
+import { Board, Text } from "../../../../shared/ui";
 import { CheckIcon as OuterCheckIcon } from "../../../../shared/icons";
+import { projectColors } from "../../../../shared/utils";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -44,7 +45,7 @@ export const Checkbox = styled.div`
   width: 24px;
   height: 24px;
 
-  background: #fffdfd;
+  background: ${projectColors.white};
   border: 1px solid #b38687;
 
   padding: 2px 0;
@@ -67,4 +68,8 @@ export const TextWrapper = styled(Board)`
 export const RatingWrapper = styled(Board)`
   display: flex;
   width: 150px;
+`;
+
+export const ReadonlyText = styled(Text)`
+  font-size: 20px;
 `;

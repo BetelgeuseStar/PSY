@@ -9,8 +9,6 @@ export function getApi(withToken = true) {
     baseURL: API_URL,
   });
 
-  //TODO: Проверить нормально работу токенов
-
   if (withToken) {
     instance.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;

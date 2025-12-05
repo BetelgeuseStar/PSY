@@ -16,18 +16,31 @@ import {
 } from "../../shared/api";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
+import { getUser } from "../../shared/api/user/getUser.ts";
+import type { SafeUser } from "../../shared/api/user/types.ts";
 
 export function SourcePage() {
   const { sourceId } = useParams();
   const navigate = useNavigate();
 
   const [source, setSource] = useState<Source>({} as Source);
+  const [author, setAuthor] = useState({} as SafeUser);
   const [isFetched, setIsFetched] = useState<boolean>(false);
 
   useEffect(() => {
     if (!isFetched) return;
     debouncedFetchUpdateSource(source);
   }, [source]);
+
+  useEffect(() => {
+    if (!isFetched) return;
+    fetchAuthor();
+  }, [source.userId]);
+
+  async function fetchAuthor() {
+    const fetchedAuthor = await getUser(Number(source.userId));
+    setAuthor(fetchedAuthor);
+  }
 
   async function fetchSource() {
     const fetchedSource = await getSource(Number(sourceId));
@@ -110,6 +123,7 @@ export function SourcePage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
+        authorName={author.login}
       />
       <MarkerPicker
         allowEdit={true}

@@ -10,7 +10,7 @@ const Source = sequelize.define("Source", {
     defaultValue: false,
   },
   info: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT("long"),
   },
   photoUrl: {
     type: DataTypes.STRING,
