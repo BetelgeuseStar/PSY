@@ -5,8 +5,7 @@ const SourceDto = require("../dtos/sourceDto");
 class SourceController {
   async getSourcesList(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
       const sourcesData = await sourceService.getSourcesList(user.id);
 
       const sources = sourcesData.map((source) => new SourceDto(source));
@@ -18,8 +17,7 @@ class SourceController {
 
   async getSource(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
 
       const id = req.params.id;
       const sourceData = await sourceService.getSource(id, user.id);
@@ -35,8 +33,8 @@ class SourceController {
 
   async createSource(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
+
       const newSource = await sourceService.createSource(user.id);
       return res.json(newSource);
     } catch (e) {
@@ -56,8 +54,7 @@ class SourceController {
 
   async deleteSource(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
 
       const id = req.params.id;
       await sourceService.deleteSource(id, user.id);

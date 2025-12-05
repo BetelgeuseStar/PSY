@@ -1,12 +1,10 @@
-const userService = require("../services/userService");
 const personService = require("../services/personService");
 const PersonDto = require("../dtos/personDto");
 
 class PersonController {
   async getPersonsList(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
       const personsData = await personService.getPersonsList(user.id);
 
       const persons = personsData.map((person) => new PersonDto(person));
@@ -18,8 +16,7 @@ class PersonController {
 
   async getPerson(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
 
       const id = req.params.id;
       const personData = await personService.getPerson(id, user.id);
@@ -35,8 +32,7 @@ class PersonController {
 
   async createPerson(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
       const newPerson = await personService.createPerson(user.id);
       return res.json(newPerson);
     } catch (e) {
@@ -56,8 +52,7 @@ class PersonController {
 
   async deletePerson(req, res, next) {
     try {
-      const refreshToken = req.cookies.refreshToken;
-      const user = await userService.getUserByRefreshToken(refreshToken);
+      const user = req.user;
 
       const id = req.params.id;
       await personService.deletePerson(id, user.id);

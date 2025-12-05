@@ -59,7 +59,18 @@ class UserService {
   }
 
   async refresh(refreshToken) {
-    const userDto = await this.getUserByRefreshToken(refreshToken);
+    if (!refreshToken) {
+      throw new ApiError.UnauthorizedError();
+    }
+    const userData = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = tokenService.findToken(refreshToken);
+    if (!userData || !tokenFromDb) {
+      throw new ApiError.UnauthorizedError();
+    }
+
+    const user = await User.findOne({ where: { id: userData.id } });
+    const userDto = new UserDto(user);
+
     const tokens = tokenService.generateTokens({ ...userDto });
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
@@ -81,20 +92,6 @@ class UserService {
 
   async getUser(id) {
     return await User.findOne({ where: { id } });
-  }
-
-  async getUserByRefreshToken(refreshToken) {
-    if (!refreshToken) {
-      throw new ApiError.UnauthorizedError();
-    }
-    const userData = tokenService.validateRefreshToken(refreshToken);
-    const tokenFromDb = tokenService.findToken(refreshToken);
-    if (!userData || !tokenFromDb) {
-      throw new ApiError.UnauthorizedError();
-    }
-
-    const user = await User.findOne({ where: { id: userData.id } });
-    return new UserDto(user);
   }
 }
 
