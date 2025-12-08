@@ -31,7 +31,8 @@ export function SourcesListPage() {
           <EntityPicker
             id={id}
             title={title ?? `Без названия ${id}`}
-            photoUrl={photoUrl ?? booksImg}
+            photoUrl={photoUrl}
+            noPhoto={booksImg as string}
             key={id}
             url="sources"
           />

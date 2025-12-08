@@ -3,8 +3,10 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const personController = require("../controllers/personController");
 const sourceController = require("../controllers/sourceController");
+const filesController = require("../controllers/filesController");
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/authMiddleware");
+const multerMiddleware = require("../middlewares/multerMiddleware");
 
 router.post(
   "/registration",
@@ -31,5 +33,13 @@ router.get("/source/:id", authMiddleware, sourceController.getSource);
 router.post("/createSource", authMiddleware, sourceController.createSource);
 router.post("/updateSource", authMiddleware, sourceController.updateSource);
 router.post("/deleteSource/:id", authMiddleware, sourceController.deleteSource);
+
+router.post(
+  "/upload",
+  authMiddleware,
+  multerMiddleware,
+  filesController.upload,
+);
+router.post("/download", authMiddleware, filesController.download);
 
 module.exports = router;

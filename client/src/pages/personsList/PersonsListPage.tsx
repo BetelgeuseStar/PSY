@@ -1,10 +1,10 @@
 import * as St from "./styled.ts";
 import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
-import noPhoto from "../../../public/img/noPhoto.jpg";
 import type { Person } from "../../shared/api";
 import { createPerson, getPersonsList } from "../../shared/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import noPhoto from "../../../public/img/noPhoto.jpg";
 
 export function PersonsListPage() {
   const [persons, setPersons] = useState<Person[]>([]);
@@ -31,7 +31,8 @@ export function PersonsListPage() {
           <EntityPicker
             id={id}
             title={name ?? `Без имени ${id}`}
-            photoUrl={photoUrl ?? noPhoto}
+            photoUrl={photoUrl}
+            noPhoto={noPhoto as string}
             key={id}
             url="persons"
           />

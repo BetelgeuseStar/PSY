@@ -1,7 +1,8 @@
 import axios from "axios";
 import { refresh } from "./auth";
+import { SERVER_URL } from "../../app/config.ts";
 
-export const API_URL = "http://localhost:5000/api";
+export const API_URL = `${SERVER_URL}/api`;
 
 export function getApi(withToken = true) {
   const instance = axios.create({

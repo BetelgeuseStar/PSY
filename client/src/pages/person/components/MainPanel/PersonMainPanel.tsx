@@ -10,8 +10,9 @@ import { FunctionPicker } from "../../../../widgets/FunctionPicker";
 import type { PsyType } from "../../../../shared/types";
 import { EditableText, IconButton } from "../../../../shared/ui";
 import { useNavigate } from "react-router";
-import noPhoto from "../../../../../public/img/noPhoto.jpg";
 import type { Person } from "../../../../shared/api";
+import noPhoto from "../../../../../public/img/noPhoto.jpg";
+import { useFileByUrl } from "../../../../shared/hooks";
 
 type Props = {
   person: Person;
@@ -44,6 +45,8 @@ export function PersonMainPanel({
 
   const { name, info, isPublic, photoUrl } = person;
 
+  const fetchedPhotoUrl = useFileByUrl(photoUrl);
+
   const isReadOnly = false;
 
   return (
@@ -64,7 +67,10 @@ export function PersonMainPanel({
           <IconButton icon={<DeleteIcon />} onClick={onDeletePerson} />
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
-      <St.Photo src={photoUrl ?? (noPhoto as string)} />
+      <St.Photo
+        src={fetchedPhotoUrl ?? (noPhoto as string)}
+        onChangeUrl={onChangePhotoUrl}
+      />
       <St.MainPanelWrapper>
         <St.InfoPanel>
           <EditableText

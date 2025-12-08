@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
 export const Img = styled.img`
   height: 100%;
   width: 100%;
+  object-fit: cover;
 `;
 
 export const Upload = styled(AntUpload)`
