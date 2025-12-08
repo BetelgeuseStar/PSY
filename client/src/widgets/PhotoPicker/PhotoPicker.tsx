@@ -7,13 +7,17 @@ import { upload } from "../../shared/api";
 
 type Props = HTMLProps<HTMLImageElement> & {
   onChangeUrl: (url: string) => void;
+  fileName: string;
 };
 
 export const PhotoPicker = forwardRef(PhotoPickerInner);
 
-function PhotoPickerInner({ src, onChangeUrl, ...restProps }: Props, ref) {
+function PhotoPickerInner(
+  { src, fileName, onChangeUrl, ...restProps }: Props,
+  ref,
+) {
   async function uploadHandler(options) {
-    const url = (await upload(options)) as string;
+    const url = (await upload(options, fileName)) as string;
     onChangeUrl(url);
   }
 

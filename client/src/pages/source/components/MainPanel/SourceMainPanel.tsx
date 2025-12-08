@@ -61,7 +61,10 @@ export function SourceMainPanel({
           <IconButton icon={<DeleteIcon />} onClick={onDeleteSource} />
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
-      <St.Photo src={photoUrl ?? (booksImg as string)} />
+      <St.Photo
+        src={photoUrl ?? (booksImg as string)}
+        fileName={`source_${source.id}_photo`}
+      />
       <St.MainPanelWrapper>
         <St.InfoPanel>
           <EditableText

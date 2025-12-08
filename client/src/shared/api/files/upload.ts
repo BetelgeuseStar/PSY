@@ -1,11 +1,12 @@
 import { message } from "antd";
 import { getApi } from "../api.ts";
 
-export async function upload(options) {
+export async function upload(options, fileName: string) {
   const { onSuccess, onError, file, onProgress } = options;
 
   const formData = new FormData();
-  formData.append("file", file); // 'file' should match the field name expected by your backend
+  formData.append("file", file);
+  formData.append("fileName", fileName);
 
   const config = {
     headers: {

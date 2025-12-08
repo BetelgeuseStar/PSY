@@ -6,7 +6,17 @@ const sourceController = require("../controllers/sourceController");
 const filesController = require("../controllers/filesController");
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/authMiddleware");
-const multerMiddleware = require("../middlewares/multerMiddleware");
+const sharperMidlleware = require("../middlewares/sharperMIddleware");
+const { memoryStorage } = require("multer");
+const multer = require("multer");
+
+const storage = memoryStorage();
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 5,
+  },
+});
 
 router.post(
   "/registration",
@@ -37,8 +47,8 @@ router.post("/deleteSource/:id", authMiddleware, sourceController.deleteSource);
 router.post(
   "/upload",
   authMiddleware,
-  multerMiddleware,
-  filesController.upload,
+  upload.single("file"),
+  sharperMidlleware,
 );
 router.post("/download", authMiddleware, filesController.download);
 

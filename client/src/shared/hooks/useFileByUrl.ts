@@ -19,5 +19,5 @@ export function useFileByUrl(url?: string | null) {
     };
   }, [url]);
 
-  return fileUrl;
+  return { fileUrl, refetch: getFileFetch };
 }

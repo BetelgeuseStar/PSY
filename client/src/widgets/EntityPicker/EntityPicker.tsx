@@ -21,11 +21,11 @@ function PersonPickerInner(
 ) {
   const navigate = useNavigate();
 
-  const fetchedPhotoUrl = useFileByUrl(photoUrl);
+  const { fileUrl } = useFileByUrl(photoUrl);
 
   return (
     <St.Wrapper onClick={() => navigate(`/${url}/${id}`)} ref={ref}>
-      <St.Photo src={fetchedPhotoUrl ?? (noPhoto as string)} />
+      <St.Photo src={fileUrl ?? (noPhoto as string)} />
       <St.InfoWrapper>
         <St.Name>{title}</St.Name>
         <St.Type>{extraInfo}</St.Type>

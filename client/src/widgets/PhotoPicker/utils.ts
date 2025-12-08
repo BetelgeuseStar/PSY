@@ -6,9 +6,9 @@ export const beforeUpload = (file: FileType) => {
   if (!isJpgOrPng) {
     message.error("Вы можете загрузить только JPG/PNG файл");
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
+  const isLt2M = file.size / 1024 / 1024 < 5;
   if (!isLt2M) {
-    message.error("Картинка должна быть меньше 2 Мб");
+    message.error("Картинка должна быть меньше 5 Мб");
   }
   return isJpgOrPng && isLt2M;
 };

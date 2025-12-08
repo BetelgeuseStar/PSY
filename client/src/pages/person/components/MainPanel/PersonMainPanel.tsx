@@ -45,7 +45,14 @@ export function PersonMainPanel({
 
   const { name, info, isPublic, photoUrl } = person;
 
-  const fetchedPhotoUrl = useFileByUrl(photoUrl);
+  function changePhotoUrlHandler(value: string) {
+    if (!value) return;
+    onChangePhotoUrl(value);
+    // Если url одинаковый, то браузер закэширует фото
+    if (value === photoUrl) refetch();
+  }
+
+  const { fileUrl, refetch } = useFileByUrl(photoUrl);
 
   const isReadOnly = false;
 
@@ -68,8 +75,9 @@ export function PersonMainPanel({
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
       <St.Photo
-        src={fetchedPhotoUrl ?? (noPhoto as string)}
-        onChangeUrl={onChangePhotoUrl}
+        src={fileUrl ?? (noPhoto as string)}
+        onChangeUrl={changePhotoUrlHandler}
+        fileName={`person_${person.id}_photo`}
       />
       <St.MainPanelWrapper>
         <St.InfoPanel>
