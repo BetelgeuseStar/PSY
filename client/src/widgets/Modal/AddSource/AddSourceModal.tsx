@@ -17,7 +17,9 @@ export function AddSourceModal({
   currentSourceId,
   excludeSourceId,
 }: AddSourceModalProps & CommonModalProps) {
-  const [pickedSourceId, setPickedSourceId] = useState<number>();
+  const [pickedSourceId, setPickedSourceId] = useState<number | undefined>(
+    currentSourceId,
+  );
 
   function okHandler() {
     if (pickedSourceId) onPickSource(pickedSourceId);
@@ -46,6 +48,7 @@ export function AddSourceModal({
           <St.Select
             defaultValue={currentSourceId}
             onChange={setPickedSourceId}
+            value={pickedSourceId}
             options={sources
               .filter((source) => source.id !== excludeSourceId)
               .map((source) => ({

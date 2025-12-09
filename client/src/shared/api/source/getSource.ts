@@ -10,7 +10,7 @@ export async function getSource(id: number) {
 
 export function useSource(id: number | null) {
   const queryFn = () => {
-    if (!id) return;
+    if (!id) return null;
     return getSource(id);
   };
 

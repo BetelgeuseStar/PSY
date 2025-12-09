@@ -16,7 +16,7 @@ export async function getFile(url?: string) {
 
 export function useGetFile(url?: string | null) {
   const queryFn = () => {
-    if (!url) return;
+    if (!url) return null;
     return getFile(url);
   };
 

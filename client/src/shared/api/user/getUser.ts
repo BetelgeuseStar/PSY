@@ -10,7 +10,7 @@ export async function getUser(id: number) {
 
 export function useUser(id?: number | null) {
   const queryFn = () => {
-    if (!id) return;
+    if (!id) return null;
     return getUser(id);
   };
 
