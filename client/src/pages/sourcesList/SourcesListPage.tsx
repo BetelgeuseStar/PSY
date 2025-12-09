@@ -1,22 +1,14 @@
 import * as St from "./styled.ts";
 import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
 import booksImg from "../../../public/img/books.jpg";
-import { useEffect, useState } from "react";
-import type { Source } from "../../shared/api";
-import { createSource, getSourcesList } from "../../shared/api";
+import { createSource, useSourcesList } from "../../shared/api";
 import { useNavigate } from "react-router";
+import { Loader } from "../../shared/ui";
 
 export function SourcesListPage() {
-  const [sources, setSources] = useState<Source[]>([]);
   const navigate = useNavigate();
 
-  async function fetchSources() {
-    setSources(await getSourcesList());
-  }
-
-  useEffect(() => {
-    fetchSources();
-  }, []);
+  const { data: sources, isFetching } = useSourcesList();
 
   async function addSourceHandler() {
     const newSource = await createSource();
@@ -25,8 +17,9 @@ export function SourcesListPage() {
 
   return (
     <St.Wrapper>
+      <Loader isLoading={isFetching} />
       <EntityAdder text="Добавить источник" onClick={addSourceHandler} />
-      {sources.map(({ id, title, photoUrl }) => {
+      {sources?.map(({ id, title, photoUrl }) => {
         return (
           <EntityPicker
             id={id}

@@ -8,6 +8,10 @@ export const Wrapper = styled.div`
   background: linear-gradient(180deg, #754447 0%, #623437 50%, #4e2426 100%);
   overflow: hidden;
   position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Img = styled.img`

@@ -1,23 +1,21 @@
 import { useEffect, useState } from "react";
-import { getFile } from "../api/files/getFile.ts";
+import { useGetFile } from "../api/files/getFile.ts";
 
 export function useFileByUrl(url?: string | null) {
   const [fileUrl, setFileUrl] = useState<string>();
 
-  async function getFileFetch() {
-    if (!url) return;
-    const photoFile = await getFile(url);
-    const tempUrl = URL.createObjectURL(photoFile);
-    setFileUrl(tempUrl);
-  }
+  const { data: file, refetch, isFetching, dataUpdatedAt } = useGetFile(url);
 
   useEffect(() => {
-    getFileFetch();
+    if (!file) return;
+    const objectUrl = URL.createObjectURL(file);
+    setFileUrl(objectUrl);
+
     return () => {
       if (!fileUrl) return;
       URL.revokeObjectURL(fileUrl);
     };
-  }, [url]);
+  }, [dataUpdatedAt]);
 
-  return { fileUrl, refetch: getFileFetch };
+  return { fileUrl, refetch, isFetching };
 }

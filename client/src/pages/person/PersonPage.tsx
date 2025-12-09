@@ -7,70 +7,54 @@ import {
   useConfirmModal,
   useMarkerDescriptionModal,
 } from "../../widgets/Modal";
-import type { Person, Source } from "../../shared/api";
+import type { Person } from "../../shared/api";
 import {
   debouncedFetchUpdatePerson,
-  getPerson,
-  getSource,
+  usePerson,
+  useSource,
 } from "../../shared/api";
 import { useEffect, useState } from "react";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
 import { deletePerson } from "../../shared/api/person/deletePerson.ts";
-import type { SafeUser } from "../../shared/api/user/types.ts";
-import { getUser } from "../../shared/api/user/getUser.ts";
+import { useUser } from "../../shared/api/user/getUser.ts";
 
 export function PersonPage() {
   const { personId } = useParams();
   const navigate = useNavigate();
 
   const [person, setPerson] = useState<Person>({} as Person);
-  const [source, setSource] = useState<Source>({} as Source);
-  const [author, setAuthor] = useState<SafeUser>({} as SafeUser);
-  const [isFetched, setIsFetched] = useState<boolean>(false);
+
+  const {
+    data: fetchedPerson,
+    isFetching: personIsFetching,
+    isFetched: personIsFetched,
+    dataUpdatedAt,
+  } = usePerson(Number(personId));
+
+  const { data: source, isFetching: sourceIsFetching } = useSource(
+    person.sourceId,
+  );
+
+  const { data: author, isFetching: authorIsFetching } = useUser(person.userId);
+
+  const isLoading = personIsFetching || sourceIsFetching || authorIsFetching;
 
   useEffect(() => {
-    if (!isFetched) return;
+    if (!fetchedPerson) return;
+    setPerson(fetchedPerson);
+  }, [dataUpdatedAt]);
+
+  useEffect(() => {
+    if (!personIsFetched) return;
     debouncedFetchUpdatePerson(person);
   }, [person]);
-
-  useEffect(() => {
-    fetchSource();
-  }, [person.sourceId]);
-
-  useEffect(() => {
-    if (!isFetched) return;
-    fetchAuthor();
-  }, [person.userId]);
-
-  async function fetchAuthor() {
-    const fetchedAuthor = await getUser(Number(person.userId));
-    setAuthor(fetchedAuthor);
-  }
-
-  async function fetchPerson() {
-    const fetchedPerson = await getPerson(Number(personId));
-    setPerson(fetchedPerson);
-    setIsFetched(true);
-  }
-
-  async function fetchSource() {
-    if (!person.sourceId) return;
-    const fetchedSource = await getSource(person.sourceId);
-    setSource(fetchedSource);
-  }
-
-  useEffect(() => {
-    fetchPerson();
-  }, []);
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
     psyLevel: 1,
   });
-
-  const { isPublic } = person;
 
   const { ModalComponent: MarkerModalComponent, modal: markerModal } =
     useMarkerDescriptionModal();
@@ -80,6 +64,8 @@ export function PersonPage() {
 
   const { ModalComponent: AddSourceModalComponent, modal: addSourceModal } =
     useAddSourceModal();
+
+  const { isPublic } = person;
 
   function togglePublicHandler() {
     confirmModal.open({
@@ -126,6 +112,7 @@ export function PersonPage() {
 
   return (
     <St.Wrapper>
+      <Loader isLoading={isLoading} />
       <PersonMainPanel
         onToggleIsPublic={togglePublicHandler}
         onDeletePerson={deleteHandler}
@@ -136,15 +123,16 @@ export function PersonPage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onChangeSource={changeSourceHandler}
-        sourceName={source.title}
-        authorName={author.login}
+        sourceName={source?.title}
+        authorName={author?.login}
+        isLoading={isLoading}
       />
       <MarkerPicker
         openDescriptionModal={markerModal.open}
         openConfirmModal={confirmModal.open}
         sourceId={person.sourceId}
         pickerState={pickerState}
-        sourceName={source.title ?? "Нет источника"}
+        sourceName={source?.title ?? "Нет источника"}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}

@@ -12,45 +12,38 @@ import type { Source } from "../../shared/api";
 import {
   debouncedFetchUpdateSource,
   deleteSource,
-  getSource,
+  useSource,
 } from "../../shared/api";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
-import { getUser } from "../../shared/api/user/getUser.ts";
-import type { SafeUser } from "../../shared/api/user/types.ts";
+import { useUser } from "../../shared/api/user/getUser.ts";
 
 export function SourcePage() {
   const { sourceId } = useParams();
   const navigate = useNavigate();
 
-  const [source, setSource] = useState<Source>({} as Source);
-  const [author, setAuthor] = useState({} as SafeUser);
-  const [isFetched, setIsFetched] = useState<boolean>(false);
+  const [source, setSource] = useState({} as Source);
+
+  const {
+    data: fetchedSource,
+    isFetched,
+    dataUpdatedAt,
+    isFetching: sourceIsFetching,
+  } = useSource(Number(sourceId));
+
+  const { data: author, authorIsFetching } = useUser(source?.userId);
+
+  const isLoading = sourceIsFetching || authorIsFetching;
+
+  useEffect(() => {
+    if (!fetchedSource) return;
+    setSource(fetchedSource);
+  }, [dataUpdatedAt]);
 
   useEffect(() => {
     if (!isFetched) return;
     debouncedFetchUpdateSource(source);
   }, [source]);
-
-  useEffect(() => {
-    if (!isFetched) return;
-    fetchAuthor();
-  }, [source.userId]);
-
-  async function fetchAuthor() {
-    const fetchedAuthor = await getUser(Number(source.userId));
-    setAuthor(fetchedAuthor);
-  }
-
-  async function fetchSource() {
-    const fetchedSource = await getSource(Number(sourceId));
-    setSource(fetchedSource);
-    setIsFetched(true);
-  }
-
-  useEffect(() => {
-    fetchSource();
-  }, []);
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
@@ -82,7 +75,7 @@ export function SourcePage() {
       message: "Вы уверены что хотите удалить источник?",
       okButtonText: "Удалить",
       onOk: async () => {
-        await deleteSource(source.id);
+        await deleteSource(source!.id);
         navigate("/sources");
       },
     });
@@ -93,7 +86,7 @@ export function SourcePage() {
       title: "Импорт маркеров",
       // TODO: функция импорта маркеров
       onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
-      excludeSourceId: source.id,
+      excludeSourceId: source!.id,
       okButtonText: "Импортировать",
       message:
         "Выберите источник, маркеры которого вы хотите импортировать и добавить к маркерам текущего источника",
@@ -123,7 +116,8 @@ export function SourcePage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
-        authorName={author.login}
+        authorName={author?.login}
+        isLoading={isLoading}
       />
       <MarkerPicker
         allowEdit={true}

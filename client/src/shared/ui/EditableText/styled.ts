@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { projectColors } from "../../utils";
+import SkeletonInput from "antd/es/skeleton/Input";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -49,4 +50,8 @@ export const TextArea = styled.textarea`
     color: ${projectColors.white};
     cursor: default;
   }
+`;
+
+export const Skeleton = styled(SkeletonInput)`
+  width: 100% !important;
 `;

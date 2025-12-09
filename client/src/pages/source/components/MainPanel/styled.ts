@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Board, Text } from "../../../../shared/ui";
 import { PhotoPicker } from "../../../../widgets/PhotoPicker";
+import SkeletonInput from "antd/es/skeleton/Input";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -77,4 +78,8 @@ export const ExtraInfoText = styled(Text)`
   text-overflow: ellipsis;
 
   line-height: 21px;
+`;
+
+export const SkeletonText = styled(SkeletonInput)`
+  width: 100% !important;
 `;

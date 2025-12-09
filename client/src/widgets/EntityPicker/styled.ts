@@ -31,13 +31,21 @@ export const InfoWrapper = styled.div`
   align-items: center;
 `;
 
-export const Photo = styled.img`
+export const PhotoWrapper = styled.div`
   width: 256px;
   height: 230px;
 
   border: 2px solid #b38687;
   border-radius: 5px;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Photo = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 

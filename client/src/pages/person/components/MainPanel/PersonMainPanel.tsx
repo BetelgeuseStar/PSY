@@ -24,8 +24,9 @@ type Props = {
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
   onChangeSource: () => void;
-  sourceName: string | null;
-  authorName: string | null;
+  sourceName?: string | null;
+  authorName?: string | null;
+  isLoading: boolean;
 };
 
 export function PersonMainPanel({
@@ -40,6 +41,7 @@ export function PersonMainPanel({
   onChangeSource,
   sourceName,
   authorName,
+  ...restProps
 }: Props) {
   const navigate = useNavigate();
 
@@ -52,9 +54,16 @@ export function PersonMainPanel({
     if (value === photoUrl) refetch();
   }
 
-  const { fileUrl, refetch } = useFileByUrl(photoUrl);
+  const {
+    fileUrl,
+    refetch,
+    isFetching: FileIsFetching,
+  } = useFileByUrl(photoUrl ?? undefined);
 
   const isReadOnly = false;
+
+  const isPersonDataLoading = restProps.isLoading;
+  const isLoading = isPersonDataLoading || FileIsFetching;
 
   return (
     <St.Wrapper>
@@ -78,6 +87,7 @@ export function PersonMainPanel({
         src={fileUrl ?? (noPhoto as string)}
         onChangeUrl={changePhotoUrlHandler}
         fileName={`person_${person.id}_photo`}
+        isLoading={isLoading}
       />
       <St.MainPanelWrapper>
         <St.InfoPanel>
@@ -86,6 +96,7 @@ export function PersonMainPanel({
             editorValue={name ?? ""}
             placeholder="Введите имя"
             isReadOnly={isReadOnly}
+            isLoading={isPersonDataLoading}
           />
           <EditableText
             onValueChange={onChangeInfo}
@@ -94,18 +105,28 @@ export function PersonMainPanel({
             isTextArea
             style={{ height: "100%" }}
             isReadOnly={isReadOnly}
+            isLoading={isPersonDataLoading}
           />
           <St.ExtraInfoWrapper>
             <St.ExtraInfoLine>
-              Автор: <St.ExtraInfoText>{authorName ?? ""}</St.ExtraInfoText>
+              Автор:{" "}
+              {isPersonDataLoading ? (
+                <St.SkeletonText style={{ height: 21 }} />
+              ) : (
+                <St.ExtraInfoText>{authorName ?? ""}</St.ExtraInfoText>
+              )}
             </St.ExtraInfoLine>
             <St.ExtraInfoLine>
               Источник:
-              <St.ExtraInfoText
-                style={{ color: sourceName ? "#3ba4a9" : "red" }}
-              >
-                {sourceName ?? "Отсутствует"}
-              </St.ExtraInfoText>
+              {isPersonDataLoading ? (
+                <St.SkeletonText style={{ height: 21 }} />
+              ) : (
+                <St.ExtraInfoText
+                  style={{ color: sourceName ? "#3ba4a9" : "red" }}
+                >
+                  {sourceName ?? "Отсутствует"}
+                </St.ExtraInfoText>
+              )}
             </St.ExtraInfoLine>
           </St.ExtraInfoWrapper>
         </St.InfoPanel>

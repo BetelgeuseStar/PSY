@@ -8,6 +8,7 @@ export type EditableTextProps = {
   placeholder: string;
   isReadOnly?: boolean;
   isTextArea?: boolean;
+  isLoading?: boolean;
 } & HTMLProps<HTMLDivElement>;
 
 export const EditableText = forwardRef(EditableTextInner);
@@ -19,12 +20,15 @@ function EditableTextInner(props: EditableTextProps, ref) {
     isReadOnly = false,
     placeholder = "",
     isTextArea = false,
+    isLoading = false,
     ...restProps
   } = props;
 
   return (
     <St.Wrapper {...restProps} ref={ref}>
-      {isTextArea ? (
+      {isLoading ? (
+        <St.Skeleton style={{ height: isTextArea ? "100%" : 18 }} />
+      ) : isTextArea ? (
         <St.TextArea
           value={editorValue}
           onChange={(e) => onValueChange(e.target.value)}

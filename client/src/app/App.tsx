@@ -1,8 +1,11 @@
 import { ConfigProvider } from "antd";
 import { Router } from "./Router";
 import { AuthContextProvider } from "./AuthProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient();
+
   return (
     <ConfigProvider
       theme={{
@@ -18,9 +21,11 @@ function App() {
         },
       }}
     >
-      <AuthContextProvider>
-        <Router />
-      </AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthContextProvider>
+          <Router />
+        </AuthContextProvider>
+      </QueryClientProvider>
     </ConfigProvider>
   );
 }

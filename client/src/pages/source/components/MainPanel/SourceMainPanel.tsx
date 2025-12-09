@@ -1,5 +1,4 @@
 import * as St from "./styled.ts";
-import booksImg from "../../../../../public/img/books.jpg";
 import {
   BackIcon,
   BookIcon,
@@ -12,6 +11,8 @@ import type { PsyType } from "../../../../shared/types";
 import { EditableText, IconButton } from "../../../../shared/ui";
 import { useNavigate } from "react-router";
 import type { Source } from "../../../../shared/api";
+import { useFileByUrl } from "../../../../shared/hooks";
+import noPhoto from "../../../../../public/img/books.jpg";
 
 type Props = {
   source: Source;
@@ -23,7 +24,8 @@ type Props = {
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
   onAddSource: () => void;
-  authorName: string;
+  authorName?: string | null;
+  isLoading: boolean;
 };
 
 export function SourceMainPanel({
@@ -37,9 +39,26 @@ export function SourceMainPanel({
   onChangePickerState,
   onAddSource,
   authorName,
+  ...restProps
 }: Props) {
   const navigate = useNavigate();
   const { isPublic, photoUrl, title, info } = source;
+
+  function changePhotoUrlHandler(value: string) {
+    if (!value) return;
+    onChangePhotoUrl(value);
+    // Если url одинаковый, то браузер закэширует фото
+    if (value === photoUrl) refetch();
+  }
+
+  const {
+    fileUrl,
+    refetch,
+    isFetching: FileIsFetching,
+  } = useFileByUrl(photoUrl ?? undefined);
+
+  const isSourceDataLoading = restProps.isLoading;
+  const isLoading = isSourceDataLoading || FileIsFetching;
 
   const isReadOnly = false;
 
@@ -62,8 +81,10 @@ export function SourceMainPanel({
         </St.ExtraButtonsWrapper>
       </St.ExtraPanelWrapper>
       <St.Photo
-        src={photoUrl ?? (booksImg as string)}
+        src={fileUrl ?? (noPhoto as string)}
         fileName={`source_${source.id}_photo`}
+        onChangeUrl={changePhotoUrlHandler}
+        isLoading={isLoading}
       />
       <St.MainPanelWrapper>
         <St.InfoPanel>
@@ -72,6 +93,7 @@ export function SourceMainPanel({
             editorValue={title ?? ""}
             placeholder="Введите название"
             isReadOnly={isReadOnly}
+            isLoading={isSourceDataLoading}
           />
           <EditableText
             onValueChange={onChangeInfo}
@@ -80,10 +102,16 @@ export function SourceMainPanel({
             isTextArea
             style={{ height: "100%" }}
             isReadOnly={isReadOnly}
+            isLoading={isSourceDataLoading}
           />
           <St.ExtraInfoWrapper>
             <St.ExtraInfoLine>
-              Автор: <St.ExtraInfoText>{authorName}</St.ExtraInfoText>
+              Автор:{" "}
+              {isSourceDataLoading ? (
+                <St.SkeletonText style={{ height: 21 }} />
+              ) : (
+                <St.ExtraInfoText>{authorName ?? ""}</St.ExtraInfoText>
+              )}
             </St.ExtraInfoLine>
           </St.ExtraInfoWrapper>
         </St.InfoPanel>

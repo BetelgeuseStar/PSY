@@ -3,6 +3,7 @@ import type { ForwardedRef } from "react";
 import { forwardRef } from "react";
 import { useNavigate } from "react-router";
 import { useFileByUrl } from "../../shared/hooks";
+import { Spin } from "antd";
 
 type EntityPickerProps = {
   id: number;
@@ -21,11 +22,17 @@ function PersonPickerInner(
 ) {
   const navigate = useNavigate();
 
-  const { fileUrl } = useFileByUrl(photoUrl);
+  const { fileUrl, isFetching } = useFileByUrl(photoUrl);
 
   return (
     <St.Wrapper onClick={() => navigate(`/${url}/${id}`)} ref={ref}>
-      <St.Photo src={fileUrl ?? (noPhoto as string)} />
+      <St.PhotoWrapper>
+        {isFetching ? (
+          <Spin />
+        ) : (
+          <St.Photo src={fileUrl ?? (noPhoto as string)} />
+        )}
+      </St.PhotoWrapper>
       <St.InfoWrapper>
         <St.Name>{title}</St.Name>
         <St.Type>{extraInfo}</St.Type>
