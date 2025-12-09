@@ -2,6 +2,7 @@ import { ConfigProvider } from "antd";
 import { Router } from "./Router";
 import { AuthContextProvider } from "./AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import * as St from "./globalStyles.ts";
 
 function App() {
   const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ function App() {
     >
       <QueryClientProvider client={queryClient}>
         <AuthContextProvider>
+          <St.GlobalStyles />
           <Router />
         </AuthContextProvider>
       </QueryClientProvider>
