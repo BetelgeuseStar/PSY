@@ -4,6 +4,7 @@ const userController = require("../controllers/userController");
 const personController = require("../controllers/personController");
 const sourceController = require("../controllers/sourceController");
 const filesController = require("../controllers/filesController");
+const markerController = require("../controllers/markerController");
 const { body } = require("express-validator");
 const authMiddleware = require("../middlewares/authMiddleware");
 const sharperMidlleware = require("../middlewares/sharperMIddleware");
@@ -43,6 +44,15 @@ router.get("/source/:id", authMiddleware, sourceController.getSource);
 router.post("/createSource", authMiddleware, sourceController.createSource);
 router.post("/updateSource", authMiddleware, sourceController.updateSource);
 router.post("/deleteSource/:id", authMiddleware, sourceController.deleteSource);
+
+router.get(
+  "/markers/:sourceId",
+  authMiddleware,
+  markerController.getMarkerList,
+);
+router.post("/createMarker", authMiddleware, markerController.createMarker);
+router.post("/updateMarker", authMiddleware, markerController.updateMarker);
+router.post("/deleteMarker/:id", authMiddleware, markerController.deleteMarker);
 
 router.post(
   "/upload",
