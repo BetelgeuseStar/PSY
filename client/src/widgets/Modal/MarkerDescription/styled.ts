@@ -48,8 +48,6 @@ export const Value = styled(Text)`
   font-size: 20px;
 `;
 
-export const ExtraInfo = styled(Text)``;
-
 export const Footer = styled.div`
   display: flex;
   justify-content: space-between;

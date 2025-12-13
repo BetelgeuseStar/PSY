@@ -12,12 +12,21 @@ type EntityPickerProps = {
   extraInfo?: string;
   photoUrl?: string | null;
   noPhoto: string;
+  isPublic: boolean;
 };
 
 export const EntityPicker = forwardRef(PersonPickerInner);
 
 function PersonPickerInner(
-  { title, extraInfo = "", photoUrl, id, url, noPhoto }: EntityPickerProps,
+  {
+    title,
+    extraInfo = "",
+    photoUrl,
+    id,
+    url,
+    noPhoto,
+    isPublic,
+  }: EntityPickerProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const navigate = useNavigate();

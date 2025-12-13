@@ -13,10 +13,22 @@ export function MarkerBar({
   picked,
   onPick,
   allowEdit,
-  onOpenDescription,
+  openDescriptionModal,
   onDelete,
+  sourceName,
 }: MarkerBarProps) {
   const [localMarker, setLocalMarker] = useState(marker);
+
+  function openDescriptionHandler() {
+    const { id, ...markerWithoutId } = marker;
+
+    openDescriptionModal({
+      ...markerWithoutId,
+      sourceName,
+      allowEdit,
+      onChangeInfo: setMarkerParamClosure("info"),
+    });
+  }
 
   const { debouncedMutate: debouncedUpdateMarker } = useUpdateMutationMarker(
     localMarker.sourceId,
@@ -74,7 +86,7 @@ export function MarkerBar({
       <IconButton
         style={{ paddingBottom: 2 }}
         icon={<WorksheetIcon />}
-        onClick={onOpenDescription}
+        onClick={openDescriptionHandler}
       />
       {allowEdit && <IconButton icon={<DeleteIcon />} onClick={onDelete} />}
       <St.RatingWrapper>

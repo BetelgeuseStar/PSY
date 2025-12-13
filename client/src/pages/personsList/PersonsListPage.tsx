@@ -16,11 +16,13 @@ export function PersonsListPage() {
     navigate(`/persons/${newPerson.id}`);
   }
 
+  const sortedPersons = persons?.sort((a, b) => b.id - a.id);
+
   return (
     <St.Wrapper>
       <Loader isLoading={isFetching} />
       <EntityAdder text="Добавить персону" onClick={addPersonHandler} />
-      {persons?.map(({ id, name, photoUrl }) => {
+      {sortedPersons?.map(({ id, name, photoUrl, isPublic }) => {
         return (
           <EntityPicker
             id={id}
@@ -29,6 +31,7 @@ export function PersonsListPage() {
             noPhoto={noPhoto as string}
             key={id}
             url="persons"
+            isPublic={isPublic}
           />
         );
       })}

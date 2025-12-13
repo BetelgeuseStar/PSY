@@ -32,7 +32,12 @@ class SourceService {
 
   async createSource(userId) {
     const sourceData = await Source.create({ UserId: userId });
-    return new SourceDto(sourceData);
+    const tempDto = new SourceDto(sourceData);
+    const [, updatedData] = await Source.update(
+      { ...tempDto, title: `Без названия ${tempDto.id}` },
+      { where: { id: tempDto.id }, returning: true, plain: true },
+    );
+    return new SourceDto(updatedData);
   }
 
   async updateSource(updatedSource) {

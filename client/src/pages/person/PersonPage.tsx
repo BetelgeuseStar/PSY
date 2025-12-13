@@ -36,7 +36,7 @@ export function PersonPage() {
 
   const { debouncedMutate: debouncedUpdatePerson } =
     useUpdateMutationPerson(id);
-  const { mutate: deletePerson } = useDeleteMutationPerson(id);
+  const { mutateAsync: deletePerson } = useDeleteMutationPerson(id);
 
   useEffect(() => {
     if (localePerson) return;

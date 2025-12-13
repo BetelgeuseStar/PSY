@@ -17,6 +17,7 @@ export const Wrapper = styled.div`
     border: none;
     text-align: left;
     color: #ffffff;
+    padding: 0;
     &::placeholder {
       color: #b38687;
     }

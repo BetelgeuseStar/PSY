@@ -15,11 +15,13 @@ export function SourcesListPage() {
     navigate(`/sources/${newSource.id}`);
   }
 
+  const sortedSources = sources?.sort((a, b) => b.id - a.id);
+
   return (
     <St.Wrapper>
       <Loader isLoading={isFetching} />
       <EntityAdder text="Добавить источник" onClick={addSourceHandler} />
-      {sources?.map(({ id, title, photoUrl }) => {
+      {sortedSources?.map(({ id, title, photoUrl, isPublic }) => {
         return (
           <EntityPicker
             id={id}
@@ -28,6 +30,7 @@ export function SourcesListPage() {
             noPhoto={booksImg as string}
             key={id}
             url="sources"
+            isPublic={isPublic}
           />
         );
       })}

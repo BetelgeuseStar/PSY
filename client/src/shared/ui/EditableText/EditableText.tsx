@@ -24,6 +24,8 @@ function EditableTextInner(props: EditableTextProps, ref) {
     ...restProps
   } = props;
 
+  const localPlaceholder = isReadOnly ? "" : placeholder;
+
   return (
     <St.Wrapper {...restProps} ref={ref}>
       {isLoading ? (
@@ -33,14 +35,14 @@ function EditableTextInner(props: EditableTextProps, ref) {
           value={editorValue}
           onChange={(e) => onValueChange(e.target.value)}
           readOnly={isReadOnly}
-          placeholder={placeholder}
+          placeholder={localPlaceholder}
         />
       ) : (
         <St.Input
           value={editorValue}
           onChange={(e) => onValueChange(e.target.value)}
           readOnly={isReadOnly}
-          placeholder={placeholder}
+          placeholder={localPlaceholder}
         />
       )}
     </St.Wrapper>

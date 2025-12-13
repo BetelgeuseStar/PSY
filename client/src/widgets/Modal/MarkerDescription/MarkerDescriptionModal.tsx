@@ -7,6 +7,8 @@ import {
   getPsyFunctionName,
   getPsyLevelName,
 } from "../../../shared/utils";
+import { EditableText } from "../../../shared/ui";
+import { useEffect, useState } from "react";
 
 export function MarkerDescriptionModal({
   isOpen,
@@ -17,7 +19,20 @@ export function MarkerDescriptionModal({
   psyFunction,
   psyLevel,
   sourceName,
+  allowEdit,
+  onChangeInfo,
 }: MarkerModalProps) {
+  const [localInfo, setLocalInfo] = useState(info);
+
+  useEffect(() => {
+    setLocalInfo(info);
+  }, [info]);
+
+  function changeInfoHandler(info: string) {
+    onChangeInfo?.(info);
+    setLocalInfo(info);
+  }
+
   return (
     <ModalMask style={{ display: isOpen ? "flex" : "none" }}>
       <St.Wrapper>
@@ -38,7 +53,14 @@ export function MarkerDescriptionModal({
             <St.Value style={{ color: getPsyFunctionColor(psyFunction) }}>
               {value}
             </St.Value>
-            <St.ExtraInfo>{info}</St.ExtraInfo>
+            <EditableText
+              onValueChange={changeInfoHandler}
+              editorValue={localInfo ?? ""}
+              placeholder="Введите описание"
+              isTextArea
+              style={{ height: "162px" }}
+              isReadOnly={!allowEdit}
+            />
           </St.Content>
           <St.Footer>
             <St.SourceName>{sourceName ?? ""}</St.SourceName>

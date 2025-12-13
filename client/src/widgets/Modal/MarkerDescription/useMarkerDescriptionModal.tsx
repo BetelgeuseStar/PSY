@@ -5,6 +5,8 @@ import type { Marker } from "../../../shared/api/marker/types.ts";
 
 export type MarkerModalProps = Omit<Marker, "id"> & {
   sourceName?: string;
+  allowEdit: boolean;
+  onChangeInfo?: (value: string) => void;
 } & CommonModalProps;
 
 export function useMarkerDescriptionModal() {

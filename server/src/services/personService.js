@@ -32,7 +32,12 @@ class PersonService {
 
   async createPerson(userId) {
     const personData = await Person.create({ UserId: userId });
-    return new PersonDto(personData);
+    const tempDto = new PersonDto(personData);
+    const [, updatedData] = await Person.update(
+      { ...tempDto, name: `Без имени ${tempDto.id}` },
+      { where: { id: tempDto.id }, returning: true, plain: true },
+    );
+    return new PersonDto(updatedData);
   }
 
   async updatePerson(updatedPerson) {

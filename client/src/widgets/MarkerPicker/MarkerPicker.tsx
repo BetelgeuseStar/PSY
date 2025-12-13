@@ -99,24 +99,15 @@ export function MarkerPicker({
 
         const isPicked = pickedMarkerIds?.includes(id);
 
-        function openDescriptionHandler() {
-          openDescriptionModal({
-            ...restMarker,
-            value,
-            rating,
-            sourceName,
-          });
-        }
-
         return (
           <MarkerBar
             key={id}
             marker={marker}
             onPick={(picked) => pickHandler(id, picked)}
-            onOpenDescription={openDescriptionHandler}
+            openDescriptionModal={openDescriptionModal}
             onDelete={() => deleteHandler(id, value ?? "")}
             allowEdit={allowEdit ?? false}
-            sourceName={sourceName}
+            sourceName={sourceName ?? ""}
             picked={isPicked}
           />
         );

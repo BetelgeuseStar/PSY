@@ -8,7 +8,7 @@ export const Wrapper = styled(Board)`
   align-items: center;
 
   height: 50px;
-  width: 80%;
+  width: 100%;
 
   align-self: center;
 
