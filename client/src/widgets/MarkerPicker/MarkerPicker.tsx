@@ -11,8 +11,6 @@ import {
 import type { Marker } from "../../shared/api/marker/types.ts";
 import { Loader } from "../../shared/ui";
 
-//TODO: В запросе сортировать по рейтингу и по выбранным, но не на клиенте, что бы маркеры не выпрыгивали из под мышки
-
 type Props = {
   allowEdit?: boolean;
   openDescriptionModal: OpenModalFunc<MarkerModalProps>;

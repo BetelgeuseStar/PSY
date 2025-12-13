@@ -21,6 +21,10 @@ export function AddSourceModal({
     currentSourceId,
   );
 
+  useEffect(() => {
+    setPickedSourceId(currentSourceId);
+  }, [currentSourceId]);
+
   function okHandler() {
     if (pickedSourceId) onPickSource(pickedSourceId);
     onOk?.();

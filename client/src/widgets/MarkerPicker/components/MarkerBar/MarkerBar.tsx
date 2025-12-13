@@ -4,9 +4,9 @@ import type { MarkerBarProps } from "../../../../shared/types";
 import { DeleteIcon, WorksheetIcon } from "../../../../shared/icons";
 import { Rating } from "../../../../entities/Rating";
 import { projectColors } from "../../../../shared/utils";
-import { useUpdateMutationMarker } from "../../../../shared/api";
 import { useState } from "react";
 import type { Marker } from "../../../../shared/api/marker/types.ts";
+import { useUpdateMutationMarker } from "../../../../shared/api";
 
 export function MarkerBar({
   marker,

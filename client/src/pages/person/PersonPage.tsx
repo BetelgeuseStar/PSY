@@ -9,55 +9,72 @@ import {
 } from "../../widgets/Modal";
 import type { Person } from "../../shared/api";
 import {
-  debouncedFetchUpdatePerson,
   usePerson,
   useSource,
+  useUpdateMutationPerson,
 } from "../../shared/api";
 import { useEffect, useState } from "react";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
-import { deletePerson } from "../../shared/api/person/deletePerson.ts";
+import { useDeleteMutationPerson } from "../../shared/api/person/deletePerson.ts";
 import { useUser } from "../../shared/api/user/getUser.ts";
 
 export function PersonPage() {
   const { personId } = useParams();
+  const id = Number(personId);
+
   const navigate = useNavigate();
 
-  const [person, setPerson] = useState<Person>();
+  const [localePerson, setLocalePerson] = useState<Person>();
 
   const {
-    data: fetchedPerson,
-    isFetching: personIsFetching,
-    isFetched: personIsFetched,
+    data: person,
+    isLoading: personIsLoading,
     dataUpdatedAt,
-  } = usePerson(Number(personId));
+  } = usePerson(id);
 
-  const { data: source, isFetching: sourceIsFetching } = useSource(
-    person?.sourceId,
-  );
-
-  const { data: author, isFetching: authorIsFetching } = useUser(
-    person?.userId,
-  );
-
-  const isLoading = personIsFetching || sourceIsFetching || authorIsFetching;
+  const { debouncedMutate: debouncedUpdatePerson } =
+    useUpdateMutationPerson(id);
+  const { mutate: deletePerson } = useDeleteMutationPerson(id);
 
   useEffect(() => {
-    if (!fetchedPerson) return;
-    setPerson(fetchedPerson);
+    if (localePerson) return;
+    setLocalePerson(person);
   }, [dataUpdatedAt]);
 
   useEffect(() => {
-    if (!personIsFetched || !person) return;
-    debouncedFetchUpdatePerson(person);
-  }, [person]);
-
-  useEffect(() => {
     return () => {
-      debouncedFetchUpdatePerson.flush();
+      debouncedUpdatePerson.flush();
     };
   }, []);
+
+  function setPersonParamClosure<P extends keyof Person>(
+    param: P,
+  ): (value: Person[P]) => void {
+    return (value) => {
+      setLocalePerson((prev) => {
+        const newPersonData = {
+          ...prev!,
+          [param]: value,
+        };
+
+        debouncedUpdatePerson(newPersonData);
+
+        return newPersonData;
+      });
+    };
+  }
+
+  const { data: source, isFetching: sourceIsFetching } = useSource(
+    localePerson?.sourceId,
+  );
+
+  const { data: author, isFetching: authorIsFetching } = useUser(
+    localePerson?.userId,
+  );
+
+  const isLoading = personIsLoading || sourceIsFetching || authorIsFetching;
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
@@ -73,7 +90,7 @@ export function PersonPage() {
   const { ModalComponent: AddSourceModalComponent, modal: addSourceModal } =
     useAddSourceModal();
 
-  const isPublic = person?.isPublic;
+  const isPublic = localePerson?.isPublic;
 
   function togglePublicHandler() {
     confirmModal.open({
@@ -91,7 +108,7 @@ export function PersonPage() {
       message: "Вы уверены что хотите удалить персону?",
       okButtonText: "Удалить",
       onOk: async () => {
-        await deletePerson(person!.id);
+        await deletePerson(localePerson!.id);
         navigate("/persons");
       },
     });
@@ -100,23 +117,12 @@ export function PersonPage() {
   function changeSourceHandler() {
     addSourceModal.open({
       onPickSource: setPersonParamClosure("sourceId"),
-      currentSourceId: person!.sourceId ?? undefined,
+      currentSourceId: localePerson!.sourceId ?? undefined,
       message: "Выберите источник из которого будут взяты маркеры для персоны",
     });
   }
 
-  function setPersonParamClosure<P extends keyof Person>(
-    param: P,
-  ): (value: Person[P]) => void {
-    return (value) => {
-      setPerson((prev) => ({
-        ...prev!,
-        [param]: value,
-      }));
-    };
-  }
-
-  if (!person) return <Loader isLoading />;
+  if (!localePerson) return <Loader isLoading />;
 
   return (
     <St.Wrapper>
@@ -127,7 +133,7 @@ export function PersonPage() {
         onChangeName={setPersonParamClosure("name")}
         onChangeInfo={setPersonParamClosure("info")}
         onChangePhotoUrl={setPersonParamClosure("photoUrl")}
-        person={person}
+        person={localePerson}
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onChangeSource={changeSourceHandler}
@@ -138,10 +144,10 @@ export function PersonPage() {
       <MarkerPicker
         openDescriptionModal={markerModal.open}
         openConfirmModal={confirmModal.open}
-        sourceId={person.sourceId}
+        sourceId={localePerson.sourceId}
         pickerState={pickerState}
         sourceName={source?.title ?? "Нет источника"}
-        pickedMarkerIds={person.pickedMarkerIds}
+        pickedMarkerIds={localePerson.pickedMarkerIds}
         onChangePickedMarkerIds={setPersonParamClosure("pickedMarkerIds")}
       />
       {MarkerModalComponent}

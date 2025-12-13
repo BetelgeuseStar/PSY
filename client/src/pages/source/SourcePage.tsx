@@ -10,44 +10,46 @@ import {
 import { useEffect, useState } from "react";
 import type { Source } from "../../shared/api";
 import {
-  debouncedFetchUpdateSource,
-  deleteSource,
+  useDeleteMutationSource,
   useSource,
+  useUpdateMutationSource,
 } from "../../shared/api";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { useUser } from "../../shared/api/user/getUser.ts";
+import { Loader } from "../../shared/ui";
 
 export function SourcePage() {
   const { sourceId } = useParams();
+  const id = Number(sourceId);
   const navigate = useNavigate();
 
-  const [source, setSource] = useState({} as Source);
+  const [localSource, setLocalSource] = useState<Source>();
 
   const {
-    data: fetchedSource,
-    isFetched,
+    data: source,
     dataUpdatedAt,
-    isFetching: sourceIsFetching,
-  } = useSource(Number(sourceId));
+    isLoading: sourceIsLoading,
+  } = useSource(id);
 
-  const { data: author, authorIsFetching } = useUser(source?.userId);
+  const { debouncedMutate: debouncedUpdateSource } =
+    useUpdateMutationSource(id);
+  const { mutateAsync: deleteSource } = useDeleteMutationSource(id);
 
-  const isLoading = sourceIsFetching || authorIsFetching;
+  const { data: author, isFetching: authorIsFetching } = useUser(
+    localSource?.userId,
+  );
+
+  const isLoading = sourceIsLoading || authorIsFetching;
 
   useEffect(() => {
-    if (!fetchedSource) return;
-    setSource(fetchedSource);
+    if (localSource) return;
+    setLocalSource(source);
   }, [dataUpdatedAt]);
 
   useEffect(() => {
-    if (!isFetched) return;
-    debouncedFetchUpdateSource(source);
-  }, [source]);
-
-  useEffect(() => {
     return () => {
-      debouncedFetchUpdateSource.flush();
+      debouncedUpdateSource.flush();
     };
   }, []);
 
@@ -56,7 +58,7 @@ export function SourcePage() {
     psyLevel: 1,
   });
 
-  const { isPublic } = source;
+  const isPublic = localSource?.isPublic;
 
   const { ModalComponent: ConfirmModalComponent, modal: confirmModal } =
     useConfirmModal();
@@ -81,7 +83,7 @@ export function SourcePage() {
       message: "Вы уверены что хотите удалить источник?",
       okButtonText: "Удалить",
       onOk: async () => {
-        await deleteSource(source!.id);
+        await deleteSource(localSource!.id);
         navigate("/sources");
       },
     });
@@ -92,7 +94,7 @@ export function SourcePage() {
       title: "Импорт маркеров",
       // TODO: функция импорта маркеров
       onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
-      excludeSourceId: source!.id,
+      excludeSourceId: localSource!.id,
       okButtonText: "Импортировать",
       message:
         "Выберите источник, маркеры которого вы хотите импортировать и добавить к маркерам текущего источника",
@@ -103,22 +105,31 @@ export function SourcePage() {
     param: P,
   ): (value: Source[P]) => void {
     return (value) => {
-      setSource((prev) => ({
-        ...prev,
-        [param]: value,
-      }));
+      setLocalSource((prev) => {
+        const newSourceData = {
+          ...prev!,
+          [param]: value,
+        };
+
+        debouncedUpdateSource(newSourceData);
+
+        return newSourceData;
+      });
     };
   }
 
+  if (!localSource) return <Loader isLoading />;
+
   return (
     <St.Wrapper>
+      <Loader isLoading={isLoading} />
       <SourceMainPanel
         onToggleIsPublic={togglePublicHandler}
         onDeleteSource={deleteHandler}
         onChangeTitle={setSourceParamClosure("title")}
         onChangeInfo={setSourceParamClosure("info")}
         onChangePhotoUrl={setSourceParamClosure("photoUrl")}
-        source={source}
+        source={localSource}
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
@@ -127,10 +138,10 @@ export function SourcePage() {
       />
       <MarkerPicker
         allowEdit={true}
-        sourceId={source.id}
+        sourceId={localSource.id}
         openDescriptionModal={markerModal.open}
         pickerState={pickerState}
-        sourceName={source.title ?? ""}
+        sourceName={localSource.title ?? ""}
         openConfirmModal={confirmModal.open}
       />
       {MarkerModalComponent}

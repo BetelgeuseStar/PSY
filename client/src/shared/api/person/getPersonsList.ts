@@ -11,7 +11,7 @@ export async function getPersonsList() {
 export function usePersonsList() {
   const { data, isFetching, refetch, dataUpdatedAt, isFetched } = useQuery({
     queryFn: getPersonsList,
-    queryKey: ["getPersonsList"],
+    queryKey: ["persons"],
     staleTime: 0,
   });
 

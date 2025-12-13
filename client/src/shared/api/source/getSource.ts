@@ -14,11 +14,12 @@ export function useSource(id?: number | null) {
     return getSource(id);
   };
 
-  const { data, isFetching, refetch, dataUpdatedAt, isFetched } = useQuery({
-    queryFn,
-    queryKey: ["getSource", id],
-    enabled: Boolean(id ?? false),
-  });
+  const { data, isFetching, refetch, dataUpdatedAt, isFetched, isLoading } =
+    useQuery({
+      queryFn,
+      queryKey: ["sources", id],
+      enabled: Boolean(id ?? false),
+    });
 
   return {
     data,
@@ -26,5 +27,6 @@ export function useSource(id?: number | null) {
     refetch,
     dataUpdatedAt,
     isFetched,
+    isLoading,
   };
 }

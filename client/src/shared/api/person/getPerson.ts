@@ -9,10 +9,11 @@ export async function getPerson(id: number) {
 }
 
 export function usePerson(id: number) {
-  const { data, isFetching, refetch, dataUpdatedAt, isFetched } = useQuery({
-    queryFn: () => getPerson(id),
-    queryKey: ["getPerson", id],
-  });
+  const { data, isFetching, refetch, dataUpdatedAt, isFetched, isLoading } =
+    useQuery({
+      queryFn: () => getPerson(id),
+      queryKey: ["persons", id],
+    });
 
   return {
     data,
@@ -20,5 +21,6 @@ export function usePerson(id: number) {
     refetch,
     dataUpdatedAt,
     isFetched,
+    isLoading,
   };
 }

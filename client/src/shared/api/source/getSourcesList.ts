@@ -11,7 +11,7 @@ export async function getSourcesList() {
 export function useSourcesList() {
   const { data, isFetching, refetch, dataUpdatedAt, isFetched } = useQuery({
     queryFn: getSourcesList,
-    queryKey: ["getSourcesList"],
+    queryKey: ["sources"],
     staleTime: 0,
   });
 
