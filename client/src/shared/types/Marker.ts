@@ -1,19 +1,8 @@
-import type { PsyType } from "./PsyType.ts";
+import type { Marker } from "../api/marker/types.ts";
 
-export type MarkerInfo = PsyType & {
-  id: number;
-  value: string;
-  extraInfo: string;
-  rating: number;
-  picked: boolean;
-};
-
-export type MarkerBarInfo = Pick<MarkerInfo, "value" | "rating" | "picked">;
-
-export type MarkerBarProps = MarkerBarInfo & {
+export type MarkerBarProps = {
+  marker: Marker;
   onPick: (picked: boolean) => void;
-  onChangeRating: (rating: number) => void;
-  onChangeValue: (value: string) => void;
   onOpenDescription: () => void;
   onDelete: () => void;
   allowEdit: boolean;

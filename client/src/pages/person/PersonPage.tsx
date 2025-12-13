@@ -24,7 +24,7 @@ export function PersonPage() {
   const { personId } = useParams();
   const navigate = useNavigate();
 
-  const [person, setPerson] = useState<Person>({} as Person);
+  const [person, setPerson] = useState<Person>();
 
   const {
     data: fetchedPerson,
@@ -34,10 +34,12 @@ export function PersonPage() {
   } = usePerson(Number(personId));
 
   const { data: source, isFetching: sourceIsFetching } = useSource(
-    person.sourceId,
+    person?.sourceId,
   );
 
-  const { data: author, isFetching: authorIsFetching } = useUser(person.userId);
+  const { data: author, isFetching: authorIsFetching } = useUser(
+    person?.userId,
+  );
 
   const isLoading = personIsFetching || sourceIsFetching || authorIsFetching;
 
@@ -47,9 +49,15 @@ export function PersonPage() {
   }, [dataUpdatedAt]);
 
   useEffect(() => {
-    if (!personIsFetched) return;
+    if (!personIsFetched || !person) return;
     debouncedFetchUpdatePerson(person);
   }, [person]);
+
+  useEffect(() => {
+    return () => {
+      debouncedFetchUpdatePerson.flush();
+    };
+  }, []);
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
@@ -65,7 +73,7 @@ export function PersonPage() {
   const { ModalComponent: AddSourceModalComponent, modal: addSourceModal } =
     useAddSourceModal();
 
-  const { isPublic } = person;
+  const isPublic = person?.isPublic;
 
   function togglePublicHandler() {
     confirmModal.open({
@@ -83,7 +91,7 @@ export function PersonPage() {
       message: "Вы уверены что хотите удалить персону?",
       okButtonText: "Удалить",
       onOk: async () => {
-        await deletePerson(person.id);
+        await deletePerson(person!.id);
         navigate("/persons");
       },
     });
@@ -92,7 +100,7 @@ export function PersonPage() {
   function changeSourceHandler() {
     addSourceModal.open({
       onPickSource: setPersonParamClosure("sourceId"),
-      currentSourceId: person.sourceId ?? undefined,
+      currentSourceId: person!.sourceId ?? undefined,
       message: "Выберите источник из которого будут взяты маркеры для персоны",
     });
   }
@@ -102,7 +110,7 @@ export function PersonPage() {
   ): (value: Person[P]) => void {
     return (value) => {
       setPerson((prev) => ({
-        ...prev,
+        ...prev!,
         [param]: value,
       }));
     };
@@ -133,6 +141,8 @@ export function PersonPage() {
         sourceId={person.sourceId}
         pickerState={pickerState}
         sourceName={source?.title ?? "Нет источника"}
+        pickedMarkerIds={person.pickedMarkerIds}
+        onChangePickedMarkerIds={setPersonParamClosure("pickedMarkerIds")}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}

@@ -12,7 +12,7 @@ export function MarkerDescriptionModal({
   isOpen,
   onClose,
   value,
-  extraInfo,
+  info,
   rating,
   psyFunction,
   psyLevel,
@@ -38,7 +38,7 @@ export function MarkerDescriptionModal({
             <St.Value style={{ color: getPsyFunctionColor(psyFunction) }}>
               {value}
             </St.Value>
-            <St.ExtraInfo>{extraInfo}</St.ExtraInfo>
+            <St.ExtraInfo>{info}</St.ExtraInfo>
           </St.Content>
           <St.Footer>
             <St.SourceName>{sourceName ?? ""}</St.SourceName>

@@ -1,6 +1,6 @@
 import { getApi } from "../api.ts";
-import { debounce } from "../../utils";
 import type { Source } from "./types.ts";
+import debounce from "lodash.debounce";
 
 export async function updateSource(source: Source) {
   const response = await getApi().post<Source>("/updateSource", { ...source });
@@ -8,4 +8,4 @@ export async function updateSource(source: Source) {
   return response.data as Source;
 }
 
-export const debouncedFetchUpdateSource = debounce(updateSource, 1500);
+export const debouncedFetchUpdateSource = debounce(updateSource, 500);

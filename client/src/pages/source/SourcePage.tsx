@@ -45,6 +45,12 @@ export function SourcePage() {
     debouncedFetchUpdateSource(source);
   }, [source]);
 
+  useEffect(() => {
+    return () => {
+      debouncedFetchUpdateSource.flush();
+    };
+  }, []);
+
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
     psyLevel: 1,

@@ -8,7 +8,7 @@ export async function getSource(id: number) {
   return response.data as Source;
 }
 
-export function useSource(id: number | null) {
+export function useSource(id?: number | null) {
   const queryFn = () => {
     if (!id) return null;
     return getSource(id);

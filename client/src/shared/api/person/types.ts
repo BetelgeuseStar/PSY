@@ -6,4 +6,5 @@ export type Person = {
   info: string | null;
   photoUrl: string | null;
   sourceId: number | null;
+  pickedMarkerIds: number[];
 };

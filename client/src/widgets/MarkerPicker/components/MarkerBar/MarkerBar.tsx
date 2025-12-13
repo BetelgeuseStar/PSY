@@ -4,18 +4,41 @@ import type { MarkerBarProps } from "../../../../shared/types";
 import { DeleteIcon, WorksheetIcon } from "../../../../shared/icons";
 import { Rating } from "../../../../entities/Rating";
 import { projectColors } from "../../../../shared/utils";
+import { useUpdateMutationMarker } from "../../../../shared/api";
+import { useState } from "react";
+import type { Marker } from "../../../../shared/api/marker/types.ts";
 
 export function MarkerBar({
-  value,
+  marker,
   picked,
   onPick,
   allowEdit,
-  rating,
-  onChangeRating,
-  onChangeValue,
   onOpenDescription,
   onDelete,
 }: MarkerBarProps) {
+  const [localMarker, setLocalMarker] = useState(marker);
+
+  const { debouncedMutate: debouncedUpdateMarker } = useUpdateMutationMarker(
+    localMarker.sourceId,
+  );
+
+  function setMarkerParamClosure<P extends keyof Marker>(
+    param: P,
+  ): (value: Marker[P]) => void {
+    return (value) => {
+      setLocalMarker((prev) => {
+        const newMarkerData: Marker = {
+          ...prev,
+          [param]: value,
+        };
+
+        debouncedUpdateMarker(newMarkerData);
+
+        return newMarkerData;
+      });
+    };
+  }
+
   return (
     <St.Wrapper>
       <St.ActiveZone $disabled={allowEdit} onClick={() => onPick(!picked)}>
@@ -28,8 +51,8 @@ export function MarkerBar({
           {allowEdit ? (
             <EditableText
               placeholder="Введите заголовок маркера"
-              editorValue={value}
-              onValueChange={onChangeValue}
+              editorValue={localMarker.value ?? ""}
+              onValueChange={setMarkerParamClosure("value")}
               style={{
                 fontSize: 20,
               }}
@@ -43,7 +66,7 @@ export function MarkerBar({
                     : projectColors.white,
               }}
             >
-              {value}
+              {localMarker.value}
             </St.ReadonlyText>
           )}
         </St.TextWrapper>
@@ -56,8 +79,8 @@ export function MarkerBar({
       {allowEdit && <IconButton icon={<DeleteIcon />} onClick={onDelete} />}
       <St.RatingWrapper>
         <Rating
-          rating={rating}
-          onChange={onChangeRating}
+          rating={localMarker.rating}
+          onChange={setMarkerParamClosure("rating")}
           readonly={!allowEdit}
         />
       </St.RatingWrapper>

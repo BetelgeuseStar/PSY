@@ -1,6 +1,6 @@
 import { getApi } from "../api.ts";
 import type { Person } from "./types.ts";
-import { debounce } from "../../utils";
+import debounce from "lodash.debounce";
 
 export async function updatePerson(person: Person) {
   const response = await getApi().post<Person>("/updatePerson", { ...person });
@@ -8,4 +8,4 @@ export async function updatePerson(person: Person) {
   return response.data as Person;
 }
 
-export const debouncedFetchUpdatePerson = debounce(updatePerson, 1500);
+export const debouncedFetchUpdatePerson = debounce(updatePerson, 500);

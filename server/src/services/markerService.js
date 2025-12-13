@@ -1,4 +1,4 @@
-const { Person, Marker } = require("../models");
+const { Marker } = require("../models");
 const MarkerDto = require("../dtos/markerDto");
 
 class MarkerService {
@@ -11,7 +11,7 @@ class MarkerService {
   }
 
   async deleteMarker(id) {
-    return await Person.destroy({
+    return await Marker.destroy({
       where: {
         id,
       },

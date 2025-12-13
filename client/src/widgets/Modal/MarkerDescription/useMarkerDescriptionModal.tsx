@@ -1,9 +1,9 @@
 import { MarkerDescriptionModal } from "./MarkerDescriptionModal.tsx";
-import type { MarkerInfo } from "../../../shared/types";
 import type { CommonModalProps } from "../useCustomModal.tsx";
 import { useCustomModal } from "../useCustomModal.tsx";
+import type { Marker } from "../../../shared/api/marker/types.ts";
 
-export type MarkerModalProps = Omit<MarkerInfo, "id" | "picked"> & {
+export type MarkerModalProps = Omit<Marker, "id"> & {
   sourceName?: string;
 } & CommonModalProps;
 
