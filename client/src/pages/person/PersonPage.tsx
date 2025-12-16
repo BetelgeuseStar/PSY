@@ -19,6 +19,7 @@ import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
 import { useDeleteMutationPerson } from "../../shared/api/person/deletePerson.ts";
 import { useUser } from "../../shared/api/user/getUser.ts";
+import { PsyTypeDisplay } from "../../widgets/PsyTypeDisplay";
 
 export function PersonPage() {
   const { personId } = useParams();
@@ -127,20 +128,26 @@ export function PersonPage() {
   return (
     <St.Wrapper>
       <Loader isLoading={isLoading} />
-      <PersonMainPanel
-        onToggleIsPublic={togglePublicHandler}
-        onDeletePerson={deleteHandler}
-        onChangeName={setPersonParamClosure("name")}
-        onChangeInfo={setPersonParamClosure("info")}
-        onChangePhotoUrl={setPersonParamClosure("photoUrl")}
-        person={localePerson}
-        pickerState={pickerState}
-        onChangePickerState={setPickerState}
-        onChangeSource={changeSourceHandler}
-        sourceName={source?.title}
-        authorName={author?.login}
-        isLoading={isLoading}
-      />
+      <St.PanelsWrapper>
+        <PersonMainPanel
+          onToggleIsPublic={togglePublicHandler}
+          onDeletePerson={deleteHandler}
+          onChangeName={setPersonParamClosure("name")}
+          onChangeInfo={setPersonParamClosure("info")}
+          onChangePhotoUrl={setPersonParamClosure("photoUrl")}
+          person={localePerson}
+          pickerState={pickerState}
+          onChangePickerState={setPickerState}
+          onChangeSource={changeSourceHandler}
+          sourceName={source?.title}
+          authorName={author?.login}
+          isLoading={isLoading}
+        />
+        <PsyTypeDisplay
+          sourceId={source?.id ?? null}
+          pickedMarkerIds={localePerson.pickedMarkerIds}
+        />
+      </St.PanelsWrapper>
       <MarkerPicker
         openDescriptionModal={markerModal.open}
         openConfirmModal={confirmModal.open}

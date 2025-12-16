@@ -1,15 +1,18 @@
 import * as St from "./styled.ts";
 import type { PsyType } from "../../shared/types";
 import { MarkerAdder, MarkerBar } from "./components";
-import type { OpenModalFunc } from "../Modal/useCustomModal.tsx";
-import type { ConfirmModalProps, MarkerModalProps } from "../Modal";
+import type {
+  ConfirmModalProps,
+  MarkerModalProps,
+  OpenModalFunc,
+} from "../Modal";
 import {
   useCreateMutationMarker,
   useDeleteMutationMarker,
-  useMarkersList,
 } from "../../shared/api";
 import type { Marker } from "../../shared/api/marker/types.ts";
 import { Loader } from "../../shared/ui";
+import { useFilteredAndSortedMarkers } from "./hooks";
 
 type Props = {
   allowEdit?: boolean;
@@ -31,7 +34,11 @@ export function MarkerPicker({
   pickedMarkerIds = [],
   onChangePickedMarkerIds,
 }: Props) {
-  const { data: markersList, isFetching } = useMarkersList(sourceId);
+  const { markersList, isFetching } = useFilteredAndSortedMarkers(
+    sourceId,
+    pickerState,
+    pickedMarkerIds ?? [],
+  );
 
   const { mutate: createMarker } = useCreateMutationMarker(sourceId);
   const { mutate: deleteMarker } = useDeleteMutationMarker(sourceId);
@@ -75,27 +82,11 @@ export function MarkerPicker({
     createMarker(newMarkerData);
   }
 
-  const filteredAndSortedMarkerList = markersList
-    .filter(
-      (marker) =>
-        marker.psyLevel === pickerState.psyLevel &&
-        marker.psyFunction === pickerState.psyFunction,
-    )
-    .sort((a, b) => {
-      const aIsPicked = pickedMarkerIds?.includes(a.id);
-      const bIsPicked = pickedMarkerIds?.includes(b.id);
-
-      if (aIsPicked && bIsPicked) return b.rating - a.rating;
-      if (aIsPicked) return -1;
-      if (bIsPicked) return 1;
-      return b.rating - a.rating;
-    });
-
   return (
     <St.Wrapper>
       <Loader isLoading={isFetching} />
-      {filteredAndSortedMarkerList.map((marker) => {
-        const { id, value = "", rating, ...restMarker } = marker;
+      {markersList.map((marker) => {
+        const { id, value = "" } = marker;
 
         const isPicked = pickedMarkerIds?.includes(id);
 
