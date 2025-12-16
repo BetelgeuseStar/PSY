@@ -17,7 +17,7 @@ export function useFilteredAndSortedMarkers(
     setFilteredAndSortedMarkerList(
       filterAndSortMarkerList(markersList, pickerState, pickedMarkerIds),
     );
-  }, [pickerState.psyLevel, pickerState.psyFunction]);
+  }, [pickerState.psyLevel, pickerState.psyFunction, markersList.length]);
 
   return {
     markersList: filteredAndSortedMarkerList,
