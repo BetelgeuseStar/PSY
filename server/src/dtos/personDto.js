@@ -6,7 +6,6 @@ class PersonDto {
   photoUrl;
   sourceId;
   userId;
-  pickedMarkerIds;
 
   constructor(model) {
     this.name = model.name;
@@ -16,7 +15,6 @@ class PersonDto {
     this.photoUrl = model.photoUrl;
     this.userId = model.UserId;
     this.sourceId = model.SourceId;
-    this.pickedMarkerIds = model.pickedMarkerIds;
   }
 }
 

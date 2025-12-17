@@ -3,6 +3,7 @@ const User = require("./userModel");
 const Person = require("./personModel");
 const Source = require("./sourceModel");
 const Marker = require("./markerModel");
+const PickedMarkers = require("./pickedMarkersModel");
 
 User.hasOne(Token);
 Token.belongsTo(User);
@@ -20,5 +21,8 @@ Person.belongsTo(Source);
 
 Source.hasMany(Marker);
 Marker.belongsTo(Source);
+
+Source.belongsToMany(Person, { through: PickedMarkers });
+Person.belongsToMany(Source, { through: PickedMarkers });
 
 module.exports = { User, Token, Source, Person };

@@ -1,0 +1,35 @@
+const { PickedMarkersService } = require("../services");
+const PersonDto = require("../dtos/personDto");
+
+class PickedMarkersController {
+  async getPickedMarkers(req, res, next) {
+    try {
+      const { personId, sourceId } = req.body;
+      const pickedMarkers = await PickedMarkersService.getPickedMarkers(
+        personId,
+        sourceId,
+      );
+
+      res.json(pickedMarkers);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async updatePickedMarkers(req, res, next) {
+    try {
+      const { pickedIds, personId, sourceId } = req.body;
+      const updatedPickedMarkers =
+        await PickedMarkersService.updatePickedMarkers(
+          pickedIds,
+          personId,
+          sourceId,
+        );
+      res.json(updatedPickedMarkers);
+    } catch (e) {
+      next(e);
+    }
+  }
+}
+
+module.exports = new PickedMarkersController();

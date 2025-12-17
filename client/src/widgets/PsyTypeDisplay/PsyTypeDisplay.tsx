@@ -13,7 +13,7 @@ export function PsyTypeDisplay({ sourceId, pickedMarkerIds }: Props) {
   return (
     <St.Wrapper>
       {columns.map((column) => (
-        <PsyFunctionColumn id={column.psyFunction} items={column.items} />
+        <PsyFunctionColumn key={column.psyFunction} items={column.items} />
       ))}
     </St.Wrapper>
   );

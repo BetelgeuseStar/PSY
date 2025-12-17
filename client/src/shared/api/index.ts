@@ -4,3 +4,4 @@ export * from "./person";
 export * from "./source";
 export * from "./files";
 export * from "./marker";
+export * from "./pickedMarkers";

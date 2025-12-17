@@ -15,10 +15,6 @@ const Person = sequelize.define("Person", {
   photoUrl: {
     type: DataTypes.STRING,
   },
-  pickedMarkerIds: {
-    type: DataTypes.ARRAY(DataTypes.INTEGER),
-    defaultValue: [],
-  },
 });
 
 module.exports = Person;

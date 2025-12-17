@@ -10,7 +10,7 @@ export function PsyFunctionColumn({ items }: Props) {
   return (
     <St.Wrapper>
       {items.map((item) => (
-        <PsyFunctionCell id={item.psyLevel} {...item} />
+        <PsyFunctionCell key={item.psyLevel} {...item} />
       ))}
     </St.Wrapper>
   );
