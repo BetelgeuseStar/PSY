@@ -1,42 +1,20 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import type { Person } from "../../../shared/api";
-import {
-  usePerson,
-  usePickedMarkers,
-  useUpdateMutationPerson,
-  useUpdateMutationPickedMarkers,
-} from "../../../shared/api";
+import { usePerson, useUpdateMutationPerson } from "../../../shared/api";
 import { useDeleteMutationPerson } from "../../../shared/api/person/deletePerson.ts";
 
-export function usePersonData() {
+export function useLocalePerson() {
   const { personId } = useParams();
   const id = Number(personId);
 
   const [localePerson, setLocalePerson] = useState<Person>();
-  const [localePickedMarkerIds, setLocalePickedMarkerIds] =
-    useState<number[]>();
 
   const {
     data: fetchedPerson,
     isLoading: personIsLoading,
     dataUpdatedAt: personDataUpdatedAt,
   } = usePerson(id);
-
-  const {
-    pickedIds: fetchedPickedIds,
-    isLoading: pickedMarkersIsLoading,
-    dataUpdatedAt: pickedMarkersDataUpdatedAt,
-  } = usePickedMarkers(id, localePerson?.sourceId ?? null);
-
-  const { debouncedMutate: debouncedUpdatePickedMarkers } =
-    useUpdateMutationPickedMarkers(id, localePerson?.sourceId ?? null);
-
-  function updatePickedMarkersHandler(updatedPickedIds: number[]) {
-    debouncedUpdatePickedMarkers(updatedPickedIds);
-
-    setLocalePickedMarkerIds(updatedPickedIds);
-  }
 
   const { debouncedMutate: debouncedUpdatePerson } =
     useUpdateMutationPerson(id);
@@ -48,14 +26,8 @@ export function usePersonData() {
   }, [personDataUpdatedAt]);
 
   useEffect(() => {
-    if (localePickedMarkerIds?.length) return;
-    setLocalePickedMarkerIds(fetchedPickedIds);
-  }, [pickedMarkersDataUpdatedAt]);
-
-  useEffect(() => {
     return () => {
       debouncedUpdatePerson.flush();
-      debouncedUpdatePickedMarkers.flush();
     };
   }, []);
 
@@ -76,14 +48,11 @@ export function usePersonData() {
     };
   }
 
-  const isLoading = personIsLoading || pickedMarkersIsLoading;
-
   return {
-    isLoading,
+    personId: id,
+    personIsLoading,
     person: localePerson,
-    pickedMarkerIds: localePickedMarkerIds,
     setPersonParamClosure,
     deletePerson: deletePerson,
-    updatePickedMarkerIds: updatePickedMarkersHandler,
   };
 }

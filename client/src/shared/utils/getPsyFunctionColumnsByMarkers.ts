@@ -1,12 +1,17 @@
-import type { Marker } from "../../shared/api/marker/types.ts";
-import type { PsyFunctionCell, PsyFunctionColumn } from "./types.ts";
-import type { PsyFunction, PsyLevel, PsyType } from "../../shared/types";
-import { PsyFunctions } from "../../shared/types";
+import type { Marker } from "../api/marker/types.ts";
+import type {
+  PsyFunction,
+  PsyLevel,
+  PsyType,
+  TPsyFunctionCell,
+  TPsyFunctionColumn,
+} from "../types";
+import { PsyFunctions } from "../types";
 
 export function getPsyFunctionColumnsByMarkers(
   markers: Marker[],
   pickedMarkerIds: number[],
-): PsyFunctionColumn[] {
+): TPsyFunctionColumn[] {
   const willColumn = getColumnByFunction(
     markers,
     PsyFunctions.Will,
@@ -36,11 +41,11 @@ export function getPsyFunctionColumnsByMarkers(
   ]);
 }
 
-export function getColumnByFunction(
+function getColumnByFunction(
   markers: Marker[],
   psyFunction: PsyFunction,
   pickedMarkerIds: number[],
-): PsyFunctionColumn {
+): TPsyFunctionColumn {
   const functionMarkers = markers.filter(
     (marker) => marker.psyFunction === psyFunction,
   );
@@ -65,7 +70,7 @@ export function getColumnByFunction(
       pickedRatings[marker.psyLevel] += marker.rating;
   });
 
-  const items: PsyFunctionCell[] = Object.keys(ratings).map((psyLevel) => {
+  const items: TPsyFunctionCell[] = Object.keys(ratings).map((psyLevel) => {
     const percents =
       ratings[psyLevel] > 0
         ? Math.round((pickedRatings[psyLevel] / ratings[psyLevel]) * 100)
@@ -85,9 +90,7 @@ export function getColumnByFunction(
   };
 }
 
-export function getColumnsWithCalculatedActiveCells(
-  columns: PsyFunctionColumn[],
-) {
+function getColumnsWithCalculatedActiveCells(columns: TPsyFunctionColumn[]) {
   // транспозирую что бы совпадали строки и столбцы
   const percentsMatrix = transpose(
     columns.map((column) => {

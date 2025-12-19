@@ -5,11 +5,13 @@ import debounce from "lodash.debounce";
 
 export async function updatePickedMarkers(
   pickedIds: number[],
+  type: number[],
   personId: number,
   sourceId: number,
 ) {
   const response = await getApi().post<PickedMarkers>("/updatePickedMarkers", {
     pickedIds,
+    type,
     personId,
     sourceId,
   });
@@ -23,9 +25,9 @@ export function useUpdateMutationPickedMarkers(
 ) {
   const queryClient = useQueryClient();
 
-  async function mutationFn(pickedIds: number[]) {
+  async function mutationFn({ pickedIds, type }: PickedMarkers) {
     if (!sourceId) return null;
-    return updatePickedMarkers(pickedIds, personId, sourceId);
+    return updatePickedMarkers(pickedIds, type, personId, sourceId);
   }
 
   const { mutate } = useMutation({

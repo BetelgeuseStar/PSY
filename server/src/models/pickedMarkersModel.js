@@ -6,6 +6,10 @@ const PickedMarkers = sequelize.define("PickedMarkers", {
     type: DataTypes.ARRAY(DataTypes.INTEGER),
     defaultValue: [],
   },
+  type: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    defaultValue: [0, 0, 0, 0],
+  },
 });
 
 module.exports = PickedMarkers;

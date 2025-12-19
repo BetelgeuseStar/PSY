@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { PersonMainPanel } from "./components";
+import { PersonMainPanel, TypePanel } from "./components";
 import * as St from "./styled.ts";
 import { MarkerPicker } from "../../widgets/MarkerPicker";
 import {
@@ -13,20 +13,24 @@ import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
 import { useUser } from "../../shared/api/user/getUser.ts";
-import { PsyTypeDisplay } from "../../widgets/PsyTypeDisplay";
-import { usePersonData } from "./hooks";
+import { useLocalePerson } from "./hooks";
+import { useLocalePickedMarkers } from "./hooks/useLocalePickedMarkers.ts";
 
 export function PersonPage() {
   const navigate = useNavigate();
-
   const {
+    personId,
     person,
     setPersonParamClosure,
     deletePerson,
-    pickedMarkerIds,
-    updatePickedMarkerIds,
-    isLoading: personDataIsLoading,
-  } = usePersonData();
+    personIsLoading,
+  } = useLocalePerson();
+
+  const {
+    pickedMarkers,
+    setPickerMarkersParamClosure,
+    pickedMarkersIsLoading,
+  } = useLocalePickedMarkers(personId, person?.sourceId ?? null);
 
   const { data: source, isFetching: sourceIsFetching } = useSource(
     person?.sourceId,
@@ -36,7 +40,11 @@ export function PersonPage() {
     person?.userId,
   );
 
-  const isLoading = personDataIsLoading || sourceIsFetching || authorIsFetching;
+  const isLoading =
+    personIsLoading ||
+    sourceIsFetching ||
+    authorIsFetching ||
+    pickedMarkersIsLoading;
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
@@ -104,9 +112,11 @@ export function PersonPage() {
           authorName={author?.login}
           isLoading={isLoading}
         />
-        <PsyTypeDisplay
+        <TypePanel
           sourceId={source?.id ?? null}
-          pickedMarkerIds={pickedMarkerIds ?? []}
+          pickedIds={pickedMarkers?.pickedIds ?? []}
+          type={pickedMarkers?.type ?? []}
+          onChangeType={setPickerMarkersParamClosure("type")}
         />
       </St.PanelsWrapper>
       <MarkerPicker
@@ -115,8 +125,8 @@ export function PersonPage() {
         sourceId={person.sourceId}
         pickerState={pickerState}
         sourceName={source?.title ?? "Нет источника"}
-        pickedMarkerIds={pickedMarkerIds ?? []}
-        onChangePickedMarkerIds={updatePickedMarkerIds}
+        pickedMarkerIds={pickedMarkers?.pickedIds ?? []}
+        onChangePickedMarkerIds={setPickerMarkersParamClosure("pickedIds")}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}

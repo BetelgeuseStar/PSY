@@ -6,6 +6,7 @@ class PersonDto {
   photoUrl;
   sourceId;
   userId;
+  author;
 
   constructor(model) {
     this.name = model.name;
@@ -15,6 +16,7 @@ class PersonDto {
     this.photoUrl = model.photoUrl;
     this.userId = model.UserId;
     this.sourceId = model.SourceId;
+    this.author = model.author;
   }
 }
 

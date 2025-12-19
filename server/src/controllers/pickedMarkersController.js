@@ -1,5 +1,4 @@
 const { PickedMarkersService } = require("../services");
-const PersonDto = require("../dtos/personDto");
 
 class PickedMarkersController {
   async getPickedMarkers(req, res, next) {
@@ -18,10 +17,11 @@ class PickedMarkersController {
 
   async updatePickedMarkers(req, res, next) {
     try {
-      const { pickedIds, personId, sourceId } = req.body;
+      const { pickedIds, type, personId, sourceId } = req.body;
       const updatedPickedMarkers =
         await PickedMarkersService.updatePickedMarkers(
           pickedIds,
+          type,
           personId,
           sourceId,
         );

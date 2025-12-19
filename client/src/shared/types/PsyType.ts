@@ -13,3 +13,13 @@ export const PsyFunctions = {
 export type PsyFunction = (typeof PsyFunctions)[keyof typeof PsyFunctions];
 
 export type PsyLevel = 1 | 2 | 3 | 4;
+
+export type TPsyFunctionCell = PsyType & {
+  percents: number;
+  isActive: boolean;
+};
+
+export type TPsyFunctionColumn = {
+  items: TPsyFunctionCell[];
+  psyFunction: PsyFunction;
+};

@@ -30,8 +30,11 @@ class PersonService {
     });
   }
 
-  async createPerson(userId) {
-    const personData = await Person.create({ UserId: userId });
+  async createPerson(userId, userLogin) {
+    const personData = await Person.create({
+      UserId: userId,
+      author: userLogin,
+    });
     const tempDto = new PersonDto(personData);
     const [, updatedData] = await Person.update(
       { ...tempDto, name: `Без имени ${tempDto.id}` },

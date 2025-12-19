@@ -1,15 +1,10 @@
 import * as St from "./styled";
-import { useMarkersList } from "../../shared/api";
-import { getPsyFunctionColumnsByMarkers } from "./utils.ts";
+import type { TPsyFunctionColumn } from "../../shared/types";
 import { PsyFunctionColumn } from "./components";
 
-type Props = { sourceId: number | null; pickedMarkerIds: number[] };
+type Props = { columns: TPsyFunctionColumn[] };
 
-export function PsyTypeDisplay({ sourceId, pickedMarkerIds }: Props) {
-  const { data: markersList } = useMarkersList(sourceId);
-
-  const columns = getPsyFunctionColumnsByMarkers(markersList, pickedMarkerIds);
-
+export function PsyTypeDisplay({ columns }: Props) {
   return (
     <St.Wrapper>
       {columns.map((column) => (

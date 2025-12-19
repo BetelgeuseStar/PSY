@@ -4,7 +4,9 @@ import debounce from "lodash.debounce";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export async function updatePerson(person: Person) {
-  const response = await getApi().post<Person>("/updatePerson", { ...person });
+  const response = await getApi().post<Person>("/updatePerson", {
+    ...person,
+  });
 
   return response.data as Person;
 }

@@ -1,1 +1,1 @@
-export * from "./usePersonData.ts";
+export * from "./useLocalePerson.ts";

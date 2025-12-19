@@ -1,6 +1,6 @@
 import * as St from "./styled";
 import { PsyFunctionCell } from "./components";
-import type { PsyFunctionCell as TPsyFunctionCell } from "../../types.ts";
+import type { TPsyFunctionCell } from "../../../../shared/types";
 
 type Props = {
   items: TPsyFunctionCell[];

@@ -15,16 +15,18 @@ class PickedMarkersService {
         PersonId: personId,
         SourceId: sourceId,
         pickedMarkers: [],
+        type: [0, 0, 0, 0],
       });
     }
 
     return new PickedMarkersDto(pickedMarkers);
   }
 
-  async updatePickedMarkers(updatedPickedIds, personId, sourceId) {
+  async updatePickedMarkers(pickedIds, type, personId, sourceId) {
     const pickedMarkersData = await PickedMarkers.update(
       {
-        pickedIds: updatedPickedIds,
+        pickedIds,
+        type,
       },
       {
         where: {

@@ -33,7 +33,7 @@ class PersonController {
   async createPerson(req, res, next) {
     try {
       const user = req.user;
-      const newPerson = await personService.createPerson(user.id);
+      const newPerson = await personService.createPerson(user.id, user.login);
       return res.json(newPerson);
     } catch (e) {
       next(e);
