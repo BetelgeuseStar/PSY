@@ -14,6 +14,8 @@ import type { Source } from "../../../../shared/api";
 import { useFileByUrl } from "../../../../shared/hooks";
 import noPhoto from "../../../../../public/img/books.jpg";
 import { ColoredInfoLine } from "../../../../entities/ColoredInfoLine";
+import { useAuthContext } from "../../../../app/AuthProvider";
+import { projectColors } from "../../../../shared/utils";
 
 type Props = {
   source: Source;
@@ -43,6 +45,10 @@ export function SourceMainPanel({
   ...restProps
 }: Props) {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
+
+  const userIsAuthor = user?.login === authorName;
+
   const { isPublic, photoUrl, title, info } = source;
 
   function changePhotoUrlHandler(value: string) {
@@ -75,7 +81,7 @@ export function SourceMainPanel({
         <St.ExtraButtonsWrapper>
           <IconButton icon={<BookIcon />} onClick={onAddSource} />
           <IconButton
-            icon={isPublic ? <VisibleIcon /> : <InvisibleIcon />}
+            icon={isPublic ? <InvisibleIcon /> : <VisibleIcon />}
             onClick={onToggleIsPublic}
           />
           <IconButton icon={<DeleteIcon />} onClick={onDeleteSource} />
@@ -86,6 +92,7 @@ export function SourceMainPanel({
         fileName={`source_${source.id}_photo`}
         onChangeUrl={changePhotoUrlHandler}
         isLoading={isLoading}
+        isPublic={isPublic}
       />
       <St.MainPanelWrapper>
         <St.InfoPanel>
@@ -110,6 +117,9 @@ export function SourceMainPanel({
               keyText="Автор"
               valueText={authorName ?? ""}
               isLoading={isSourceDataLoading}
+              valueColor={
+                userIsAuthor ? projectColors.green : projectColors.active
+              }
             />
           </St.ExtraInfoWrapper>
         </St.InfoPanel>

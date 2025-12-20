@@ -36,6 +36,7 @@ export const InfoWrapper = styled.div`
 export const PhotoWrapper = styled.div`
   width: 256px;
   height: 230px;
+  position: relative;
 
   border: 2px solid #b38687;
   border-radius: 5px;

@@ -14,6 +14,8 @@ import type { Person } from "../../../../shared/api";
 import noPhoto from "../../../../../public/img/noPhoto.jpg";
 import { useFileByUrl } from "../../../../shared/hooks";
 import { ColoredInfoLine } from "../../../../entities/ColoredInfoLine";
+import { useAuthContext } from "../../../../app/AuthProvider";
+import { projectColors } from "../../../../shared/utils";
 
 type Props = {
   person: Person;
@@ -45,6 +47,9 @@ export function PersonMainPanel({
   ...restProps
 }: Props) {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
+
+  const userIsAuthor = user?.login === authorName;
 
   const { name, info, isPublic, photoUrl } = person;
 
@@ -78,7 +83,7 @@ export function PersonMainPanel({
         <St.ExtraButtonsWrapper>
           <IconButton icon={<BookIcon />} onClick={onChangeSource} />
           <IconButton
-            icon={isPublic ? <VisibleIcon /> : <InvisibleIcon />}
+            icon={isPublic ? <InvisibleIcon /> : <VisibleIcon />}
             onClick={onToggleIsPublic}
           />
           <IconButton icon={<DeleteIcon />} onClick={onDeletePerson} />
@@ -89,6 +94,7 @@ export function PersonMainPanel({
         onChangeUrl={changePhotoUrlHandler}
         fileName={`person_${person.id}_photo`}
         isLoading={isLoading}
+        isPublic={isPublic}
       />
       <St.MainPanelWrapper>
         <St.InfoPanel>
@@ -113,6 +119,9 @@ export function PersonMainPanel({
               keyText="Автор"
               valueText={authorName ?? ""}
               isLoading={isPersonDataLoading}
+              valueColor={
+                userIsAuthor ? projectColors.green : projectColors.active
+              }
             />
             <ColoredInfoLine
               keyText="Источник"

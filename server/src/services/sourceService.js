@@ -30,10 +30,10 @@ class SourceService {
     });
   }
 
-  async createSource(userId, userLoding) {
+  async createSource(userId, userLogin) {
     const sourceData = await Source.create({
       UserId: userId,
-      author: userLoding,
+      author: userLogin,
     });
     const tempDto = new SourceDto(sourceData);
     const [, updatedData] = await Source.update(

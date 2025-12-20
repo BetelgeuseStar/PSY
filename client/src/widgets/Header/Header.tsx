@@ -3,7 +3,6 @@ import { Dropdown, Label, Link } from "../../shared/ui";
 import type { MenuProps } from "antd";
 import { useAuthContext } from "../../app/AuthProvider";
 import { useNavigate } from "react-router";
-import { getUsersList } from "../../shared/api";
 
 export function Header() {
   const { logout, user } = useAuthContext();
@@ -11,19 +10,9 @@ export function Header() {
   const navigate = useNavigate();
   const path = window.location.pathname;
 
-  function getUsersReq() {
-    getUsersList().then((users) =>
-      console.log("Список пользователей: ", users),
-    );
-  }
-
   const dropdownItems: MenuProps["items"] = [
     {
       key: "1",
-      label: <Link onClick={getUsersReq}>Получить список пользователей</Link>,
-    },
-    {
-      key: "2",
       label: <Link onClick={logout}>Выход</Link>,
     },
   ];
@@ -54,7 +43,6 @@ export function Header() {
               border: "2px solid #b38687",
             },
           }}
-          overlayStyle={{}}
         >
           <St.UserLinkWrapper>
             <St.UserIcon />

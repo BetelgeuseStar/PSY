@@ -73,3 +73,32 @@ export const ActiveLayer = styled.div`
     height: 25px;
   }
 `;
+
+export const VisibleIconLayer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: start;
+  align-items: start;
+
+  padding: 10px;
+
+  & > span {
+    padding-top: 2px;
+
+    fill: #b38687;
+    opacity: 1;
+
+    transition: all 0.3s;
+  }
+
+  & svg {
+    fill: white;
+    opacity: 1;
+    width: 35px; 
+    height: 28px  
+`;

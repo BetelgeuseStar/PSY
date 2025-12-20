@@ -6,6 +6,9 @@ import { useFileByUrl } from "../../shared/hooks";
 import { Spin } from "antd";
 import { ColoredInfoLine } from "../../entities/ColoredInfoLine";
 import { EditableText, TypeLetters } from "../../shared/ui";
+import { useAuthContext } from "../../app/AuthProvider";
+import { projectColors } from "../../shared/utils";
+import { VisibilityStatusLayer } from "../../entities/VisibilityStatusLayer";
 
 type EntityPickerProps = {
   id: number;
@@ -30,6 +33,7 @@ function EntityPickerInner(
     url,
     noPhoto,
     psyType,
+    isPublic,
     isLoading = false,
   }: EntityPickerProps,
   ref: ForwardedRef<HTMLDivElement>,
@@ -38,13 +42,20 @@ function EntityPickerInner(
 
   const { fileUrl, isFetching } = useFileByUrl(photoUrl);
 
+  const { user } = useAuthContext();
+
+  const userIsAuthor = user?.login === author;
+
   return (
     <St.Wrapper onClick={() => navigate(`/${url}/${id}`)} ref={ref}>
       <St.PhotoWrapper>
         {isFetching ? (
           <Spin />
         ) : (
-          <St.Photo src={fileUrl ?? (noPhoto as string)} />
+          <>
+            <St.Photo src={fileUrl ?? (noPhoto as string)} />
+            <VisibilityStatusLayer isVisible={isPublic} />
+          </>
         )}
       </St.PhotoWrapper>
       <St.InfoWrapper>
@@ -62,6 +73,7 @@ function EntityPickerInner(
           valueText={author ?? ""}
           isLoading={isLoading}
           cursor="pointer"
+          valueColor={userIsAuthor ? projectColors.green : projectColors.active}
         />
       </St.InfoWrapper>
     </St.Wrapper>
