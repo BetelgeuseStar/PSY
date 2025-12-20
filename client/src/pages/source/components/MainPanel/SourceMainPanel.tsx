@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import type { Source } from "../../../../shared/api";
 import { useFileByUrl } from "../../../../shared/hooks";
 import noPhoto from "../../../../../public/img/books.jpg";
+import { ColoredInfoLine } from "../../../../entities/ColoredInfoLine";
 
 type Props = {
   source: Source;
@@ -105,14 +106,11 @@ export function SourceMainPanel({
             isLoading={isSourceDataLoading}
           />
           <St.ExtraInfoWrapper>
-            <St.ExtraInfoLine>
-              Автор:{" "}
-              {isSourceDataLoading ? (
-                <St.SkeletonText style={{ height: 21 }} />
-              ) : (
-                <St.ExtraInfoText>{authorName ?? ""}</St.ExtraInfoText>
-              )}
-            </St.ExtraInfoLine>
+            <ColoredInfoLine
+              keyText="Автор"
+              valueText={authorName ?? ""}
+              isLoading={isSourceDataLoading}
+            />
           </St.ExtraInfoWrapper>
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={onChangePickerState} />

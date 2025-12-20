@@ -13,7 +13,7 @@ export function useLocalePickedMarkers(
     useState<PickedMarkers>();
 
   const {
-    data: fetchedPickedMarkers,
+    pickedIds,
     isLoading: pickedMarkersIsLoading,
     dataUpdatedAt: pickedMarkersDataUpdatedAt,
   } = usePickedMarkers(personId, sourceId);
@@ -22,8 +22,9 @@ export function useLocalePickedMarkers(
     useUpdateMutationPickedMarkers(personId, sourceId);
 
   useEffect(() => {
-    if (localePickedMarkers) return;
-    setLocalePickedMarkers(fetchedPickedMarkers);
+    if (localePickedMarkers?.pickedIds.length) return;
+
+    setLocalePickedMarkers({ pickedIds });
   }, [pickedMarkersDataUpdatedAt]);
 
   useEffect(() => {
@@ -32,26 +33,15 @@ export function useLocalePickedMarkers(
     };
   }, []);
 
-  function setPickerMarkersParamClosure<P extends keyof PickedMarkers>(
-    param: P,
-  ): (value: PickedMarkers[P]) => void {
-    return (value) => {
-      setLocalePickedMarkers((prev) => {
-        const newPickerMarkersData: PickedMarkers = {
-          ...prev!,
-          [param]: value,
-        };
+  function updatePickedMarkers(pickedIds: number[]) {
+    debouncedUpdatePickedMarkers(pickedIds);
 
-        debouncedUpdatePickedMarkers(newPickerMarkersData);
-
-        return newPickerMarkersData;
-      });
-    };
+    setLocalePickedMarkers({ pickedIds });
   }
 
   return {
-    pickedMarkers: localePickedMarkers,
+    pickedIds: localePickedMarkers?.pickedIds ?? [],
     pickedMarkersIsLoading,
-    setPickerMarkersParamClosure,
+    updatePickedMarkers,
   };
 }

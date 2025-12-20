@@ -13,6 +13,7 @@ import { useNavigate } from "react-router";
 import type { Person } from "../../../../shared/api";
 import noPhoto from "../../../../../public/img/noPhoto.jpg";
 import { useFileByUrl } from "../../../../shared/hooks";
+import { ColoredInfoLine } from "../../../../entities/ColoredInfoLine";
 
 type Props = {
   person: Person;
@@ -108,26 +109,19 @@ export function PersonMainPanel({
             isLoading={isPersonDataLoading}
           />
           <St.ExtraInfoWrapper>
-            <St.ExtraInfoLine>
-              Автор:{" "}
-              {isPersonDataLoading ? (
-                <St.SkeletonText style={{ height: 21 }} />
-              ) : (
-                <St.ExtraInfoText>{authorName ?? ""}</St.ExtraInfoText>
-              )}
-            </St.ExtraInfoLine>
-            <St.ExtraInfoLine>
-              Источник:
-              {isPersonDataLoading ? (
-                <St.SkeletonText style={{ height: 21 }} />
-              ) : (
-                <St.ExtraInfoText
-                  style={{ color: sourceName ? "#3ba4a9" : "red" }}
-                >
-                  {sourceName ?? "Отсутствует"}
-                </St.ExtraInfoText>
-              )}
-            </St.ExtraInfoLine>
+            <ColoredInfoLine
+              keyText="Автор"
+              valueText={authorName ?? ""}
+              isLoading={isPersonDataLoading}
+            />
+            <ColoredInfoLine
+              keyText="Источник"
+              valueText={sourceName ?? "Отсутствует"}
+              isLoading={isPersonDataLoading}
+              valueColor={sourceName ? "#3ba4a9" : "red"}
+              cursor="pointer"
+              onClick={onChangeSource}
+            />
           </St.ExtraInfoWrapper>
         </St.InfoPanel>
         <FunctionPicker state={pickerState} onChange={onChangePickerState} />

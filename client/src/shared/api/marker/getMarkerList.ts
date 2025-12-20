@@ -14,11 +14,12 @@ export function useMarkersList(sourceId: number | null) {
     return getMarkerList(sourceId);
   };
 
-  const { data, isFetching, refetch, dataUpdatedAt, isFetched } = useQuery({
-    queryFn,
-    queryKey: ["markers", sourceId],
-    enabled: Boolean(sourceId ?? false),
-  });
+  const { data, isFetching, refetch, dataUpdatedAt, isFetched, isLoading } =
+    useQuery({
+      queryFn,
+      queryKey: ["markers", sourceId],
+      enabled: Boolean(sourceId ?? false),
+    });
 
   return {
     data: data ?? [],
@@ -26,5 +27,6 @@ export function useMarkersList(sourceId: number | null) {
     refetch,
     dataUpdatedAt,
     isFetched,
+    isLoading,
   };
 }

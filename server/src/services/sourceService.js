@@ -30,8 +30,11 @@ class SourceService {
     });
   }
 
-  async createSource(userId) {
-    const sourceData = await Source.create({ UserId: userId });
+  async createSource(userId, userLoding) {
+    const sourceData = await Source.create({
+      UserId: userId,
+      author: userLoding,
+    });
     const tempDto = new SourceDto(sourceData);
     const [, updatedData] = await Source.update(
       { ...tempDto, title: `Без названия ${tempDto.id}` },

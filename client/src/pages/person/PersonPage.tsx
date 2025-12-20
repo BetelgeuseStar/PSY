@@ -12,7 +12,6 @@ import { useState } from "react";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
-import { useUser } from "../../shared/api/user/getUser.ts";
 import { useLocalePerson } from "./hooks";
 import { useLocalePickedMarkers } from "./hooks/useLocalePickedMarkers.ts";
 
@@ -26,25 +25,15 @@ export function PersonPage() {
     personIsLoading,
   } = useLocalePerson();
 
-  const {
-    pickedMarkers,
-    setPickerMarkersParamClosure,
-    pickedMarkersIsLoading,
-  } = useLocalePickedMarkers(personId, person?.sourceId ?? null);
+  const { pickedIds, updatePickedMarkers, pickedMarkersIsLoading } =
+    useLocalePickedMarkers(personId, person?.sourceId ?? null);
 
   const { data: source, isFetching: sourceIsFetching } = useSource(
     person?.sourceId,
   );
 
-  const { data: author, isFetching: authorIsFetching } = useUser(
-    person?.userId,
-  );
-
   const isLoading =
-    personIsLoading ||
-    sourceIsFetching ||
-    authorIsFetching ||
-    pickedMarkersIsLoading;
+    personIsLoading || sourceIsFetching || pickedMarkersIsLoading;
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,
@@ -109,14 +98,14 @@ export function PersonPage() {
           onChangePickerState={setPickerState}
           onChangeSource={changeSourceHandler}
           sourceName={source?.title}
-          authorName={author?.login}
+          authorName={person?.author}
           isLoading={isLoading}
         />
         <TypePanel
           sourceId={source?.id ?? null}
-          pickedIds={pickedMarkers?.pickedIds ?? []}
-          type={pickedMarkers?.type ?? []}
-          onChangeType={setPickerMarkersParamClosure("type")}
+          pickedIds={pickedIds ?? []}
+          type={person?.type ?? []}
+          onChangeType={setPersonParamClosure("type")}
         />
       </St.PanelsWrapper>
       <MarkerPicker
@@ -125,8 +114,8 @@ export function PersonPage() {
         sourceId={person.sourceId}
         pickerState={pickerState}
         sourceName={source?.title ?? "Нет источника"}
-        pickedMarkerIds={pickedMarkers?.pickedIds ?? []}
-        onChangePickedMarkerIds={setPickerMarkersParamClosure("pickedIds")}
+        pickedMarkerIds={pickedIds ?? []}
+        onChangePickedMarkerIds={updatePickedMarkers}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}

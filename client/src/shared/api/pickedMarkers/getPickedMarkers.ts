@@ -24,7 +24,7 @@ export function usePickedMarkers(personId: number, sourceId: number | null) {
     });
 
   return {
-    data,
+    pickedIds: data?.pickedIds ?? [],
     isFetching,
     isLoading,
     refetch,

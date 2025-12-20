@@ -5,10 +5,11 @@ import { projectColors } from "../../shared/utils";
 
 export const Wrapper = styled(Board)`
   width: 300px;
-  height: 300px;
+  height: 350px;
   display: flex;
   padding: 15px 20px;
   justify-content: space-between;
+  gap: 10px;
 
   flex-direction: column;
 
@@ -27,8 +28,9 @@ export const Wrapper = styled(Board)`
 
 export const InfoWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  flex-grow: 1;
 `;
 
 export const PhotoWrapper = styled.div`
@@ -41,6 +43,7 @@ export const PhotoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 `;
 
 export const Photo = styled.img`

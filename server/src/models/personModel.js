@@ -18,6 +18,10 @@ const Person = sequelize.define("Person", {
   author: {
     type: DataTypes.STRING,
   },
+  type: {
+    type: DataTypes.ARRAY(DataTypes.INTEGER),
+    defaultValue: [0, 0, 0, 0],
+  },
 });
 
 module.exports = Person;

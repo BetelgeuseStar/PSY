@@ -1,5 +1,6 @@
 import * as St from "./styled.ts";
 import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
+import type { Person } from "../../shared/api";
 import { useCreateMutationPerson, usePersonsList } from "../../shared/api";
 import { useNavigate } from "react-router";
 import noPhoto from "../../../public/img/noPhoto.jpg";
@@ -16,22 +17,24 @@ export function PersonsListPage() {
     navigate(`/persons/${newPerson.id}`);
   }
 
-  const sortedPersons = persons?.sort((a, b) => b.id - a.id);
+  const sortedPersons: Person[] = persons?.sort((a, b) => b.id - a.id);
 
   return (
     <St.Wrapper>
       <Loader isLoading={isFetching} />
       <EntityAdder text="Добавить персону" onClick={addPersonHandler} />
-      {sortedPersons?.map(({ id, name, photoUrl, isPublic }) => {
+      {sortedPersons?.map(({ id, name, photoUrl, isPublic, author, type }) => {
         return (
           <EntityPicker
             id={id}
             title={name ?? `Без имени ${id}`}
+            author={author}
             photoUrl={photoUrl}
             noPhoto={noPhoto as string}
             key={id}
             url="persons"
             isPublic={isPublic}
+            psyType={type}
           />
         );
       })}

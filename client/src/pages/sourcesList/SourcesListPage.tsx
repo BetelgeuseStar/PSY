@@ -21,12 +21,13 @@ export function SourcesListPage() {
     <St.Wrapper>
       <Loader isLoading={isFetching} />
       <EntityAdder text="Добавить источник" onClick={addSourceHandler} />
-      {sortedSources?.map(({ id, title, photoUrl, isPublic }) => {
+      {sortedSources?.map(({ id, title, photoUrl, isPublic, author }) => {
         return (
           <EntityPicker
             id={id}
             title={title ?? `Без названия ${id}`}
             photoUrl={photoUrl}
+            author={author}
             noPhoto={booksImg as string}
             key={id}
             url="sources"

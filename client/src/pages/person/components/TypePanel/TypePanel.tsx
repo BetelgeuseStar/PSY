@@ -14,6 +14,7 @@ type Props = {
   pickedIds: number[];
   type: number[];
   onChangeType: (type: number[]) => void;
+  isLoading?: boolean;
 };
 
 export function TypePanel({
@@ -21,7 +22,7 @@ export function TypePanel({
   pickedIds,
   type,
   onChangeType,
-  isLoading,
+  isLoading = false,
 }: Props) {
   const { data: markersList } = useMarkersList(sourceId);
 

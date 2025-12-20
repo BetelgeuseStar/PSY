@@ -35,7 +35,7 @@ class SourceController {
     try {
       const user = req.user;
 
-      const newSource = await sourceService.createSource(user.id);
+      const newSource = await sourceService.createSource(user.id, user.login);
       return res.json(newSource);
     } catch (e) {
       next(e);

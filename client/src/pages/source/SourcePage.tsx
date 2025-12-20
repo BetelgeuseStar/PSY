@@ -16,7 +16,6 @@ import {
 } from "../../shared/api";
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
-import { useUser } from "../../shared/api/user/getUser.ts";
 import { Loader } from "../../shared/ui";
 
 export function SourcePage() {
@@ -36,11 +35,7 @@ export function SourcePage() {
     useUpdateMutationSource(id);
   const { mutateAsync: deleteSource } = useDeleteMutationSource(id);
 
-  const { data: author, isFetching: authorIsFetching } = useUser(
-    localSource?.userId,
-  );
-
-  const isLoading = sourceIsLoading || authorIsFetching;
+  const isLoading = sourceIsLoading;
 
   useEffect(() => {
     if (localSource) return;
@@ -133,7 +128,7 @@ export function SourcePage() {
         pickerState={pickerState}
         onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
-        authorName={author?.login}
+        authorName={source?.author}
         isLoading={isLoading}
       />
       <MarkerPicker

@@ -3,6 +3,7 @@ export type Person = {
   userId: number;
   isPublic: boolean;
   author: string;
+  type: number[];
   name: string | null;
   info: string | null;
   photoUrl: string | null;

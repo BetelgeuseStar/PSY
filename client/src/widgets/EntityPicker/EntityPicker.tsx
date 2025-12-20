@@ -4,28 +4,33 @@ import { forwardRef } from "react";
 import { useNavigate } from "react-router";
 import { useFileByUrl } from "../../shared/hooks";
 import { Spin } from "antd";
+import { ColoredInfoLine } from "../../entities/ColoredInfoLine";
+import { EditableText, TypeLetters } from "../../shared/ui";
 
 type EntityPickerProps = {
   id: number;
   title: string;
   url: string;
-  extraInfo?: string;
+  author?: string;
   photoUrl?: string | null;
   noPhoto: string;
   isPublic: boolean;
+  isLoading?: boolean;
+  psyType?: number[];
 };
 
-export const EntityPicker = forwardRef(PersonPickerInner);
+export const EntityPicker = forwardRef(EntityPickerInner);
 
-function PersonPickerInner(
+function EntityPickerInner(
   {
     title,
-    extraInfo = "",
+    author,
     photoUrl,
     id,
     url,
     noPhoto,
-    isPublic,
+    psyType,
+    isLoading = false,
   }: EntityPickerProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
@@ -43,8 +48,21 @@ function PersonPickerInner(
         )}
       </St.PhotoWrapper>
       <St.InfoWrapper>
-        <St.Name>{title}</St.Name>
-        <St.Type>{extraInfo}</St.Type>
+        <EditableText isReadOnly editorValue={title} cursor="pointer" />
+        {psyType?.length && (
+          <TypeLetters
+            psyType={psyType}
+            fontSize={22}
+            fontWeight="bold"
+            gap={1}
+          />
+        )}
+        <ColoredInfoLine
+          keyText="Автор"
+          valueText={author ?? ""}
+          isLoading={isLoading}
+          cursor="pointer"
+        />
       </St.InfoWrapper>
     </St.Wrapper>
   );

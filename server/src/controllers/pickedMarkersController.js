@@ -17,11 +17,10 @@ class PickedMarkersController {
 
   async updatePickedMarkers(req, res, next) {
     try {
-      const { pickedIds, type, personId, sourceId } = req.body;
+      const { pickedIds, personId, sourceId } = req.body;
       const updatedPickedMarkers =
         await PickedMarkersService.updatePickedMarkers(
           pickedIds,
-          type,
           personId,
           sourceId,
         );

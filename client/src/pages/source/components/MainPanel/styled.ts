@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Board, Text } from "../../../../shared/ui";
+import { Board } from "../../../../shared/ui";
 import { PhotoPicker } from "../../../../widgets/PhotoPicker";
-import SkeletonInput from "antd/es/skeleton/Input";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -56,30 +55,4 @@ export const ExtraInfoWrapper = styled.div`
   cursor: default;
 
   width: 100%;
-`;
-
-export const ExtraInfoLine = styled.div`
-  display: flex;
-  align-items: center;
-
-  overflow: hidden;
-  width: 100%;
-`;
-
-export const ExtraInfoText = styled(Text)`
-  font-size: 18px;
-  font-style: italic;
-  color: #3ba4a9;
-  cursor: default;
-
-  margin-left: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  line-height: 21px;
-`;
-
-export const SkeletonText = styled(SkeletonInput)`
-  width: 100% !important;
 `;

@@ -15,6 +15,9 @@ const Source = sequelize.define("Source", {
   photoUrl: {
     type: DataTypes.STRING,
   },
+  author: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = Source;
