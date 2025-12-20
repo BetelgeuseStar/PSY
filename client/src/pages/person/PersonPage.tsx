@@ -28,12 +28,12 @@ export function PersonPage() {
   const { pickedIds, updatePickedMarkers, pickedMarkersIsLoading } =
     useLocalePickedMarkers(personId, person?.sourceId ?? null);
 
-  const { data: source, isFetching: sourceIsFetching } = useSource(
+  const { data: source, isLoading: sourceIsLoading } = useSource(
     person?.sourceId,
   );
 
   const isLoading =
-    personIsLoading || sourceIsFetching || pickedMarkersIsLoading;
+    personIsLoading || sourceIsLoading || pickedMarkersIsLoading;
 
   const [pickerState, setPickerState] = useState<PsyType>({
     psyFunction: PsyFunctions.Will,

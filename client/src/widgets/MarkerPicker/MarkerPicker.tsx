@@ -34,7 +34,7 @@ export function MarkerPicker({
   pickedMarkerIds = [],
   onChangePickedMarkerIds,
 }: Props) {
-  const { markersList, isFetching } = useFilteredAndSortedMarkers(
+  const { markersList, isLoading } = useFilteredAndSortedMarkers(
     sourceId,
     pickerState,
     pickedMarkerIds ?? [],
@@ -84,7 +84,7 @@ export function MarkerPicker({
 
   return (
     <St.Wrapper>
-      <Loader isLoading={isFetching} />
+      <Loader isLoading={isLoading} />
       {markersList.map((marker) => {
         const { id, value = "" } = marker;
 

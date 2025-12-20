@@ -2,6 +2,7 @@ import { getApi } from "../api.ts";
 import type { PickedMarkers } from "./types.ts";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import debounce from "lodash.debounce";
+import { useMemo } from "react";
 
 export async function updatePickedMarkers(
   pickedIds: number[],
@@ -37,7 +38,7 @@ export function useUpdateMutationPickedMarkers(
     },
   });
 
-  const debouncedMutate = debounce(mutate, 500);
+  const debouncedMutate = useMemo(() => debounce(mutate, 1000), []);
 
   return {
     mutate,

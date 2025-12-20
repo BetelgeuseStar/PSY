@@ -8,7 +8,7 @@ export function useFilteredAndSortedMarkers(
   pickerState: PsyType,
   pickedMarkerIds: number[],
 ) {
-  const { data: markersList, isFetching } = useMarkersList(sourceId);
+  const { data: markersList, isLoading } = useMarkersList(sourceId);
   const [filteredAndSortedMarkerList, setFilteredAndSortedMarkerList] =
     useState<Marker[]>([]);
 
@@ -26,7 +26,7 @@ export function useFilteredAndSortedMarkers(
 
   return {
     markersList: filteredAndSortedMarkerList,
-    isFetching,
+    isLoading,
   };
 }
 

@@ -2,6 +2,7 @@ import { getApi } from "../api.ts";
 import type { Person } from "./types.ts";
 import debounce from "lodash.debounce";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
 
 export async function updatePerson(person: Person) {
   const response = await getApi().post<Person>("/updatePerson", {
@@ -21,7 +22,7 @@ export function useUpdateMutationPerson(personId: number | null) {
     },
   });
 
-  const debouncedMutate = debounce(mutate, 500);
+  const debouncedMutate = useMemo(() => debounce(mutate, 1000), []);
 
   return {
     mutate,
