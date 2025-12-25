@@ -8,6 +8,7 @@ class PersonDto {
   userId;
   author;
   type;
+  roleId;
 
   constructor(model) {
     this.name = model.name;
@@ -19,6 +20,7 @@ class PersonDto {
     this.sourceId = model.SourceId;
     this.author = model.author;
     this.type = model.type;
+    this.roleId = model.RoleId;
   }
 }
 

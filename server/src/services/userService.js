@@ -22,6 +22,7 @@ class UserService {
       email,
       password: hashPassword,
       activationLink,
+      RoleId: 1,
     });
 
     await mailService.sendActivationEmail(

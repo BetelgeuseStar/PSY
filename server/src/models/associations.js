@@ -4,6 +4,7 @@ const Person = require("./personModel");
 const Source = require("./sourceModel");
 const Marker = require("./markerModel");
 const PickedMarkers = require("./pickedMarkersModel");
+const Role = require("./roleModel");
 
 User.hasOne(Token);
 Token.belongsTo(User);
@@ -13,6 +14,9 @@ Person.belongsTo(User);
 
 User.hasMany(Source);
 Source.belongsTo(User);
+
+User.belongsTo(Role);
+Role.hasMany(User);
 
 //---------------------------
 

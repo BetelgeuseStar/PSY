@@ -4,7 +4,8 @@ const Person = require("./personModel");
 const Source = require("./sourceModel");
 const Marker = require("./markerModel");
 const PickedMarkers = require("./pickedMarkersModel");
+const Role = require("./roleModel");
 
 require("./associations");
 
-module.exports = { User, Token, Person, Source, Marker, PickedMarkers };
+module.exports = { User, Token, Person, Source, Marker, PickedMarkers, Role };
