@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import type { HTMLProps, PropsWithChildren } from "react";
 import { forwardRef } from "react";
+import { appConfig } from "../../../config";
 
 export const PageWrapper = forwardRef(PageWrapperInner);
 
@@ -18,5 +19,5 @@ function PageWrapperInner(
 }
 
 const Wrapper = styled.div`
-  padding: 30px 60px;
+  padding: calc(30px + ${appConfig.headerHeight}px) 60px 30px 60px;
 `;

@@ -57,9 +57,10 @@ const initBaseSource = async () => {
 };
 
 const initBaseSourceMarkers = async () => {
-  await Marker.bulkCreate(markerRecords, {
-    ignoreDuplicates: true,
-  });
+  const markers = await Marker.findAll();
+  if (markers.length > 0) return;
+
+  await Marker.bulkCreate(markerRecords);
 };
 
 app.use(express.json());

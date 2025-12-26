@@ -8,6 +8,7 @@ import {
   registration as registrationRequest,
 } from "../../shared/api";
 import { AuthContext } from "./AuthContext.tsx";
+import { message } from "antd";
 
 export function AuthContextProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
@@ -38,6 +39,8 @@ export function AuthContextProvider({ children }: PropsWithChildren) {
       setUser(authData.user);
     } catch (e) {
       console.log(e.response?.data?.message);
+      message.error(e.response?.data?.message);
+      throw e;
     }
   }
 

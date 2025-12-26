@@ -3,8 +3,10 @@ import { Link } from "../../shared/ui";
 import { CaretDownIcon, UserIcon as OuterUserIcon } from "../../shared/icons";
 
 export const Wrapper = styled.header`
+  position: fixed;
   width: 100vw;
   height: 50px;
+  z-index: 200;
 
   background: linear-gradient(180deg, #754447 0%, #623437 50%, #4e2426 100%);
   border-bottom: 2px solid #b38687;

@@ -14,11 +14,12 @@ export const Body = styled(Board)`
   padding: 25px 60px;
 
   gap: 20px;
+  margin-top: -10vh;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 100vh;
 `;

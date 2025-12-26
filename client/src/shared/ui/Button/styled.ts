@@ -51,6 +51,7 @@ export const Button = styled(AntButton)`
 export const IconButton = styled(Button)`
   min-width: 50px;
   min-height: 50px;
+  box-shadow: 0px 4px 31.2px 10px rgba(179, 134, 135, 0.5);
 
   & > span {
     padding-top: 2px;

@@ -8,4 +8,8 @@ export const GlobalStyles = createGlobalStyle`
     .ant-dropdown-menu-title-content {
         text-align: center !important;
     }
+
+    body {  
+        overflow: hidden;
+    }
 `;

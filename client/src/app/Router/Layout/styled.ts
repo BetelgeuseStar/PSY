@@ -3,9 +3,11 @@ import spaceBackgroundImage from "/img/space.jpeg";
 
 export const Layout = styled.div`
   background-image: url(${spaceBackgroundImage});
-  background-size: cover;
-  width: 100vw;
-  height: 100vh;
+  background-repeat: repeat-y;
+  background-size: 100%;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
 
   font-family: "Roboto", sans-serif;
   font-style: normal;
