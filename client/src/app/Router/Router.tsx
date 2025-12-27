@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
-import { Layout, ProtectedLayout } from "./Layout";
+import { Layout, ProtectedLayout } from "../Layout";
 import { observer } from "mobx-react-lite";
 import { RegistrationPage } from "../../pages/registration";
 import { AuthPage } from "../../pages/auth";

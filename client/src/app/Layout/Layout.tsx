@@ -1,18 +1,16 @@
-import type { PropsWithChildren } from "react";
-
 import * as St from "./styled.ts";
-import { Header } from "../../widgets/Header";
+import { Outlet } from "react-router";
+import { useAuthContext } from "../AuthProvider";
+import { useEffect, useState } from "react";
+import { observer } from "mobx-react-lite";
 
-export function Layout({ children }: PropsWithChildren) {
-  return (
-    <St.Layout>
-      <Header />
-      <St.Layout>
-        <St.Sider collapsed={true} collapsedWidth={0}>
-          Side Bar
-        </St.Sider>
-        <St.Content>{children}</St.Content>
-      </St.Layout>
-    </St.Layout>
-  );
-}
+export const Layout = observer(() => {
+  const { checkAuth } = useAuthContext();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuth().finally(() => setIsLoading(false));
+  }, []);
+
+  return <St.Layout>{!isLoading && <Outlet />}</St.Layout>;
+});
