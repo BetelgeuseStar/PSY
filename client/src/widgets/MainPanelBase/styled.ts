@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Board } from "../../../../shared/ui";
-import { PhotoPicker } from "../../../../widgets/PhotoPicker";
+import { PhotoPicker } from "../PhotoPicker";
+import { Board } from "../../shared/ui";
 
 export const Wrapper = styled.div`
   display: flex;

@@ -16,6 +16,7 @@ import { useFilteredAndSortedMarkers } from "./hooks";
 
 type Props = {
   allowEdit?: boolean;
+  allowPick: boolean;
   openDescriptionModal: OpenModalFunc<MarkerModalProps>;
   openConfirmModal: OpenModalFunc<ConfirmModalProps>;
   sourceId: number | null;
@@ -33,6 +34,7 @@ export function MarkerPicker({
   sourceName,
   pickedMarkerIds = [],
   onChangePickedMarkerIds,
+  allowPick,
 }: Props) {
   const { markersList, isLoading } = useFilteredAndSortedMarkers(
     sourceId,
@@ -100,6 +102,7 @@ export function MarkerPicker({
             allowEdit={allowEdit ?? false}
             sourceName={sourceName ?? ""}
             picked={isPicked}
+            allowPick={allowPick}
           />
         );
       })}

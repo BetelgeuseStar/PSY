@@ -14,9 +14,12 @@ import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
 import { useLocalePerson } from "./hooks";
 import { useLocalePickedMarkers } from "./hooks/useLocalePickedMarkers.ts";
+import { useAuthContext } from "../../app/AuthProvider";
 
 export function PersonPage() {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
+
   const {
     personId,
     person,
@@ -24,6 +27,8 @@ export function PersonPage() {
     deletePerson,
     personIsLoading,
   } = useLocalePerson();
+
+  const allowEdit = person?.userId == user?.id;
 
   const { pickedIds, updatePickedMarkers, pickedMarkersIsLoading } =
     useLocalePickedMarkers(personId, person?.sourceId ?? null);
@@ -100,6 +105,7 @@ export function PersonPage() {
           sourceName={source?.title}
           authorName={person?.author}
           isLoading={isLoading}
+          allowEdit={allowEdit}
         />
         <TypePanel
           sourceId={source?.id ?? null}
@@ -116,6 +122,7 @@ export function PersonPage() {
         sourceName={source?.title ?? "Нет источника"}
         pickedMarkerIds={pickedIds ?? []}
         onChangePickedMarkerIds={updatePickedMarkers}
+        allowPick={allowEdit}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}

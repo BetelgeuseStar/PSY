@@ -7,6 +7,7 @@ export type MarkerBarProps = {
   openDescriptionModal: OpenModalFunc<MarkerModalProps>;
   onDelete: () => void;
   allowEdit: boolean;
+  allowPick: boolean;
   sourceName: string;
 };
 

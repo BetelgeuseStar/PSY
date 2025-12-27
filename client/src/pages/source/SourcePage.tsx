@@ -17,13 +17,17 @@ import {
 import type { PsyType } from "../../shared/types";
 import { PsyFunctions } from "../../shared/types";
 import { Loader } from "../../shared/ui";
+import { useAuthContext } from "../../app/AuthProvider";
 
 export function SourcePage() {
   const { sourceId } = useParams();
   const id = Number(sourceId);
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   const [localSource, setLocalSource] = useState<Source>();
+
+  const allowEdit = localSource?.userId == user?.id;
 
   const {
     data: source,
@@ -130,14 +134,16 @@ export function SourcePage() {
         onAddSource={addSourceHandler}
         authorName={source?.author}
         isLoading={isLoading}
+        allowEdit={allowEdit}
       />
       <MarkerPicker
-        allowEdit={true}
+        allowEdit={allowEdit}
         sourceId={localSource.id}
         openDescriptionModal={markerModal.open}
         pickerState={pickerState}
         sourceName={localSource.title ?? ""}
         openConfirmModal={confirmModal.open}
+        allowPick={false}
       />
       {MarkerModalComponent}
       {ConfirmModalComponent}

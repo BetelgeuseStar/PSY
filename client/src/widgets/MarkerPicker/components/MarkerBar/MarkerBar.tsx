@@ -13,6 +13,7 @@ export function MarkerBar({
   picked,
   onPick,
   allowEdit,
+  allowPick,
   openDescriptionModal,
   onDelete,
   sourceName,
@@ -53,8 +54,8 @@ export function MarkerBar({
 
   return (
     <St.Wrapper>
-      <St.ActiveZone $disabled={allowEdit} onClick={() => onPick(!picked)}>
-        <St.CheckboxWrapper style={{ display: allowEdit ? "none" : "flex" }}>
+      <St.ActiveZone $disabled={!allowPick} onClick={() => onPick(!picked)}>
+        <St.CheckboxWrapper style={{ display: !allowPick ? "none" : "flex" }}>
           <St.Checkbox>
             <St.CheckIcon style={{ display: picked ? "block" : "none" }} />
           </St.Checkbox>
