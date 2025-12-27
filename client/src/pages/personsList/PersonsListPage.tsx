@@ -1,10 +1,9 @@
-import * as St from "./styled.ts";
-import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
 import type { Person } from "../../shared/api";
 import { useCreateMutationPerson, usePersonsList } from "../../shared/api";
 import { useNavigate } from "react-router";
 import noPhoto from "../../../public/img/noPhoto.jpg";
-import { Loader } from "../../shared/ui";
+import type { ListPageItem } from "../../widgets/ListPageBase";
+import { ListPageBase } from "../../widgets/ListPageBase";
 
 export function PersonsListPage() {
   const navigate = useNavigate();
@@ -19,25 +18,25 @@ export function PersonsListPage() {
 
   const sortedPersons: Person[] = persons?.sort((a, b) => b.id - a.id);
 
+  const listPageItems: ListPageItem[] = sortedPersons?.map((person) => {
+    return {
+      id: person.id,
+      title: person.name ?? `Без имени ${person.id}`,
+      photoUrl: person.photoUrl,
+      author: person.author,
+      noPhotoUrl: noPhoto as string,
+      isPublic: person.isPublic,
+      url: "persons",
+      type: person.type,
+    };
+  });
+
   return (
-    <St.Wrapper>
-      <Loader isLoading={isFetching} />
-      <EntityAdder text="Добавить персону" onClick={addPersonHandler} />
-      {sortedPersons?.map(({ id, name, photoUrl, isPublic, author, type }) => {
-        return (
-          <EntityPicker
-            id={id}
-            title={name ?? `Без имени ${id}`}
-            author={author}
-            photoUrl={photoUrl}
-            noPhoto={noPhoto as string}
-            key={id}
-            url="persons"
-            isPublic={isPublic}
-            psyType={type}
-          />
-        );
-      })}
-    </St.Wrapper>
+    <ListPageBase
+      isLoading={isFetching}
+      adderText="Добавить персону"
+      onAdderClick={addPersonHandler}
+      items={listPageItems}
+    />
   );
 }

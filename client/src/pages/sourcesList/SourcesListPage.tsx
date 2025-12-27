@@ -1,9 +1,8 @@
-import * as St from "./styled.ts";
-import { EntityAdder, EntityPicker } from "../../widgets/EntityPicker";
 import booksImg from "../../../public/img/books.jpg";
 import { createSource, useSourcesList } from "../../shared/api";
 import { useNavigate } from "react-router";
-import { Loader } from "../../shared/ui";
+import type { ListPageItem } from "../../widgets/ListPageBase";
+import { ListPageBase } from "../../widgets/ListPageBase";
 
 export function SourcesListPage() {
   const navigate = useNavigate();
@@ -17,24 +16,24 @@ export function SourcesListPage() {
 
   const sortedSources = sources?.sort((a, b) => b.id - a.id);
 
+  const listPageItems: ListPageItem[] = sortedSources?.map((source) => {
+    return {
+      id: source.id,
+      title: source.title ?? `Без названия ${source.id}`,
+      photoUrl: source.photoUrl,
+      author: source.author,
+      noPhotoUrl: booksImg as string,
+      isPublic: source.isPublic,
+      url: "sources",
+    };
+  });
+
   return (
-    <St.Wrapper>
-      <Loader isLoading={isFetching} />
-      <EntityAdder text="Добавить источник" onClick={addSourceHandler} />
-      {sortedSources?.map(({ id, title, photoUrl, isPublic, author }) => {
-        return (
-          <EntityPicker
-            id={id}
-            title={title ?? `Без названия ${id}`}
-            photoUrl={photoUrl}
-            author={author}
-            noPhoto={booksImg as string}
-            key={id}
-            url="sources"
-            isPublic={isPublic}
-          />
-        );
-      })}
-    </St.Wrapper>
+    <ListPageBase
+      isLoading={isFetching}
+      adderText="Добавить источник"
+      onAdderClick={addSourceHandler}
+      items={listPageItems}
+    />
   );
 }
