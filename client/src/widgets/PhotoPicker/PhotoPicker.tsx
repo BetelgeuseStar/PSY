@@ -12,12 +12,21 @@ type Props = HTMLProps<HTMLImageElement> & {
   fileName: string;
   isLoading: boolean;
   isPublic: boolean;
+  allowEdit: boolean;
 };
 
 export const PhotoPicker = forwardRef(PhotoPickerInner);
 
 function PhotoPickerInner(
-  { src, fileName, onChangeUrl, isLoading, isPublic, ...restProps }: Props,
+  {
+    src,
+    fileName,
+    onChangeUrl,
+    isLoading,
+    isPublic,
+    allowEdit,
+    ...restProps
+  }: Props,
   ref,
 ) {
   async function uploadHandler(options) {
@@ -29,14 +38,17 @@ function PhotoPickerInner(
     <St.Wrapper {...restProps} ref={ref}>
       {isLoading ? (
         <Spin spinning />
-      ) : (
+      ) : allowEdit ? (
         <St.Upload beforeUpload={beforeUpload} customRequest={uploadHandler}>
           <St.Img src={src} />
           <VisibilityStatusLayer isVisible={isPublic} />
+
           <St.ActiveLayer>
             <EditIcon />
           </St.ActiveLayer>
         </St.Upload>
+      ) : (
+        <St.Img src={src} />
       )}
     </St.Wrapper>
   );

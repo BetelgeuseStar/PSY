@@ -100,6 +100,7 @@ export function MainPanelBase({
         fileName={fileName}
         isLoading={isLoading}
         isPublic={isPublic}
+        allowEdit={allowEdit}
       />
       <St.MainPanelWrapper>
         <St.InfoPanel>
