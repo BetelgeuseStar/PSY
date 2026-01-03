@@ -5,5 +5,5 @@ export const Wrapper = styled(PageWrapper)`
   display: flex;
   gap: 35px;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 `;

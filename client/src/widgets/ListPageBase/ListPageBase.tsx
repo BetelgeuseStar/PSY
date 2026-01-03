@@ -31,7 +31,7 @@ export function ListPageBase({
       <Loader isLoading={isLoading} />
       <EntityAdder text={adderText} onClick={onAdderClick} />
       {items?.map(
-        ({ id, title, photoUrl, isPublic, author, noPhotoUrl, url }) => {
+        ({ id, title, photoUrl, isPublic, author, noPhotoUrl, url, type }) => {
           return (
             <EntityPicker
               id={id}
@@ -42,6 +42,7 @@ export function ListPageBase({
               key={id}
               url={url}
               isPublic={isPublic}
+              psyType={type}
             />
           );
         },
