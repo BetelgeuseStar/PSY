@@ -8,14 +8,23 @@ const errorMiddleware = require("./middlewares/errorMiddleware");
 const express = require("express");
 const app = express();
 const routes = require("./routes");
-const crypto = require("crypto");
 const { Source, Role, User, Marker } = require("./models");
 const markerRecords = require("./config/defaultSourceMarkers");
+const bcrypt = require("bcrypt");
 
 const PORT = process.env.PORT || 5000;
 
+function getSecret(envVarName) {
+  const filePath = process.env[envVarName];
+  if (filePath && fs.existsSync(filePath)) {
+    return fs.readFileSync(filePath, "utf8").trim();
+  }
+  console.log("Пароль администратора не найден в секретах!");
+  return null;
+}
+
 const initRoles = async () => {
-  const roles = ["user", "admin", "system"];
+  const roles = ["user", "admin"];
 
   for (const roleName of roles) {
     await Role.findOrCreate({
@@ -25,19 +34,22 @@ const initRoles = async () => {
   }
 };
 
-const initSystemUser = async () => {
-  const secureString = crypto.randomBytes(32).toString("base64");
+const initAdminUser = async () => {
+  const password =
+    getSecret("USER_PASSWORD_PATH") ?? process.env.UNSAFE_ADMIN_PASSWORD;
+
+  const hashPassword = await bcrypt.hash(password, 3);
 
   await User.findOrCreate({
     where: {
       id: 1,
-      login: "System",
-      email: "email@does.not.exist.com",
+      login: "admin",
+      email: "tassot@mail.ru",
       isActivated: true,
-      RoleId: 3,
+      RoleId: 2,
     },
     defaults: {
-      password: secureString,
+      password: hashPassword,
     },
   });
 };
@@ -50,7 +62,7 @@ const initBaseSource = async () => {
       isPublic: true,
       info: "",
       photoUrl: "./uploads/baseSourcePhoto.jpg",
-      author: "System",
+      author: "admin",
       UserId: 1,
     },
   });
@@ -75,10 +87,10 @@ app.use("/api", routes);
 app.use(errorMiddleware);
 
 sequelize
-  .sync()
+  .sync({ force: false })
   .then(async () => {
     await initRoles();
-    await initSystemUser();
+    await initAdminUser();
     await initBaseSource();
     await initBaseSourceMarkers();
   })
