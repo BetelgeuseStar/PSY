@@ -7,7 +7,6 @@ import {
   InvisibleIcon,
   VisibleIcon,
 } from "../../shared/icons";
-import noPhoto from "../../../public/img/noPhoto.jpg";
 import { ColoredInfoLine } from "../../entities/ColoredInfoLine";
 import { projectColors } from "../../shared/utils";
 import { FunctionPicker } from "../FunctionPicker";
@@ -32,6 +31,7 @@ type Props = {
   pickerState: PsyType;
   onChangePickerState: (value: PsyType) => void;
   photoUrl: string | null;
+  noPhotoUrl: string;
   allowEdit: boolean;
   authorName?: string | null;
   sourceName?: string | null;
@@ -56,6 +56,7 @@ export function MainPanelBase({
   onChangePickerState,
   authorName,
   photoUrl,
+  noPhotoUrl,
   allowEdit,
   sourceName,
   showSourceName = false,
@@ -95,7 +96,7 @@ export function MainPanelBase({
         )}
       </St.ExtraPanelWrapper>
       <St.Photo
-        src={fileUrl ?? (noPhoto as string)}
+        src={fileUrl ?? noPhotoUrl}
         onChangeUrl={changePhotoUrlHandler}
         fileName={fileName}
         isLoading={isLoading}

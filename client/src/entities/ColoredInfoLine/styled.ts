@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
   align-items: start;
 
   overflow: hidden;
-  width: 100%;
+  width: fit-content;
 
   font-size: 18px;
   font-style: italic;

@@ -1,6 +1,7 @@
 import type { PsyType } from "../../../../shared/types";
 import type { Source } from "../../../../shared/api";
 import { MainPanelBase } from "../../../../widgets/MainPanelBase";
+import noPhoto from "../../../../../public/img/books.jpg";
 
 type Props = {
   source: Source;
@@ -52,6 +53,7 @@ export function SourceMainPanel({
       onChangePickerState={onChangePickerState}
       authorName={authorName}
       photoUrl={photoUrl}
+      noPhotoUrl={noPhoto as string}
       allowEdit={allowEdit}
     />
   );

@@ -1,6 +1,7 @@
 import type { PsyType } from "../../../../shared/types";
 import type { Person } from "../../../../shared/api";
 import { MainPanelBase } from "../../../../widgets/MainPanelBase";
+import noPhoto from "../../../../../public/img/noPhoto.jpg";
 
 type Props = {
   person: Person;
@@ -55,6 +56,7 @@ export function PersonMainPanel({
       authorName={authorName}
       sourceName={sourceName}
       photoUrl={photoUrl}
+      noPhotoUrl={noPhoto as string}
       allowEdit={allowEdit}
       showSourceName
     />

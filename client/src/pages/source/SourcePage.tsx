@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import type { Source } from "../../shared/api";
 import {
   useDeleteMutationSource,
+  useImportMarkers,
   useSource,
   useUpdateMutationSource,
 } from "../../shared/api";
@@ -32,14 +33,15 @@ export function SourcePage() {
   const {
     data: source,
     dataUpdatedAt,
-    isLoading: sourceIsLoading,
+    isLoading: isSourceLoading,
   } = useSource(id);
 
   const { debouncedMutate: debouncedUpdateSource } =
     useUpdateMutationSource(id);
   const { mutateAsync: deleteSource } = useDeleteMutationSource(id);
+  const { importMarkers, isPending: isImportLoading } = useImportMarkers(id);
 
-  const isLoading = sourceIsLoading;
+  const isLoading = isSourceLoading || isImportLoading;
 
   useEffect(() => {
     if (localSource) return;
@@ -91,8 +93,7 @@ export function SourcePage() {
   function addSourceHandler() {
     addSourceModal.open({
       title: "Импорт маркеров",
-      // TODO: функция импорта маркеров
-      onPickSource: (sourceId) => console.log("Выбран источник: ", sourceId),
+      onPickSource: (sourceId) => importMarkers(sourceId),
       excludeSourceId: localSource!.id,
       okButtonText: "Импортировать",
       message:
@@ -133,7 +134,7 @@ export function SourcePage() {
         onChangePickerState={setPickerState}
         onAddSource={addSourceHandler}
         authorName={source?.author}
-        isLoading={isLoading}
+        isLoading={isSourceLoading}
         allowEdit={allowEdit}
       />
       <MarkerPicker

@@ -7,3 +7,5 @@ export type Marker = PsyType & {
   value: string | null;
   info: string | null;
 };
+
+export type MarkerData = Omit<Marker, "id" | "rating">;
